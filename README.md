@@ -88,6 +88,8 @@ node src/server.mjs [--capture work/capture.json] [--port 8848] [--read-only] [-
 - `--auto`：启动后自动登录默认账号并按间隔执行勾选动作。
 - `--interval`：自动挂机间隔秒数，默认 300。
 
+> 直接运行 `node src/server.mjs` 前，请先执行一次 `npm run certs` 生成 `src/capture/certs.mjs`；用 `npm start` 会自动完成这一步。
+
 ## 常见问题
 
 - **一直离线 / 登录被拒绝**：凭证过期或账号已在别处登录，回到登录页重新用「微信登录」抓一次。
