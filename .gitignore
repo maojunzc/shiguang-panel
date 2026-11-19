@@ -1,0 +1,17 @@
+# 本机运行数据（账号凭证、抓包结果、设置、代理备份）绝不能提交
+work/
+# 构建期生成的测试证书（含 CA 私钥，每台机器本地生成即可）
+certificates/
+src/capture/certs.mjs
+
+# 构建产物
+build/
+dist/
+*.exe
+
+# 依赖与日志
+node_modules/
+npm-debug.log*
+.env
+.DS_Store
+Thumbs.db

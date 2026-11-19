@@ -1,0 +1,20 @@
+{
+  "name": "shiguang-panel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "《时光大爆炸》小游戏本地面板：微信登录、角色/资源查看、日常与自动挂机（Windows）",
+  "scripts": {
+    "certs": "node tools/gen-certs.mjs",
+    "prestart": "node tools/gen-certs.mjs",
+    "start": "node src/server.mjs",
+    "build:exe": "node tools/build-exe.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "postject": "^1.0.0-alpha.6"
+  }
+}

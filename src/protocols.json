@@ -1,0 +1,8462 @@
+{
+  "generatedAt": "2026-11-19T09:28:41.094Z",
+  "source": "_logic_.wxapkg",
+  "count": 1691,
+  "list": [
+    {
+      "mod": "achieve",
+      "op": "activeAchieve",
+      "args": "{tid:i}"
+    },
+    {
+      "mod": "achieve",
+      "op": "gainTaskReward",
+      "args": "e"
+    },
+    {
+      "mod": "activity",
+      "op": "adBuy",
+      "args": "{activityId:n,mallId:r,buyCount:e}"
+    },
+    {
+      "mod": "activity",
+      "op": "batchBattleFundConditionOptionReward",
+      "args": "{activityId:t,list:e}"
+    },
+    {
+      "mod": "activity",
+      "op": "batchSetConditionOptionRewards",
+      "args": "{activityId:this.id,conditionOptionRewardList:t}"
+    },
+    {
+      "mod": "activity",
+      "op": "battleFundConditionOptionReward",
+      "args": "{activityId:t.activityId,conditionId:t.id,level:e,grids:i}"
+    },
+    {
+      "mod": "activity",
+      "op": "buyMall",
+      "args": "{activityId:n,mallId:r,count:e}"
+    },
+    {
+      "mod": "activity",
+      "op": "clienttrigger",
+      "args": "{activityId:i.id,progress:1}"
+    },
+    {
+      "mod": "activity",
+      "op": "detail",
+      "args": "{activityId:e.id,md5:i}"
+    },
+    {
+      "mod": "activity",
+      "op": "detailList",
+      "args": "r"
+    },
+    {
+      "mod": "activity",
+      "op": "getAllActivityByType",
+      "args": "{actType:this._data.activityType}"
+    },
+    {
+      "mod": "activity",
+      "op": "getBattlePassRewards",
+      "args": "{activityId:this.con.activityId}"
+    },
+    {
+      "mod": "activity",
+      "op": "getCommonRankReward",
+      "args": "{activityId:t,rankType:e,param:i}"
+    },
+    {
+      "mod": "activity",
+      "op": "getConditionRewards",
+      "args": "{activityId:this._selectNormalCfg.activityId,idList:[this._selectNormalCfg.id]}"
+    },
+    {
+      "mod": "activity",
+      "op": "getEveryDayAdReward",
+      "args": ""
+    },
+    {
+      "mod": "activity",
+      "op": "getFundsAward",
+      "args": "{activityId:this.scoreConditionConfigList[0].activityId,type:0}"
+    },
+    {
+      "mod": "activity",
+      "op": "getGroupInfo",
+      "args": "t,e"
+    },
+    {
+      "mod": "activity",
+      "op": "getRank",
+      "args": "{rankTid:t.me.egyptRank.curRankId,activityId:t.me.egyptRank.activityId,count:i.show_rank}"
+    },
+    {
+      "mod": "activity",
+      "op": "getRankReward",
+      "args": "{activityId:t,rankTid:e}"
+    },
+    {
+      "mod": "activity",
+      "op": "getUnionRankInfo",
+      "args": "{activityId:e,rankTid:this.rankTid,unionId:t.me.unionDt.id,onlyLeader:!1}"
+    },
+    {
+      "mod": "activity",
+      "op": "getUnionRechargeNameList",
+      "args": "{activityId:t.me.sixCamp.getActivityId()}"
+    },
+    {
+      "mod": "activity",
+      "op": "getUnionRechargeRewardNameList",
+      "args": "{activityId:e.activityId,conditionId:e.id}"
+    },
+    {
+      "mod": "activity",
+      "op": "joinUnionInfo",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "activity",
+      "op": "onAdView",
+      "args": ""
+    },
+    {
+      "mod": "activity",
+      "op": "onAdView2",
+      "args": ""
+    },
+    {
+      "mod": "activity",
+      "op": "onTriggerAdView",
+      "args": ""
+    },
+    {
+      "mod": "activity",
+      "op": "optionalGiftBatchSelect",
+      "args": "{activityId:e,mallSelectItemsMsgList:n}"
+    },
+    {
+      "mod": "activity",
+      "op": "optionalGiftSelect",
+      "args": "{activityId:e,mallSelectItemsMsg:{mallId:i,selectItem:r}}"
+    },
+    {
+      "mod": "activity",
+      "op": "rankState",
+      "args": "{activityId:t.me.egyptRank.activityId,rankType:t.me.egyptRank.curRankId}"
+    },
+    {
+      "mod": "activity",
+      "op": "setConditionOptionRewards",
+      "args": "{activityId:this.id,conditionId:t,optionList:e}"
+    },
+    {
+      "mod": "activity",
+      "op": "setReplaceIndex",
+      "args": "{activityId:t,index:e}"
+    },
+    {
+      "mod": "activity",
+      "op": "syncFormation",
+      "args": "{activity:this._activityId,index:this._curIndex}"
+    },
+    {
+      "mod": "activity",
+      "op": "trigger",
+      "args": "{activityId:this.mainConfig.activityId}"
+    },
+    {
+      "mod": "activity",
+      "op": "triggerGift",
+      "args": "{activityId:this.id,extendParam:i.id,triggerReason:e},!0"
+    },
+    {
+      "mod": "activity",
+      "op": "upvote",
+      "args": "{activityId:t.me.rocketMake.getActivityId(),rankTid:e}"
+    },
+    {
+      "mod": "activityRedPacket",
+      "op": "draw",
+      "args": "{activityId:e,id:i}"
+    },
+    {
+      "mod": "activityRedPacket",
+      "op": "open",
+      "args": "{activityId:e,id:i},n"
+    },
+    {
+      "mod": "assist",
+      "op": "dismiss",
+      "args": "{selectSlots:[e]},!0"
+    },
+    {
+      "mod": "assist",
+      "op": "learnLvUp",
+      "args": ""
+    },
+    {
+      "mod": "assist",
+      "op": "nameActive",
+      "args": "{tid:this._tid}"
+    },
+    {
+      "mod": "assist",
+      "op": "peopleChange",
+      "args": ""
+    },
+    {
+      "mod": "assist",
+      "op": "replace",
+      "args": "{selectSlot:e}"
+    },
+    {
+      "mod": "assist",
+      "op": "select",
+      "args": "{count:i,auto:e},!0"
+    },
+    {
+      "mod": "assist",
+      "op": "setSelectRate",
+      "args": "{count:i[t]}"
+    },
+    {
+      "mod": "assistant",
+      "op": "figureLevelUp",
+      "args": "{tid:this._selectedFigureTid}"
+    },
+    {
+      "mod": "assistant",
+      "op": "saveBuyGoodsInfo",
+      "args": "e"
+    },
+    {
+      "mod": "assistant",
+      "op": "saveSwitchInfo",
+      "args": "[{key:this._funTid,openFlag:!1}]"
+    },
+    {
+      "mod": "assistant",
+      "op": "startUseTry",
+      "args": ""
+    },
+    {
+      "mod": "assistant",
+      "op": "useFigure",
+      "args": "{tid:this._selectedFigureTid}"
+    },
+    {
+      "mod": "astrology",
+      "op": "draw",
+      "args": "t"
+    },
+    {
+      "mod": "astrology",
+      "op": "enter",
+      "args": ""
+    },
+    {
+      "mod": "astrology",
+      "op": "levelUpSkill",
+      "args": "e"
+    },
+    {
+      "mod": "astrology",
+      "op": "setUnlockPlay",
+      "args": "t"
+    },
+    {
+      "mod": "astrology",
+      "op": "targetedDraw",
+      "args": "t"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "crusade",
+      "args": "{}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "equipClear",
+      "args": "{uniqueId:e}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "getUserData",
+      "args": ""
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "lockEquip",
+      "args": "{uniqueId:e,lock:i}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "makeBuffItem",
+      "args": "{itemId:t}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "openPos",
+      "args": "{index:e}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "recruit",
+      "args": "{}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "recycleEquip",
+      "args": "{uniqueId:e}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "resetPos",
+      "args": ""
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "seeRankEquip",
+      "args": "{userId:t,serverId:e}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "upgradeEquip",
+      "args": "{uniqueId:e}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "useItem",
+      "args": "{itemId:t,count:e}"
+    },
+    {
+      "mod": "battleOfZhuolu",
+      "op": "wearEquip",
+      "args": "{uniqueId:e,index:i}"
+    },
+    {
+      "mod": "bind",
+      "op": "getBindCode",
+      "args": "n"
+    },
+    {
+      "mod": "bind",
+      "op": "getBindCodeInfo",
+      "args": "{appId:null===(n=(i=ui.sdk).getAppId)||void 0===n?void 0:n.call(i),gameId:null===(o=(r=ui.sdk).getGameId)||void 0===o?void 0:o.call(r)}"
+    },
+    {
+      "mod": "bind",
+      "op": "getBindStatus",
+      "args": "n"
+    },
+    {
+      "mod": "bind",
+      "op": "untieBindCode",
+      "args": "n"
+    },
+    {
+      "mod": "bless",
+      "op": "adBless",
+      "args": ""
+    },
+    {
+      "mod": "bless",
+      "op": "bless",
+      "args": "{targetId:this.roleId}"
+    },
+    {
+      "mod": "book",
+      "op": "active",
+      "args": "t"
+    },
+    {
+      "mod": "book",
+      "op": "conAdd",
+      "args": "{tidList:this._conAddList},!0"
+    },
+    {
+      "mod": "book",
+      "op": "draw",
+      "args": "{count:e,chapter:i,useItem:tb.BookChapter.get(i).cost_item}"
+    },
+    {
+      "mod": "book",
+      "op": "levelUp",
+      "args": "t"
+    },
+    {
+      "mod": "book",
+      "op": "oneKeyStarUp",
+      "args": ""
+    },
+    {
+      "mod": "book",
+      "op": "releaseRecord",
+      "args": ""
+    },
+    {
+      "mod": "book",
+      "op": "starUp",
+      "args": "t"
+    },
+    {
+      "mod": "book",
+      "op": "suitLevelUp",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "box",
+      "op": "gainBoxAward",
+      "args": "{isBatch:t}"
+    },
+    {
+      "mod": "box",
+      "op": "openAllBox",
+      "args": ""
+    },
+    {
+      "mod": "box",
+      "op": "openBox",
+      "args": "{count:e,boxId:t}"
+    },
+    {
+      "mod": "budo",
+      "op": "balance",
+      "args": "{activityId:this._activityId,branchInfo:this._myBranch}"
+    },
+    {
+      "mod": "budo",
+      "op": "battle",
+      "args": "{activityId:this._activityId,areaId:t,branchId:e,targetId:i,costNum:n}"
+    },
+    {
+      "mod": "budo",
+      "op": "eliminatorRank",
+      "args": "{activityId:this._activityId,branchInfo:t,stage:e}"
+    },
+    {
+      "mod": "budo",
+      "op": "enter",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "budo",
+      "op": "enterHero",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "budo",
+      "op": "fightDetail",
+      "args": "{activityId:this._activityId,branchInfo:t,round:e,session:i}"
+    },
+    {
+      "mod": "budo",
+      "op": "finalEnter",
+      "args": "{activityId:this._activityId,branchInfo:t}"
+    },
+    {
+      "mod": "budo",
+      "op": "finalRank",
+      "args": "{activityId:this._activityId,session:this._curSession}"
+    },
+    {
+      "mod": "budo",
+      "op": "getRoster",
+      "args": "{activityId:this._activityId,session:e}"
+    },
+    {
+      "mod": "budo",
+      "op": "guessBase",
+      "args": "{activityId:this.activityId,stage:t}"
+    },
+    {
+      "mod": "budo",
+      "op": "guessReward",
+      "args": "{activityId:this.activityId,stage:t,round:e}"
+    },
+    {
+      "mod": "budo",
+      "op": "matchEnter",
+      "args": "{activityId:this._activityId,areaId:t,branchId:e,session:i,groupId:n,round:r}"
+    },
+    {
+      "mod": "budo",
+      "op": "myGuess",
+      "args": "{activityId:this.activityId,stage:t,round:e,myGuessInfo:i}"
+    },
+    {
+      "mod": "budo",
+      "op": "mySupport",
+      "args": "{activityId:this.activityId,stage:t,round:e,mySupportInfo:i}"
+    },
+    {
+      "mod": "budo",
+      "op": "rank",
+      "args": "{activityId:this._activityId,branchInfo:{areaId:t,branchId:e},stage:i,rankType:n}"
+    },
+    {
+      "mod": "budo",
+      "op": "refreshMatch",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "budo",
+      "op": "report",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "budo",
+      "op": "supportBase",
+      "args": "{activityId:this.activityId,stage:t}"
+    },
+    {
+      "mod": "budo",
+      "op": "worship",
+      "args": "{activityId:this._activityId,branchInfo:t}"
+    },
+    {
+      "mod": "build",
+      "op": "addWorker",
+      "args": "{buildTid:e,count:i}"
+    },
+    {
+      "mod": "build",
+      "op": "appoint",
+      "args": "{giantTid:e,buildTid:this._buildTid}"
+    },
+    {
+      "mod": "build",
+      "op": "appointEmbassy",
+      "args": "{giantTid:e,buildTid:this._buildTid}"
+    },
+    {
+      "mod": "build",
+      "op": "autoAppoint",
+      "args": "this.getAutoAppointReqData()"
+    },
+    {
+      "mod": "build",
+      "op": "autoCardSummon",
+      "args": "{check:this.ui.cardOpen.selected}"
+    },
+    {
+      "mod": "build",
+      "op": "autoSummon",
+      "args": "{check:this.ui.checkAuto.selected}"
+    },
+    {
+      "mod": "build",
+      "op": "buildLvUp",
+      "args": "{buildTid:this._buildTid}"
+    },
+    {
+      "mod": "build",
+      "op": "buildOneKey",
+      "args": "{buildId:this.tid,type:this.type,usePopulation:!1}"
+    },
+    {
+      "mod": "build",
+      "op": "buildOneKeyMultiple",
+      "args": "{buildId:t,multiple:e,usePopulation:!1}"
+    },
+    {
+      "mod": "build",
+      "op": "buildSeatUnlock",
+      "args": "{tid:r}"
+    },
+    {
+      "mod": "build",
+      "op": "buildUnlock",
+      "args": "{buildTid:e}"
+    },
+    {
+      "mod": "build",
+      "op": "buildUnlockFacility",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "build",
+      "op": "buildUnlockTool",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "build",
+      "op": "childAllLevelUp",
+      "args": "{buildTid:t}"
+    },
+    {
+      "mod": "build",
+      "op": "childAutoCheck",
+      "args": "{check:this.ui.autoCheck.selected}"
+    },
+    {
+      "mod": "build",
+      "op": "childLvUp",
+      "args": "{childTid:e,addLv:i}"
+    },
+    {
+      "mod": "build",
+      "op": "collect",
+      "args": "{buildTidL:e,clickCountL:i},!0"
+    },
+    {
+      "mod": "build",
+      "op": "gainOfflineAdAward",
+      "args": ""
+    },
+    {
+      "mod": "build",
+      "op": "gainOfflineCardAward",
+      "args": ""
+    },
+    {
+      "mod": "build",
+      "op": "getHomelessReward",
+      "args": ""
+    },
+    {
+      "mod": "build",
+      "op": "healSoldier",
+      "args": "{soldierTypes:i,counts:n}"
+    },
+    {
+      "mod": "build",
+      "op": "mapTypeUnlock",
+      "args": "{mapType:1}"
+    },
+    {
+      "mod": "build",
+      "op": "quickUpgradeCheck",
+      "args": "{check:this.ui.quickUpgrade.selected}"
+    },
+    {
+      "mod": "build",
+      "op": "setElectrical",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "build",
+      "op": "setElectricalPriority",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "build",
+      "op": "settleOfflineAward",
+      "args": ""
+    },
+    {
+      "mod": "build",
+      "op": "settleOfflineAwardFinish",
+      "args": ""
+    },
+    {
+      "mod": "build",
+      "op": "settleResInc",
+      "args": "void 0,!0"
+    },
+    {
+      "mod": "build",
+      "op": "soliderLevelUp",
+      "args": "{soldierTid:t}"
+    },
+    {
+      "mod": "build",
+      "op": "summonPeople",
+      "args": "{count:1}"
+    },
+    {
+      "mod": "build",
+      "op": "summonSoldier",
+      "args": "{buildTid:t,count:e}"
+    },
+    {
+      "mod": "build",
+      "op": "switchMap",
+      "args": "{mapType:e}"
+    },
+    {
+      "mod": "build",
+      "op": "triggerHomeless",
+      "args": ""
+    },
+    {
+      "mod": "build",
+      "op": "usePeopleAdd",
+      "args": ""
+    },
+    {
+      "mod": "build",
+      "op": "useSummonCard",
+      "args": "{count:1}"
+    },
+    {
+      "mod": "build",
+      "op": "visit",
+      "args": "{playerId:e}"
+    },
+    {
+      "mod": "buildGame",
+      "op": "finish",
+      "args": "t"
+    },
+    {
+      "mod": "buildGame",
+      "op": "receiveReward",
+      "args": "t"
+    },
+    {
+      "mod": "cache",
+      "op": "getRole",
+      "args": "e,!0"
+    },
+    {
+      "mod": "cache",
+      "op": "getUnion",
+      "args": "e"
+    },
+    {
+      "mod": "car",
+      "op": "carBaseAddExp",
+      "args": ""
+    },
+    {
+      "mod": "car",
+      "op": "carBaseStarUp",
+      "args": ""
+    },
+    {
+      "mod": "car",
+      "op": "carImprove",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "car",
+      "op": "carStarLevelUp",
+      "args": ""
+    },
+    {
+      "mod": "car",
+      "op": "setUseCar",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "car",
+      "op": "unlockCar",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "castSword",
+      "op": "enter",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "castSword",
+      "op": "gameEnd",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "castSword",
+      "op": "move",
+      "args": "{activityId:e.id,direction:t}"
+    },
+    {
+      "mod": "castSword",
+      "op": "selectMate",
+      "args": "{activityId:i.id,mateId:t}"
+    },
+    {
+      "mod": "castSword",
+      "op": "settle",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "castSword",
+      "op": "start",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "castSword",
+      "op": "useItem",
+      "args": "{activityId:i.id,propId:t,num:1,param:e}"
+    },
+    {
+      "mod": "cdkey",
+      "op": "exchange",
+      "args": "{codeStr:this.ui.input.text}"
+    },
+    {
+      "mod": "ceremony",
+      "op": "draw",
+      "args": ""
+    },
+    {
+      "mod": "ceremony",
+      "op": "gainAdAward",
+      "args": ""
+    },
+    {
+      "mod": "ceremony",
+      "op": "getDefendRecord",
+      "args": ""
+    },
+    {
+      "mod": "ceremony",
+      "op": "getEnemies",
+      "args": ""
+    },
+    {
+      "mod": "ceremony",
+      "op": "getRecord",
+      "args": "{roomId:this._roomId}"
+    },
+    {
+      "mod": "ceremony",
+      "op": "getRoomInfo",
+      "args": "{roomId:this._roomId}"
+    },
+    {
+      "mod": "ceremony",
+      "op": "getRoomList",
+      "args": "{sameUnion:!!this.ui.unionMember.selected,free:!!this.ui.emptyFilter.selected,prev:e,lastId:i,getMyCeremony:!0}"
+    },
+    {
+      "mod": "ceremony",
+      "op": "join",
+      "args": "{index:this._info.index,roomId:this._roomId,targetId:(null===(u=this._info)||void 0===u?void 0:u.roleId)||0}"
+    },
+    {
+      "mod": "ceremony",
+      "op": "settle",
+      "args": ""
+    },
+    {
+      "mod": "ceremony",
+      "op": "start",
+      "args": "{itemCount:this._count}"
+    },
+    {
+      "mod": "channel",
+      "op": "login",
+      "args": "{type:1}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarAttack",
+      "args": "{activityId:i,targetUnionId:e,cityWarEnergy:0}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarBuild",
+      "args": "{activityId:n,buildType:e,count:i,addExp:0}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarCityList",
+      "args": "{activityId:n,tier:r,groupId:o}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarDefense",
+      "args": "{activityId:t,cityWarEnergy:0}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarGroup",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarGroupInfo",
+      "args": "{activityId:i,tier:t,groupId:e}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarInfo",
+      "args": "{activityId:e,cityWarEnergy:0}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarLeave",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarReport",
+      "args": "{activityId:e,type:t}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarUnionContribution",
+      "args": "{activityId:e,unionId:t}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarUnionScoreDetail",
+      "args": "{activityId:e,unionId:i}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarUnionTopInfo",
+      "args": "{activityId:this._activity.id}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "cityWarUseStrategy",
+      "args": "{activityId:e,targetUnionId:t}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "compose",
+      "args": "{activityId:t.me.chaosJourney.activityId}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "enter",
+      "args": "{activityId:this.id}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "eventAction",
+      "args": "{activityId:this.id,action:1}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "exchangeCancel",
+      "args": "e"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "exchangeClaim",
+      "args": "{activityId:t.me.chaosJourney.actCfg.id}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "exchangeComplete",
+      "args": "{activityId:t.me.chaosJourney.activityId,ownerId:this._info.ownerId,publishTime:this._info.publishTime,wantItemId:this._info.wantItemId}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "exchangeList",
+      "args": "e"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "exchangePublish",
+      "args": "e"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "executeEvent",
+      "args": "{activityId:this.id,energyNum:1}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "explore",
+      "args": "{activityId:this.id,useCnt:this.multiExplore?this.params.CHAOS_JOURNEY_MULTIPLE:1,maxWonderTid:0,energyNum:0}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "goRegion",
+      "args": "{activityId:this.id,regionId:this.currentCity+1,consumeProp:1===e}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "helpAssist",
+      "args": "{activityId:dd.ChaosJourneyActivity.inst.id,ownerId:this._data.ownerId,createTime:this._data.createTime}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "helpClaim",
+      "args": "{activityId:dd.ChaosJourneyActivity.inst.id,createTime:this._data.createTime}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "helpList",
+      "args": "{activityId:this._activity.id}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "leave",
+      "args": "{activityId:this._activity.id}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "logPersonal",
+      "args": "{activityId:i}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "logRumor",
+      "args": "{activityId:i}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "unionRegionCount",
+      "args": "{activityId:this._activity.id}"
+    },
+    {
+      "mod": "chaosJourney",
+      "op": "worship",
+      "args": "{activityId:t.me.chaosJourney.actCfg.id}"
+    },
+    {
+      "mod": "chat",
+      "op": "addBlackPlayer",
+      "args": "{playerId:this.roleId,serverId:this.serverID}"
+    },
+    {
+      "mod": "chat",
+      "op": "clearFriendUnread",
+      "args": "{roomId:this.getChatId(t)}"
+    },
+    {
+      "mod": "chat",
+      "op": "delPlayerBlack",
+      "args": "{playerIdList:this.playerIdList}"
+    },
+    {
+      "mod": "chat",
+      "op": "friendUnread",
+      "args": ""
+    },
+    {
+      "mod": "chat",
+      "op": "getBlackPlayerList",
+      "args": ""
+    },
+    {
+      "mod": "chat",
+      "op": "pull",
+      "args": "{roomId:t},!0"
+    },
+    {
+      "mod": "chat",
+      "op": "send",
+      "args": "{roomId:n.chat.getChatRoomId(2),contentType:19,content:[n.chaosJourney.activityId,n.userDt.role_id,t,e,i].join(\"|\")}"
+    },
+    {
+      "mod": "chat",
+      "op": "translate",
+      "args": "{content:e.content,targetLanguage:i18n.language,roomId:e.roomId,msgIndex:e.msgIndex},!0"
+    },
+    {
+      "mod": "chineseChess",
+      "op": "enter",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "chineseChess",
+      "op": "enterPractice",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "chineseChess",
+      "op": "move",
+      "args": "t"
+    },
+    {
+      "mod": "chineseChess",
+      "op": "movePractice",
+      "args": "t"
+    },
+    {
+      "mod": "chineseChess",
+      "op": "operate",
+      "args": "e"
+    },
+    {
+      "mod": "chineseChess",
+      "op": "operatePractice",
+      "args": "t"
+    },
+    {
+      "mod": "chineseChess",
+      "op": "syncUserData",
+      "args": "{activityId:t},e"
+    },
+    {
+      "mod": "climb",
+      "op": "fight",
+      "args": "{rank:r.rank,count:1,targetId:r.roleId}"
+    },
+    {
+      "mod": "climb",
+      "op": "gainAchievement",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "climb",
+      "op": "getMatchList",
+      "args": ""
+    },
+    {
+      "mod": "climb",
+      "op": "getRankTop100",
+      "args": ""
+    },
+    {
+      "mod": "climb",
+      "op": "getRankTop3",
+      "args": ""
+    },
+    {
+      "mod": "climb",
+      "op": "getReport",
+      "args": ""
+    },
+    {
+      "mod": "climb",
+      "op": "refreshMatchList",
+      "args": ""
+    },
+    {
+      "mod": "climb",
+      "op": "rewardList",
+      "args": "{type:e}"
+    },
+    {
+      "mod": "content",
+      "op": "split",
+      "args": "\"|\""
+    },
+    {
+      "mod": "craft",
+      "op": "nodeUpgradeFinish",
+      "args": ""
+    },
+    {
+      "mod": "craft",
+      "op": "nodeUpgradeStart",
+      "args": "e"
+    },
+    {
+      "mod": "craft",
+      "op": "speedUpAd",
+      "args": "t"
+    },
+    {
+      "mod": "crossInfo",
+      "op": "getCrossSysSidList",
+      "args": "this._mod"
+    },
+    {
+      "mod": "decorate",
+      "op": "certifyGoddess",
+      "args": "null,!0"
+    },
+    {
+      "mod": "decorate",
+      "op": "changeSex",
+      "args": ""
+    },
+    {
+      "mod": "decorate",
+      "op": "figureLevelUp",
+      "args": "{tid:this.selectItem}"
+    },
+    {
+      "mod": "decorate",
+      "op": "initSex",
+      "args": "{tid:this.sex}"
+    },
+    {
+      "mod": "decorate",
+      "op": "releaseRecord",
+      "args": ""
+    },
+    {
+      "mod": "decorate",
+      "op": "unlockBadge",
+      "args": "{tid:c}"
+    },
+    {
+      "mod": "decorate",
+      "op": "unlockBorder",
+      "args": "{tid:e.border}"
+    },
+    {
+      "mod": "decorate",
+      "op": "unlockBubble",
+      "args": "{tid:e.bubble}"
+    },
+    {
+      "mod": "decorate",
+      "op": "updateDecorateTime",
+      "args": ""
+    },
+    {
+      "mod": "decorate",
+      "op": "useBadge",
+      "args": "{tid:this.selectBadgeTid}"
+    },
+    {
+      "mod": "decorate",
+      "op": "useBorder",
+      "args": "{tid:this.selectBorderTid}"
+    },
+    {
+      "mod": "decorate",
+      "op": "useBubble",
+      "args": "{tid:this.selectBubbleTid}"
+    },
+    {
+      "mod": "decorate",
+      "op": "useFigure",
+      "args": "{tid:tb.LeaderFigure.get(this.tidList[this.curIndex]).tid}"
+    },
+    {
+      "mod": "decorate",
+      "op": "useHead",
+      "args": "{tid:this.selectHeadTid}"
+    },
+    {
+      "mod": "decorate",
+      "op": "useTitle",
+      "args": "{tid:this.selectTitleTid}"
+    },
+    {
+      "mod": "decorate",
+      "op": "wxCertifyGoddess",
+      "args": "null,!0"
+    },
+    {
+      "mod": "dragonBoat",
+      "op": "getStageReward",
+      "args": "{activityId:this.activity.id}"
+    },
+    {
+      "mod": "dragonBoat",
+      "op": "selectReward",
+      "args": "{activityId:this.activity.id,id:e,index:i}"
+    },
+    {
+      "mod": "dragonBoat",
+      "op": "voyage",
+      "args": "{activityId:this.activity.id,cnt:1}"
+    },
+    {
+      "mod": "dragonLight",
+      "op": "buyDrawItem",
+      "args": "{activityId:this.activityId,count:t}"
+    },
+    {
+      "mod": "dragonLight",
+      "op": "drawBall",
+      "args": "{activityId:this.activityId,ballIndexList:e}"
+    },
+    {
+      "mod": "dragonLight",
+      "op": "drawDragonBall",
+      "args": "{activityId:this.activityId}"
+    },
+    {
+      "mod": "dragonLight",
+      "op": "enter",
+      "args": "{activityId:this.activityId}"
+    },
+    {
+      "mod": "dragonLight",
+      "op": "getBagReward",
+      "args": "{activityId:this.activityId}"
+    },
+    {
+      "mod": "dragonLight",
+      "op": "resetDragon",
+      "args": "{activityId:this.activityId}"
+    },
+    {
+      "mod": "dragonLight",
+      "op": "selectReward",
+      "args": "{activityId:this.activityId,cfgId:t,index:e}"
+    },
+    {
+      "mod": "egypt",
+      "op": "addWorker",
+      "args": "{tid:this._tid,count:o}"
+    },
+    {
+      "mod": "egypt",
+      "op": "autoBuildPyramidAllStone",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "autoFight",
+      "args": "t"
+    },
+    {
+      "mod": "egypt",
+      "op": "autoSummon",
+      "args": "{tid:this._buildTid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "autoUpgradeBuildingsOneKey",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "buildLevelUp",
+      "args": "{tid:this.buildTid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "buildPyramid",
+      "args": "{tid:this._tid,count:e}"
+    },
+    {
+      "mod": "egypt",
+      "op": "buildUnlock",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "egypt",
+      "op": "childBuildAllLevelUp",
+      "args": "{tid:this._tid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "childBuildLevelUp",
+      "args": "{tid:this._tid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "clearAutoRecord",
+      "args": "void 0,!0"
+    },
+    {
+      "mod": "egypt",
+      "op": "collect",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "fightFinish",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "finishTask",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "gainPyramidAward",
+      "args": "{tidList:r}"
+    },
+    {
+      "mod": "egypt",
+      "op": "gainStepAward",
+      "args": "{tidList:[this.tid]}"
+    },
+    {
+      "mod": "egypt",
+      "op": "getAdAward",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "getMissionAchieveAward",
+      "args": "{tid:this._tid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "getRiverGift",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "getTotalTileAward",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "godLevelUp",
+      "args": "{tid:this._godTid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "godUnlock",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "egypt",
+      "op": "pray",
+      "args": "{count:e,fromAssistant:!1}"
+    },
+    {
+      "mod": "egypt",
+      "op": "pyramidPrayLvUp",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "refreshRiverGift",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "setMoveTargetTile",
+      "args": "{tile:t,nearTile:e}"
+    },
+    {
+      "mod": "egypt",
+      "op": "setTaskFull",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "soldierUnlock",
+      "args": "{tid:i}"
+    },
+    {
+      "mod": "egypt",
+      "op": "stepUp",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "stoneLvUp",
+      "args": "{tid:a}"
+    },
+    {
+      "mod": "egypt",
+      "op": "stoneSettle",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "stoneUnlock",
+      "args": "{tid:e.tid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "summonOffline",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "summonPeople",
+      "args": "[{build:this._buildTid,count:r}]"
+    },
+    {
+      "mod": "egypt",
+      "op": "summonSettle",
+      "args": "{tidList:i},!0"
+    },
+    {
+      "mod": "egypt",
+      "op": "switchMissionChapter",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "egypt",
+      "op": "teamArriveTile",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "techUnlock",
+      "args": "{tid:this._techTid}"
+    },
+    {
+      "mod": "egypt",
+      "op": "tryLimitPrivilege",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "tryUseAutoFight",
+      "args": ""
+    },
+    {
+      "mod": "egypt",
+      "op": "watchAllAd",
+      "args": ""
+    },
+    {
+      "mod": "elegance",
+      "op": "claimLvAward",
+      "args": ""
+    },
+    {
+      "mod": "elegance",
+      "op": "claimScrollNode",
+      "args": "{nodeIds:t}"
+    },
+    {
+      "mod": "elegance",
+      "op": "collect",
+      "args": "{decorateIds:t}"
+    },
+    {
+      "mod": "elegance",
+      "op": "getRecord",
+      "args": "{decorateIds:t}"
+    },
+    {
+      "mod": "elegance",
+      "op": "upgradeResonance",
+      "args": "{resonanceId:t}"
+    },
+    {
+      "mod": "embassy",
+      "op": "agreeApply",
+      "args": "{fromPlayerId:t,myGiantId:e}"
+    },
+    {
+      "mod": "embassy",
+      "op": "apply",
+      "args": "{myGiantId:i,appointPlayerId:e}"
+    },
+    {
+      "mod": "embassy",
+      "op": "cancelApply",
+      "args": "{appointPlayerId:this.roleId}"
+    },
+    {
+      "mod": "embassy",
+      "op": "changeGiant",
+      "args": "{partnerPlayerId:this.info.relationPlayerId,myNewGiant:n}"
+    },
+    {
+      "mod": "embassy",
+      "op": "enterMyRoom",
+      "args": "{clearPropData:e}"
+    },
+    {
+      "mod": "embassy",
+      "op": "enterOtherRoom",
+      "args": "{otherPlayerId:this.roleId}"
+    },
+    {
+      "mod": "embassy",
+      "op": "getApplyList",
+      "args": ""
+    },
+    {
+      "mod": "embassy",
+      "op": "messageRecordList",
+      "args": "{otherPlayerId:this.info.relationPlayerId,seatId:this.info.seatId}"
+    },
+    {
+      "mod": "embassy",
+      "op": "otherMessageRecordList",
+      "args": "{roomOwner:this.ownerId,otherPlayerId:this.info.relationPlayerId,seatId:this.info.seatId}"
+    },
+    {
+      "mod": "embassy",
+      "op": "readMessage",
+      "args": "{messageId:e,otherPlayerId:this.info.relationPlayerId}"
+    },
+    {
+      "mod": "embassy",
+      "op": "rejectApply",
+      "args": "{fromPlayerId:e}"
+    },
+    {
+      "mod": "embassy",
+      "op": "relationList",
+      "args": ""
+    },
+    {
+      "mod": "embassy",
+      "op": "removeRelation",
+      "args": "{otherPlayerId:t}"
+    },
+    {
+      "mod": "embassy",
+      "op": "selectGiantList",
+      "args": ""
+    },
+    {
+      "mod": "embassy",
+      "op": "unlockSeat",
+      "args": "{seatId:t}"
+    },
+    {
+      "mod": "embassy",
+      "op": "writeMessage",
+      "args": "{content:this.ui.content.text,toPlayerId:this.roleId}"
+    },
+    {
+      "mod": "empire",
+      "op": "updateScore",
+      "args": "{taskId:i,activityId:e}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "activateBuff",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "enter",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "getCurBidRoundInfo",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "getLandBidInfo",
+      "args": "{landUid:i.landUid}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "getPlayerBidHistory",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "getTributeRecord",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "getUnionBidHistory",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "getUnionBidInfo",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "getUnionBidResult",
+      "args": "{unionId:e}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "getUnionHomeInfo",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "gowork",
+      "args": "e"
+    },
+    {
+      "mod": "evergrande",
+      "op": "hostingInfos",
+      "args": "{activityId:this.actInst.id,unionId:this.unionId}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "hostingRecord",
+      "args": "{activityId:this.actInst.id,unionId:this.unionId}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "modifyHosting",
+      "args": "{activityId:this.actInst.id,unionId:this.unionId,memberId:i,type:e,oldState:n}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "next",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "playerBid",
+      "args": "{activityId:this.actInst.id,landUid:t}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "revTribute",
+      "args": "{activityId:this.actInst.id,tributeUid:e}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "revTributeLvAward",
+      "args": ""
+    },
+    {
+      "mod": "evergrande",
+      "op": "select",
+      "args": "{index:e}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "tribute",
+      "args": "{activityId:this.actInst.id,tributeItem:t,count:e}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "useAddBidCountItem",
+      "args": "{count:s}"
+    },
+    {
+      "mod": "evergrande",
+      "op": "welcome",
+      "args": ""
+    },
+    {
+      "mod": "fairyRabbit",
+      "op": "draw",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "fairyRabbit",
+      "op": "drawAll",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "fairyRabbit",
+      "op": "enter",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "fairyRabbit",
+      "op": "selectBigReward",
+      "args": "{activityId:n.id,id:i,index:e,floor:t}"
+    },
+    {
+      "mod": "fakePvp",
+      "op": "fight",
+      "args": "{targetId:this.roleId}"
+    },
+    {
+      "mod": "feast",
+      "op": "assist",
+      "args": "{activityId:this.actInst.id,targetPlayerId:e,slotIdList:i}"
+    },
+    {
+      "mod": "feast",
+      "op": "assistList",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "feast",
+      "op": "banquetList",
+      "args": "{activityId:this.actInst.id},!0"
+    },
+    {
+      "mod": "feast",
+      "op": "cancelOrder",
+      "args": "{activityId:this.actInst.id,slotId:t}"
+    },
+    {
+      "mod": "feast",
+      "op": "clear",
+      "args": "{activityId:this.actInst.id,slotIdList:t}"
+    },
+    {
+      "mod": "feast",
+      "op": "cook",
+      "args": "{activityId:this.actInst.id,dishId:t,count:e}"
+    },
+    {
+      "mod": "feast",
+      "op": "endAuto",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "feast",
+      "op": "enter",
+      "args": "{activityId:this.actInst.id},t"
+    },
+    {
+      "mod": "feast",
+      "op": "getSettings",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "feast",
+      "op": "getTypeTitle",
+      "args": "{activityId:this.actInst.id,type:t}"
+    },
+    {
+      "mod": "feast",
+      "op": "harvest",
+      "args": "{activityId:this.actInst.id,slotIdList:e}"
+    },
+    {
+      "mod": "feast",
+      "op": "hostBanquet",
+      "args": "{activityId:this.actInst.id,openTid:e,count:i}"
+    },
+    {
+      "mod": "feast",
+      "op": "joinBanquet",
+      "args": "{activityId:this.actInst.id,targetPlayerId:t,banquetIndex:e}"
+    },
+    {
+      "mod": "feast",
+      "op": "levelUp",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "feast",
+      "op": "oneKeyJoinBanquet",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "feast",
+      "op": "plant",
+      "args": "{activityId:this.actInst.id,slotIdList:e,cropIdList:r}"
+    },
+    {
+      "mod": "feast",
+      "op": "prepareBanquet",
+      "args": "{activityId:this.actInst.id,openTid:e,count:i}"
+    },
+    {
+      "mod": "feast",
+      "op": "quickBanquet",
+      "args": "{activityId:this.actInst.id,openTid:e,count:i}"
+    },
+    {
+      "mod": "feast",
+      "op": "reportBanquet",
+      "args": "{activityId:this.actInst.id,banquetIndexList:t},e"
+    },
+    {
+      "mod": "feast",
+      "op": "saveSettings",
+      "args": "{activityId:this.actInst.id,slotIdList:e,cropIdList:i}"
+    },
+    {
+      "mod": "feast",
+      "op": "speedUp",
+      "args": "{activityId:this.actInst.id,slotIdList:e,countList:i}"
+    },
+    {
+      "mod": "feast",
+      "op": "startAuto",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "feast",
+      "op": "submitOrder",
+      "args": "{activityId:this.actInst.id,slotId:e,needItem:i}"
+    },
+    {
+      "mod": "feast",
+      "op": "unlockAreaSlot",
+      "args": "{activityId:this.actInst.id,slotId:e}"
+    },
+    {
+      "mod": "feast",
+      "op": "visitArea",
+      "args": "{activityId:this.actInst.id,targetPlayerId:t}"
+    },
+    {
+      "mod": "feast",
+      "op": "visitBanquet",
+      "args": "{activityId:this.actInst.id,targetPlayerId:t}"
+    },
+    {
+      "mod": "fightReplay",
+      "op": "queryReplay",
+      "args": "{uuid:e}"
+    },
+    {
+      "mod": "firePowerArmour",
+      "op": "effectLevelUp",
+      "args": ""
+    },
+    {
+      "mod": "firePowerArmour",
+      "op": "giantLevelUp",
+      "args": ""
+    },
+    {
+      "mod": "firePowerArmour",
+      "op": "levelUp",
+      "args": "{type:t}"
+    },
+    {
+      "mod": "fireworks",
+      "op": "claim",
+      "args": "{activity:i.id,id:t}"
+    },
+    {
+      "mod": "fireworks",
+      "op": "claimCollect",
+      "args": "{activity:e.id,id:i}"
+    },
+    {
+      "mod": "fireworks",
+      "op": "enter",
+      "args": "{activity:t.id}"
+    },
+    {
+      "mod": "fireworks",
+      "op": "exchange",
+      "args": "{activity:e.id}"
+    },
+    {
+      "mod": "fireworks",
+      "op": "ignite",
+      "args": "{activity:i.id,times:o}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "buyPvpEnergy",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "doAction",
+      "args": "{activityId:this.actInst.id,actionList:[1]}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "enterAct",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "enterMap",
+      "args": "{activityId:t,mapId:e}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "executeEvent",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "exit",
+      "args": ""
+    },
+    {
+      "mod": "fiveHill",
+      "op": "getFightLogList",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "getFiveHillLogList",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "getFogAssistList",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "getMallBuyMemberInfo",
+      "args": "{activityId:t.me.fiveHill.actInst.id}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "getTeamMateIdList",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "getUnionEnergy",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "getWorshipReward",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "helpFogAssist",
+      "args": "{activityId:t,targetPlayerId:e}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "revive",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "fiveHill",
+      "op": "roll",
+      "args": "{activityId:t,mapId:e,points:null,highFlag:this.isPvpRateActive}"
+    },
+    {
+      "mod": "formation",
+      "op": "setPetPloy",
+      "args": "t"
+    },
+    {
+      "mod": "formation",
+      "op": "toggle",
+      "args": "{index:t}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "delTeamNotify",
+      "args": "{activityId:t.me.fourSea.activityId}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "enterAct",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "enterRegion",
+      "args": "{activityId:e,region:i,consumeType:n}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "executeExplore",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "explore",
+      "args": "{activityId:e,useCnt:o}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "getEnemyId",
+      "args": "{activityId:t.me.fourSea.activityId}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "getUserInfo",
+      "args": "{activityId:t,playerId:e}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "helpActionReward",
+      "args": "{activityId:e,id:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "joinTeam",
+      "args": "{activityId:e,teamId:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "kickOutTeam",
+      "args": "{activityId:e,playerId:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "leaveAct",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "logBattleGround",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "logHelpAttack",
+      "args": "{activityId:this._actInst.id,id:e,playerId:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "logMemberHelp",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "logPerson",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "playerActionExplore",
+      "args": "{activityId:e,action:1}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "playerOpenBox",
+      "args": "{activityId:t,boxId:e,count:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "quitTeam",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "selectBoat",
+      "args": "{activityId:t,boatId:e}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "teamApplyAgree",
+      "args": "{activityId:t,playerId:e}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "teamApplyCancel",
+      "args": "{activityId:e,teamId:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "teamApplyRefused",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "teamCreate",
+      "args": "{activityId:t,teamName:e,firstCreateFlg:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "teamInfo",
+      "args": "{activityId:t,teamId:e}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "teamList",
+      "args": "{activityId:t,type:e,page:i}"
+    },
+    {
+      "mod": "fourSea",
+      "op": "unlockBoat",
+      "args": "{activityId:t,boatId:e}"
+    },
+    {
+      "mod": "freeshopping",
+      "op": "claim",
+      "args": "{shopId:this.mall.id}"
+    },
+    {
+      "mod": "giant",
+      "op": "breakThrough",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "giant",
+      "op": "changeDefaultSkin",
+      "args": "{tid:this._tid}"
+    },
+    {
+      "mod": "giant",
+      "op": "combinationSkillLvUp",
+      "args": "{tid:i}"
+    },
+    {
+      "mod": "giant",
+      "op": "dress",
+      "args": "{tid:this._tidList[this._curIndex]}"
+    },
+    {
+      "mod": "giant",
+      "op": "embattle",
+      "args": "t"
+    },
+    {
+      "mod": "giant",
+      "op": "equipLink",
+      "args": "{tid:this.tid,linkTid:this.selectTid}"
+    },
+    {
+      "mod": "giant",
+      "op": "equipLv",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "giant",
+      "op": "equipUnlock",
+      "args": "{tid:e.tid}"
+    },
+    {
+      "mod": "giant",
+      "op": "gainShareAward",
+      "args": "{giantTid:this.giantTid}"
+    },
+    {
+      "mod": "giant",
+      "op": "giveWine",
+      "args": "{tid:t,item:e}"
+    },
+    {
+      "mod": "giant",
+      "op": "godhoodEngravingUp",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "giant",
+      "op": "godhoodFight",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "giant",
+      "op": "godhoodPromote",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "giant",
+      "op": "godhoodUp",
+      "args": "{tid:t,count:e}"
+    },
+    {
+      "mod": "giant",
+      "op": "levelUp",
+      "args": "{tid:t,addLv:e}"
+    },
+    {
+      "mod": "giant",
+      "op": "nodeActive",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "giant",
+      "op": "oneKeyStarUp",
+      "args": "{tidList:i}"
+    },
+    {
+      "mod": "giant",
+      "op": "resetWine",
+      "args": "{tid:this._selectGiant}"
+    },
+    {
+      "mod": "giant",
+      "op": "setFightSpeed",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "giant",
+      "op": "setTeamGiant",
+      "args": "{teamTidList:e,giantTidList:i,etype:r}"
+    },
+    {
+      "mod": "giant",
+      "op": "skinLevelUp",
+      "args": "{tid:s.tid}"
+    },
+    {
+      "mod": "giant",
+      "op": "starUp",
+      "args": "{tid:t,useAnyGiantPiece:e}"
+    },
+    {
+      "mod": "giant",
+      "op": "unlock",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "giant",
+      "op": "visit",
+      "args": "{chapter:t,count:e,isFree:i}"
+    },
+    {
+      "mod": "giantResonance",
+      "op": "batchGetGiantStarExp",
+      "args": "{tidList:e}"
+    },
+    {
+      "mod": "giantResonance",
+      "op": "getGiantStarExp",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "giantResonance",
+      "op": "getLevelReward",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "addAwards",
+      "args": "{awards:t,counts:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "addItems",
+      "args": "{items:[t],counts:[e]}"
+    },
+    {
+      "mod": "gm",
+      "op": "addMail",
+      "args": "{tid:t,count:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "banquetEnd",
+      "args": "{activityId:this.me.feast.actInst.id,playerId:t.roleId,banquetIndexList:t.indexList}"
+    },
+    {
+      "mod": "gm",
+      "op": "chaosJourneyExploreEvent",
+      "args": "{activityId:this.id,useCnt:this.multiExplore?this.params.CHAOS_JOURNEY_MULTIPLE:1,maxWonderTid:0,energyNum:0,eventId:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "clearEgyptMissionData",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "clearWarBookFormations",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "costItems",
+      "args": "{items:[t],counts:[this.me.itemDt.getCount(t)]}"
+    },
+    {
+      "mod": "gm",
+      "op": "delMate",
+      "args": "t"
+    },
+    {
+      "mod": "gm",
+      "op": "delMateSkin",
+      "args": "t"
+    },
+    {
+      "mod": "gm",
+      "op": "feastAddExp",
+      "args": "{activityId:this.me.feast.actInst.id,playerId:this.me.userDt.role_id,addExp:Number(t)}"
+    },
+    {
+      "mod": "gm",
+      "op": "fight",
+      "args": "{type:e,id:i}"
+    },
+    {
+      "mod": "gm",
+      "op": "fiveHillRoll",
+      "args": "{activityId:i.fiveHill.actInst.id,mapId:t,roll:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "giveActivityAwards",
+      "args": "[{id:tb.LeaderTitle.get(i).item,activityId:9999,cnt:1,serverIdL:[t.me.userDt.server_id]}]"
+    },
+    {
+      "mod": "gm",
+      "op": "horseReleaseSkill",
+      "args": "{matchId:t,playerId:e,skillTid:i,roundIndex:n}"
+    },
+    {
+      "mod": "gm",
+      "op": "horseSimulation",
+      "args": "{targetTime:i,skills:e,horses:n}"
+    },
+    {
+      "mod": "gm",
+      "op": "inventAdd",
+      "args": "{inventTid:t,effectId:e,propList:s,onSale:n,price:r}"
+    },
+    {
+      "mod": "gm",
+      "op": "inventRollSim",
+      "args": "{blueprintTid:t,count:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "inventScoreDetail",
+      "args": "{inventId:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "inventSetInvestLv",
+      "args": "{value:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "inventSetScore",
+      "args": "{inventId:t,score:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "inventUpgradeSim",
+      "args": "{projectTid:t,simCount:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "letEmbassy",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "mb",
+      "args": "{mbTid:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "playerOffline",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "rocketAddQualify",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "seaTreasureExploreSteps",
+      "args": "{tid:this._actInst.id,count:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setAssist",
+      "args": "{tid:t,idxList:e,valueList:i,quality:n}"
+    },
+    {
+      "mod": "gm",
+      "op": "setBuildLv",
+      "args": "{tid:t,value:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setComTaskState",
+      "args": "{tid:t,value:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setEgyptMissionAllPass",
+      "args": "t"
+    },
+    {
+      "mod": "gm",
+      "op": "setEgyptMissionTilePass",
+      "args": "{tile:t,unlock:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setEgyptStep",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "setFinishGuide",
+      "args": "{tid:t,flag:1===e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setGiveWineLv",
+      "args": "{giant:t,lv:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setItemsCounts",
+      "args": "{items:[t],counts:[e]}"
+    },
+    {
+      "mod": "gm",
+      "op": "setLevel",
+      "args": "{tid:i}"
+    },
+    {
+      "mod": "gm",
+      "op": "setLimitPrivilegeActive",
+      "args": "{tid:t,flag:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setMainTask",
+      "args": "{tid:t,flag:\"boolean\"==typeof e?e:1===e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setMateArtExp",
+      "args": "{mate:t,exp:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setMateArtLv",
+      "args": "{mate:t,idx:e,lv:i}"
+    },
+    {
+      "mod": "gm",
+      "op": "setMateLoveLv",
+      "args": "{tid:t,lv:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setMateQuality",
+      "args": "{tid:t,quality:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setMateRare",
+      "args": "{tid:t,rare:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setPetPotentialLv",
+      "args": "{tid:t,value:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setResRushType",
+      "args": "{tid:t,overSec:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongAreaLv",
+      "args": "{tid:t,value:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongAreaUnlock",
+      "args": "{tid:t,flag:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongBaseTime",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongCarLv",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongCarPartLv",
+      "args": "{tid:t,value:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongCityInvestLv",
+      "args": "{tid:t,value:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongTaskTid",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "setSongTitleLv",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "setStoryChapterTask",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "setTowerMission",
+      "args": "t"
+    },
+    {
+      "mod": "gm",
+      "op": "setWarBookDrawLevel",
+      "args": "{level:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "setWonderStage",
+      "args": "{tid:t,stage:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "snakeChapter",
+      "args": "{chapter:e,chapterType:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "teamWestLandAddTouchGift",
+      "args": "{activityId:this.me.teamWestLand.actInst.id}"
+    },
+    {
+      "mod": "gm",
+      "op": "teamWestLandAddWitchBuff",
+      "args": "{activityId:this.me.teamWestLand.actInst.id,buffType:t,value:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "teamWestLandSetPointEvent",
+      "args": "{activityId:this.me.teamWestLand.actInst.id,chapterId:i,pointId:t,eventId:e,superWitchOpenCount:n,childEventIds:r}"
+    },
+    {
+      "mod": "gm",
+      "op": "teamWestLandSetPower",
+      "args": "{activityId:this.activityId,power:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "testHouseDraw",
+      "args": "{count:e,chapter:i}"
+    },
+    {
+      "mod": "gm",
+      "op": "timeTravel",
+      "args": "{date:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "timeTravelStop",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "triggerEvent",
+      "args": "{tid:+i}"
+    },
+    {
+      "mod": "gm",
+      "op": "unlockAllEgyptBuild",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "unlockAllEgyptTech",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "unlockAllMod",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "unlockMod",
+      "args": "{tid:t,unlock:e}"
+    },
+    {
+      "mod": "gm",
+      "op": "unlockSea",
+      "args": ""
+    },
+    {
+      "mod": "gm",
+      "op": "unlockTech",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "gm",
+      "op": "warGmAllFight",
+      "args": "t"
+    },
+    {
+      "mod": "gm",
+      "op": "warGmMassSettle",
+      "args": "t"
+    },
+    {
+      "mod": "gm",
+      "op": "warGmSetFightWill",
+      "args": "t"
+    },
+    {
+      "mod": "godGift",
+      "op": "buyMall",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "godGift",
+      "op": "trigger",
+      "args": "{tid:i.tid}"
+    },
+    {
+      "mod": "goldWeek",
+      "op": "goOut",
+      "args": "{activityId:this.activity.id,count:e}"
+    },
+    {
+      "mod": "goldWeek",
+      "op": "sellCard",
+      "args": "{activityId:this.activity.id,cardIdList:t,countList:e}"
+    },
+    {
+      "mod": "grade",
+      "op": "rank",
+      "args": ""
+    },
+    {
+      "mod": "grade",
+      "op": "setting",
+      "args": "{setting:t}"
+    },
+    {
+      "mod": "grandMarket",
+      "op": "claimGuideReward",
+      "args": "{activityId:e.id,goodsIds:t}"
+    },
+    {
+      "mod": "grandMarket",
+      "op": "draw",
+      "args": "{activityId:e.id,count:t}"
+    },
+    {
+      "mod": "grandMarket",
+      "op": "enter",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "greatNation",
+      "op": "enter",
+      "args": "{id:this.actInst.id}"
+    },
+    {
+      "mod": "greatNation",
+      "op": "getRank",
+      "args": "{activityId:this.actInst.id,weekDay:t}"
+    },
+    {
+      "mod": "greatNation",
+      "op": "resetRank",
+      "args": ""
+    },
+    {
+      "mod": "groupBuy",
+      "op": "getReward",
+      "args": "{activityId:this.actInst.id,conditionIdList:t}"
+    },
+    {
+      "mod": "groupBuy",
+      "op": "syncData",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "helper",
+      "op": "collect",
+      "args": "void 0,!0"
+    },
+    {
+      "mod": "helper",
+      "op": "gainAward",
+      "args": ""
+    },
+    {
+      "mod": "helper",
+      "op": "start",
+      "args": "{open:!1}"
+    },
+    {
+      "mod": "helper",
+      "op": "watchAd",
+      "args": ""
+    },
+    {
+      "mod": "horseActivity",
+      "op": "beginMatch",
+      "args": "t"
+    },
+    {
+      "mod": "horseActivity",
+      "op": "confirm",
+      "args": "t"
+    },
+    {
+      "mod": "horseActivity",
+      "op": "enter",
+      "args": "t"
+    },
+    {
+      "mod": "horseActivity",
+      "op": "getMatchReward",
+      "args": "t"
+    },
+    {
+      "mod": "horseActivity",
+      "op": "useVipRefresh",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "AiReleaseSkill",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "aiSelectHorse",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "endRaceGame",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "getAllGameInfo",
+      "args": "{matchId:t.me.horseDt.activityMatchId,roundIndex:0}"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "getRanking",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "getSelectHorseInfo",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "releaseSkill",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "selectHorse",
+      "args": "t"
+    },
+    {
+      "mod": "horseCommon",
+      "op": "startRound",
+      "args": "t"
+    },
+    {
+      "mod": "horseRace",
+      "op": "cancelMatch",
+      "args": ""
+    },
+    {
+      "mod": "horseRace",
+      "op": "confirm",
+      "args": "{matchId:e.data.matchId,playerId:t.me.userDt.role_id}"
+    },
+    {
+      "mod": "horseRace",
+      "op": "createRoom",
+      "args": "{multi:e}"
+    },
+    {
+      "mod": "horseRace",
+      "op": "enter",
+      "args": ""
+    },
+    {
+      "mod": "horseRace",
+      "op": "getLevelReward",
+      "args": "{level:e}"
+    },
+    {
+      "mod": "horseRace",
+      "op": "getReward",
+      "args": "t"
+    },
+    {
+      "mod": "horseRace",
+      "op": "joinRoom",
+      "args": "{roomId:e.roomId,inviter:e.inviteRoleId,newPlayer:!t.me.leaderDt.sex,wechatName:i,wechatAvatar:n}"
+    },
+    {
+      "mod": "horseRace",
+      "op": "kickPlayer",
+      "args": "{targetPlayerId:e}"
+    },
+    {
+      "mod": "horseRace",
+      "op": "leaveRoom",
+      "args": ""
+    },
+    {
+      "mod": "horseRace",
+      "op": "match",
+      "args": "{multi:this.multi}"
+    },
+    {
+      "mod": "horseRace",
+      "op": "prepare",
+      "args": "{isPrepare:!n.prepare}"
+    },
+    {
+      "mod": "horseRace",
+      "op": "startGuide",
+      "args": ""
+    },
+    {
+      "mod": "horseRace",
+      "op": "startRoom",
+      "args": ""
+    },
+    {
+      "mod": "house",
+      "op": "activeAndLvUpAll",
+      "args": ""
+    },
+    {
+      "mod": "house",
+      "op": "adDraw",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "house",
+      "op": "draw",
+      "args": "{tid:t,count:i,useItem:e}"
+    },
+    {
+      "mod": "house",
+      "op": "gainNpcAward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "house",
+      "op": "houseItemShow",
+      "args": "r"
+    },
+    {
+      "mod": "house",
+      "op": "houseLvUp",
+      "args": ""
+    },
+    {
+      "mod": "house",
+      "op": "itemActive",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "house",
+      "op": "itemLvUp",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "house",
+      "op": "releaseRecord",
+      "args": ""
+    },
+    {
+      "mod": "house",
+      "op": "sceneUnlock",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "house",
+      "op": "shopBuy",
+      "args": "{idx:t}"
+    },
+    {
+      "mod": "house",
+      "op": "shopRefresh",
+      "args": ""
+    },
+    {
+      "mod": "house",
+      "op": "suitLvUp",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "hunt",
+      "op": "fightFail",
+      "args": ""
+    },
+    {
+      "mod": "hunt",
+      "op": "fightWin",
+      "args": ""
+    },
+    {
+      "mod": "hunt",
+      "op": "refresh",
+      "args": ""
+    },
+    {
+      "mod": "hunt",
+      "op": "reset",
+      "args": ""
+    },
+    {
+      "mod": "invent",
+      "op": "activateBook",
+      "args": "{inventTid:t}"
+    },
+    {
+      "mod": "invent",
+      "op": "buy",
+      "args": "{inventId:e,price:i,password:n}"
+    },
+    {
+      "mod": "invent",
+      "op": "cancelForceReset",
+      "args": ""
+    },
+    {
+      "mod": "invent",
+      "op": "changePassword",
+      "args": "{oldPassword:t,newPassword:e}"
+    },
+    {
+      "mod": "invent",
+      "op": "claimBookMilestone",
+      "args": "{milestoneTid:t}"
+    },
+    {
+      "mod": "invent",
+      "op": "claimProject",
+      "args": "{projectUid:e}"
+    },
+    {
+      "mod": "invent",
+      "op": "decompose",
+      "args": "{ids:t,password:e}"
+    },
+    {
+      "mod": "invent",
+      "op": "delist",
+      "args": "{inventId:e,password:i}"
+    },
+    {
+      "mod": "invent",
+      "op": "exhibit",
+      "args": "{inventId:t,typeTid:e,slotTid:i}"
+    },
+    {
+      "mod": "invent",
+      "op": "expandWarehouse",
+      "args": ""
+    },
+    {
+      "mod": "invent",
+      "op": "getMyTradeList",
+      "args": ""
+    },
+    {
+      "mod": "invent",
+      "op": "getRankList",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "invent",
+      "op": "getTradeList",
+      "args": "p"
+    },
+    {
+      "mod": "invent",
+      "op": "getTradeRecord",
+      "args": "{isBuy:t}"
+    },
+    {
+      "mod": "invent",
+      "op": "invest",
+      "args": "{projectUidList:e}"
+    },
+    {
+      "mod": "invent",
+      "op": "putOnSale",
+      "args": "{inventId:e,price:i,durationHour:n,anonymous:r,password:o}"
+    },
+    {
+      "mod": "invent",
+      "op": "removeExhibit",
+      "args": "{typeTid:e,slotTid:i}"
+    },
+    {
+      "mod": "invent",
+      "op": "replaceExhibit",
+      "args": "{inventId:e,typeTid:i,slotTid:n}"
+    },
+    {
+      "mod": "invent",
+      "op": "research",
+      "args": "{blueprintTid:t,tradeable:e,count:i}"
+    },
+    {
+      "mod": "invent",
+      "op": "setLock",
+      "args": "{id:t,locked:e}"
+    },
+    {
+      "mod": "invent",
+      "op": "setPassword",
+      "args": "{password:t}"
+    },
+    {
+      "mod": "invent",
+      "op": "startForceReset",
+      "args": ""
+    },
+    {
+      "mod": "invent",
+      "op": "toggleFavorite",
+      "args": "{inventId:e,favorited:i}"
+    },
+    {
+      "mod": "invent",
+      "op": "updateListingPrice",
+      "args": "{inventId:e,price:i,password:r,anonymous:n}"
+    },
+    {
+      "mod": "invent",
+      "op": "upgradeProject",
+      "args": "{projectUid:e}"
+    },
+    {
+      "mod": "invent",
+      "op": "verifyPassword",
+      "args": "{password:t,rememberLogin:e}"
+    },
+    {
+      "mod": "item",
+      "op": "mergeItem",
+      "args": "{tid:this._data.mergeCostL[0].tid,count:this.ui.slider.uiScript.value,activityId:this._data.activityId}"
+    },
+    {
+      "mod": "item",
+      "op": "oneKeyUse",
+      "args": "r.map((function(t){return{tid:t.boxTid,count:t.useCount,index:t.index}}))"
+    },
+    {
+      "mod": "item",
+      "op": "recoverItem",
+      "args": "{tid:e},!0"
+    },
+    {
+      "mod": "item",
+      "op": "useItem",
+      "args": "{tid:t,count:e,arg1:i,arg2:n}"
+    },
+    {
+      "mod": "jigsawPuzzle",
+      "op": "activate",
+      "args": "{activityId:e.id,indexId:this._indexId}"
+    },
+    {
+      "mod": "jinling",
+      "op": "assist",
+      "args": "{activityId:e.jinling.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "autoSpeedUp",
+      "args": "{activityId:this.actInst.id,autoSpeedUp:t,count:e,maxMoveTime:i}"
+    },
+    {
+      "mod": "jinling",
+      "op": "autoUseItem",
+      "args": "{activityId:this.actInst.id,autoUseItem:e,count:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "backAutoSpeedUp",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "backAutoUseItem",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "dockDeploy",
+      "args": "{activityId:n.jinling.actInst.id,soldierType:e,dockTid:i}"
+    },
+    {
+      "mod": "jinling",
+      "op": "enter",
+      "args": "t"
+    },
+    {
+      "mod": "jinling",
+      "op": "fight",
+      "args": "{activityId:this.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getAllCampPlayerInfo",
+      "args": "{activityId:this.actInst.id,campId:t.jinlingDt.camp}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getBoxReward",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getCampUnionList",
+      "args": "{activityId:this.actInst.id,campId:t.jinlingDt.camp}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getCityReport",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "getDayScore",
+      "args": "{activityId:this._actInst.id,campId:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getPlayerData",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "getRedPoint",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getSchedule",
+      "args": "{activityId:e.id,dayIndex:Math.min(3,e.activityFightDayIndex)}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getSelfReport",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "getSendPlotReward",
+      "args": "{activityId:this.actInst.id,id:\"0\"}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getSpeedUpRecord",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getTaskStrategicReward",
+      "args": "{activityId:this.actInst.id,tileList:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getTileDetail",
+      "args": "{activityId:this.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getTileInfoList",
+      "args": "{activityId:r,tileTidList:e,myTileTid:this._innerCity},n"
+    },
+    {
+      "mod": "jinling",
+      "op": "getTileScoreRank",
+      "args": "{activityId:this.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getUseItemRecord",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "getYesterdayBattle",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "levelUp",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "move",
+      "args": "{activityId:n.jinling.actInst.id,soldierType:e,pathList:r.path,homePathList:(null==s?void 0:s.path)||[]}"
+    },
+    {
+      "mod": "jinling",
+      "op": "normalWorship",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "ping",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "plotInfo",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "receiveReputationReward",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "reputationInfo",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "revealFaction",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "sendPlot",
+      "args": "{plotId:e,sendNum:i,activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "sendPlotRecord",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "jinling",
+      "op": "setAutoMove",
+      "args": "{activityId:this.actInst.id,soldierType:t,auto:e}"
+    },
+    {
+      "mod": "jinling",
+      "op": "setAutoSummon",
+      "args": "{activityId:this.actInst.id,soldierType:t,auto:e}"
+    },
+    {
+      "mod": "jinling",
+      "op": "setCityMaster",
+      "args": "{activityId:this.actInst.id,playerId:t,tileTid:e}"
+    },
+    {
+      "mod": "jinling",
+      "op": "setStrategicObj",
+      "args": "t"
+    },
+    {
+      "mod": "jinling",
+      "op": "signTile",
+      "args": "{activityId:i.jinling.actInst.id,tileTid:t,text:e}"
+    },
+    {
+      "mod": "jinling",
+      "op": "speedUp",
+      "args": "{activityId:i,soldierType:t}"
+    },
+    {
+      "mod": "jinling",
+      "op": "summon",
+      "args": "{activityId:this.actInst.id,summonList:e}"
+    },
+    {
+      "mod": "jinling",
+      "op": "syncPlayerDt",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "syncPower",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "jinling",
+      "op": "useCavalryItem",
+      "args": "t"
+    },
+    {
+      "mod": "joyLife",
+      "op": "appointMinorUser",
+      "args": "{activityId:this._activityId,minorUserId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "attack",
+      "args": "{activityId:this._activityId,attackUserId:t},e"
+    },
+    {
+      "mod": "joyLife",
+      "op": "battleNpcSelect",
+      "args": "{activityId:this._activityId,id:t,battleNum:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "battleOpenSkill",
+      "args": "{activityId:this._activityId,battleNum:t,id:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "buildLevelUp",
+      "args": "t"
+    },
+    {
+      "mod": "joyLife",
+      "op": "energyUse",
+      "args": "{activityId:this._activityId,count:e},i"
+    },
+    {
+      "mod": "joyLife",
+      "op": "enterOtherSectMount",
+      "args": "{activityId:this._activityId,mountId:t,roomId:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "enterPlace",
+      "args": "{activityId:this._activityId,placeId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "enterPracticeMenu",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "enterPvp",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "enterSecondMenu",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "enterSectMount",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "equipmentRecycle",
+      "args": "{activityId:this._activityId,equipmentId:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "equipmentReplace",
+      "args": "{activityId:this._activityId,equipmentId:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "eventAwardAutoGet",
+      "args": "{activityId:this._activityId,missionId:e,x:i,y:n,optionNum:r}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "eventAwardGet",
+      "args": "{activityId:this._activityId,missionId:e,x:i,y:n,optionNum:r}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "exploreGrid",
+      "args": "{activityId:this._activityId,missionId:e,x:i,y:n}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getCampScoreRecord",
+      "args": "{activityId:this._activityId,campId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getCampServer",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getCampUserList",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getChangeData",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getMajorUser",
+      "args": "{activityId:this._activityId,campId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getMountInfo",
+      "args": "{activityId:this._activityId,campId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getOtherUserInfo",
+      "args": "{activityId:this._activityId,userId:t,serverId:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getPlaceInfo",
+      "args": "{activityId:this._activityId},t"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getPlayerPvpScore",
+      "args": "{playerId:t,activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getPvpEndData",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getPvpInfo",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getPvpReport",
+      "args": "{activityId:this._activityId,userId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "getUserDataForEnterActivity",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "leavePlace",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "leavePracticeMenu",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "leavePvp",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "leaveSecondMenu",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "leaveSectMount",
+      "args": "{activityId:this._activityId,mountId:t,roomId:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "markPlace",
+      "args": "{activityId:this._activityId,placeId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "missionEnterFloor",
+      "args": "{activityId:this._activityId,missionId:t}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "move",
+      "args": "{activityId:this._activityId,position:t},e"
+    },
+    {
+      "mod": "joyLife",
+      "op": "startMeditate",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "stateUpgrade",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "subsectionGet",
+      "args": "{activityId:this._activityId,missionId:t,subsectionVal:e}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "tripodDraw",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "tripodUpgrade",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "joyLife",
+      "op": "worship",
+      "args": "{activityId:this._activityId}"
+    },
+    {
+      "mod": "kyoto",
+      "op": "chooseReward",
+      "args": "{activityId:this.activity.mainConfig.activityId,area:e,reward:i}"
+    },
+    {
+      "mod": "kyoto",
+      "op": "enterActivity",
+      "args": "{activityId:this.activity.mainConfig.activityId}"
+    },
+    {
+      "mod": "kyoto",
+      "op": "getReward",
+      "args": "{activityId:this.activity.mainConfig.activityId,area:t}"
+    },
+    {
+      "mod": "kyoto",
+      "op": "reset",
+      "args": "{activityId:this.activity.mainConfig.activityId,area:e}"
+    },
+    {
+      "mod": "kyoto",
+      "op": "shoot",
+      "args": "{activityId:this.activity.mainConfig.activityId,area:t,cnt:e}"
+    },
+    {
+      "mod": "laurel",
+      "op": "getActivityInfo",
+      "args": ""
+    },
+    {
+      "mod": "laurel",
+      "op": "getPrizeReports",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "laurel",
+      "op": "openBox",
+      "args": "{boxId:t}"
+    },
+    {
+      "mod": "laurel",
+      "op": "prayer",
+      "args": "{ten:t}"
+    },
+    {
+      "mod": "leader",
+      "op": "ageShareAward",
+      "args": "{tid:this.ageTid}"
+    },
+    {
+      "mod": "leader",
+      "op": "ageUp",
+      "args": ""
+    },
+    {
+      "mod": "leader",
+      "op": "electricalTaskFinish",
+      "args": ""
+    },
+    {
+      "mod": "leader",
+      "op": "electricalTaskGainAward",
+      "args": "{tid:n.tid}"
+    },
+    {
+      "mod": "leader",
+      "op": "getAgeRankAward",
+      "args": "{tid:this._tid}"
+    },
+    {
+      "mod": "leader",
+      "op": "getAgeRankLimitAward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "leader",
+      "op": "getAgeRankList",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "leader",
+      "op": "getAgeReward",
+      "args": "{tid:this.data.needTid}"
+    },
+    {
+      "mod": "leader",
+      "op": "getDayReward",
+      "args": ""
+    },
+    {
+      "mod": "leader",
+      "op": "getTopLevelRoleId",
+      "args": ""
+    },
+    {
+      "mod": "leader",
+      "op": "levelUp",
+      "args": ""
+    },
+    {
+      "mod": "leaderGala",
+      "op": "enter",
+      "args": "{leaderId:e,age:i}"
+    },
+    {
+      "mod": "leaderGala",
+      "op": "getReward",
+      "args": "{leaderId:e,age:i}"
+    },
+    {
+      "mod": "leaderGala",
+      "op": "hotUp",
+      "args": "{leaderId:t,age:e,tid:i,count:n}"
+    },
+    {
+      "mod": "leaderGala",
+      "op": "join",
+      "args": "{leaderId:e,age:i}"
+    },
+    {
+      "mod": "leaderGala",
+      "op": "list",
+      "args": "{leaderId:t,age:e,start:i,count:n},!0"
+    },
+    {
+      "mod": "lionTreasure",
+      "op": "draw",
+      "args": "{activityId:t,times:e}"
+    },
+    {
+      "mod": "lionTreasure",
+      "op": "firstEnter",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "lionTreasure",
+      "op": "selectRareAward",
+      "args": "{activityId:t,rareIndex:e}"
+    },
+    {
+      "mod": "lionTreasure",
+      "op": "setBatchDraw",
+      "args": "{activityId:t,flag:e}"
+    },
+    {
+      "mod": "lionTreasure",
+      "op": "view",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "lottery",
+      "op": "draw",
+      "args": "{drawCount:1,activityId:t.me.battleZhuoLu.actInst.id}"
+    },
+    {
+      "mod": "lottery",
+      "op": "getDataValue",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "lottery",
+      "op": "selectType",
+      "args": "{activityId:n.id,type:e}"
+    },
+    {
+      "mod": "lotteryWheel",
+      "op": "draw",
+      "args": "{activityId:t.me.lottery.activity.id,times:this._times,drawItemType:i}"
+    },
+    {
+      "mod": "lotteryWheel",
+      "op": "setWish",
+      "args": "{activityId:e.id,wishIndex:this._selectIdx+1}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "enter",
+      "args": "{activityId:e.id},!0"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getBarrage",
+      "args": "{activityId:this.act.id},!0"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getFriendById",
+      "args": "{activityId:this.act.id,targetId:t}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getFriendList",
+      "args": "{activityId:this.act.id,isUnion:t}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getGiftBag",
+      "args": "{activityId:this.act.id}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getMeetingReward",
+      "args": "{activityId:this.act.id,showId:t,idx:e}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getMeetingRewardBatch",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getSettleShowReward",
+      "args": "{activityId:this.act.id}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getShowDetail",
+      "args": "{activityId:this.act.id,showId:t}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "getShowList",
+      "args": "{activityId:this.act.id},t"
+    },
+    {
+      "mod": "loveForever",
+      "op": "joinShow",
+      "args": "{activityId:this.act.id,showId:e,attendAll:i}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "like",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "lookGiftBag",
+      "args": "{activityId:this.act.id}"
+    },
+    {
+      "mod": "loveForever",
+      "op": "sendGift",
+      "args": "e"
+    },
+    {
+      "mod": "loveForever",
+      "op": "syncData",
+      "args": "{activityId:e.id},!0"
+    },
+    {
+      "mod": "luckCard",
+      "op": "awardCard",
+      "args": "{activityId:this.act.id,id:e}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "awardFire",
+      "args": "{activityId:this.act.id,id:t}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "awardGroup",
+      "args": "{activityId:this.act.id,groupId:e}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "cancelExchange",
+      "args": "{activityId:this.act.id,id:e}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "enter",
+      "args": "{activityId:this.act.id}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "exChange",
+      "args": "{activityId:this.act.id,id:e,needCard:n,provideCard:r}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "list",
+      "args": "{activityId:this.act.id,type:n+1,cardIdList:i}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "openFire",
+      "args": "{activityId:this.act.id,num:1}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "refuseExchange",
+      "args": "{activityId:this.act.id,id:e}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "release",
+      "args": "{activityId:this.act.id,type:e,needCard:i,provideCardList:n,otherPlayerId:r}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "searchPlayer",
+      "args": "{activityId:this.act.id,searchKey:this.ui.input.text,serverId:this.act.mainConfig.serverId[e]}"
+    },
+    {
+      "mod": "luckCard",
+      "op": "useAbleCardList",
+      "args": "{activityId:this.act.id}"
+    },
+    {
+      "mod": "luckKoi",
+      "op": "getAwardedList",
+      "args": "{activityId:this._actCfg.id}"
+    },
+    {
+      "mod": "luckKoi",
+      "op": "getInfo",
+      "args": "{activityId:this.id}"
+    },
+    {
+      "mod": "luckKoi",
+      "op": "getMyTicketList",
+      "args": "{activityId:this._actCfg.id}"
+    },
+    {
+      "mod": "luckKoi",
+      "op": "getMyTicketReward",
+      "args": "{activityId:this._act.id,ids:[this._id]}"
+    },
+    {
+      "mod": "lychee",
+      "op": "buyReplenishment",
+      "args": "t"
+    },
+    {
+      "mod": "lychee",
+      "op": "donate",
+      "args": "{type:t,count:e}"
+    },
+    {
+      "mod": "lychee",
+      "op": "donateBaseData",
+      "args": ""
+    },
+    {
+      "mod": "lychee",
+      "op": "enter",
+      "args": "{index:t,enterFlag:!e}"
+    },
+    {
+      "mod": "lychee",
+      "op": "exitRoom",
+      "args": ""
+    },
+    {
+      "mod": "lychee",
+      "op": "fight",
+      "args": "{soldierType:t,targetRoleId:e}"
+    },
+    {
+      "mod": "lychee",
+      "op": "getBaseData",
+      "args": ""
+    },
+    {
+      "mod": "lychee",
+      "op": "getEnergyBuyInfo",
+      "args": "t"
+    },
+    {
+      "mod": "lychee",
+      "op": "getLogList",
+      "args": "{unionId:t,type:e}"
+    },
+    {
+      "mod": "lychee",
+      "op": "getMemberList",
+      "args": "{unionId:t}"
+    },
+    {
+      "mod": "lychee",
+      "op": "getPlayerSpeedInfo",
+      "args": "t"
+    },
+    {
+      "mod": "lychee",
+      "op": "getRank",
+      "args": "{rankType:t,group:e}"
+    },
+    {
+      "mod": "lychee",
+      "op": "getRankReward",
+      "args": "t"
+    },
+    {
+      "mod": "lychee",
+      "op": "getScoreDetail",
+      "args": "{unionId:t}"
+    },
+    {
+      "mod": "lychee",
+      "op": "getUnionAttackInfo",
+      "args": "t"
+    },
+    {
+      "mod": "lychee",
+      "op": "getUnionDefendInfo",
+      "args": "t"
+    },
+    {
+      "mod": "lychee",
+      "op": "getUnionList",
+      "args": ""
+    },
+    {
+      "mod": "lychee",
+      "op": "interfere",
+      "args": "{itemId:t,cnt:e,targetUnionId:i}"
+    },
+    {
+      "mod": "lychee",
+      "op": "matchEnemy",
+      "args": "{soldierType:t,targetUnionId:e}"
+    },
+    {
+      "mod": "lychee",
+      "op": "selectLine",
+      "args": "t"
+    },
+    {
+      "mod": "lychee",
+      "op": "speedUp",
+      "args": "{itemId:t,cnt:e}"
+    },
+    {
+      "mod": "lychee",
+      "op": "worship",
+      "args": ""
+    },
+    {
+      "mod": "mail",
+      "op": "delete",
+      "args": "{mailUid:this.mailData.uid}"
+    },
+    {
+      "mod": "mail",
+      "op": "deleteAll",
+      "args": "{mailType:this.curType}"
+    },
+    {
+      "mod": "mail",
+      "op": "discordenter",
+      "args": ""
+    },
+    {
+      "mod": "mail",
+      "op": "facebookenter",
+      "args": ""
+    },
+    {
+      "mod": "mail",
+      "op": "getAllReward",
+      "args": ""
+    },
+    {
+      "mod": "mail",
+      "op": "getReward",
+      "args": "{mailUid:this.mailData.uid}"
+    },
+    {
+      "mod": "mail",
+      "op": "read",
+      "args": "{mailUid:e.uid}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "applyBeSlave",
+      "args": "t"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "approvalBeSlave",
+      "args": "{slave:e,agree:0!=e}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "battle",
+      "args": "{index:t,target:e}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "claimDailyReward",
+      "args": ""
+    },
+    {
+      "mod": "majorPowers",
+      "op": "claimDecreeReward",
+      "args": "{index:e}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "claimHelperReward",
+      "args": ""
+    },
+    {
+      "mod": "majorPowers",
+      "op": "getDecreeDetail",
+      "args": "{index:t}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "getDecreeJoinerList",
+      "args": "{index:t,page:e,size:i}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "joinDecree",
+      "args": "{index:e}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "kiss",
+      "args": ""
+    },
+    {
+      "mod": "majorPowers",
+      "op": "load",
+      "args": "{seat:!0,data:!0,servers:!0,decrees:!1,visitId:null}"
+    },
+    {
+      "mod": "majorPowers",
+      "op": "onlySameUnion",
+      "args": ""
+    },
+    {
+      "mod": "majorPowers",
+      "op": "publishDecree",
+      "args": ""
+    },
+    {
+      "mod": "majorPowers",
+      "op": "releaseSlave",
+      "args": "{slave:null}"
+    },
+    {
+      "mod": "mapEvent",
+      "op": "batchFinish",
+      "args": "{tidList:o}"
+    },
+    {
+      "mod": "mapEvent",
+      "op": "commit",
+      "args": "{tid:t,arg:e}"
+    },
+    {
+      "mod": "mapEvent",
+      "op": "gainAward",
+      "args": "{tid:14}"
+    },
+    {
+      "mod": "mapEvent",
+      "op": "start",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "mapEvent",
+      "op": "triggerNode",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "mapEvent",
+      "op": "triggerTime",
+      "args": "{tid:tb.EventTriggerTime.at(n).tid}"
+    },
+    {
+      "mod": "market",
+      "op": "addGoods",
+      "args": "{tid:e,slots:s,counts:n}"
+    },
+    {
+      "mod": "market",
+      "op": "addGoodsOneKey",
+      "args": "{dataMap:i[1],fromAssistant:!1}"
+    },
+    {
+      "mod": "market",
+      "op": "build",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "market",
+      "op": "getRumorReward",
+      "args": ""
+    },
+    {
+      "mod": "market",
+      "op": "guideAddGoods",
+      "args": ""
+    },
+    {
+      "mod": "market",
+      "op": "guideSettle",
+      "args": ""
+    },
+    {
+      "mod": "market",
+      "op": "levelUp",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "market",
+      "op": "saveUnselected",
+      "args": "{dataMap:i[1],fromAssistant:!0}"
+    },
+    {
+      "mod": "market",
+      "op": "settleAward",
+      "args": ""
+    },
+    {
+      "mod": "market",
+      "op": "unlockCustomer",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "market",
+      "op": "wareLevelUp",
+      "args": ""
+    },
+    {
+      "mod": "mastery",
+      "op": "ageUpgrade",
+      "args": "{tid:this.getAgeTid()}"
+    },
+    {
+      "mod": "mastery",
+      "op": "nodeUpgradeFinish",
+      "args": "{}"
+    },
+    {
+      "mod": "mastery",
+      "op": "nodeUpgradeStart",
+      "args": "{tid:o}"
+    },
+    {
+      "mod": "mastery",
+      "op": "speedUpAd",
+      "args": "{useDiamond:t}"
+    },
+    {
+      "mod": "mate",
+      "op": "giveGift",
+      "args": "{tid:t,giftItem:e,count:i}"
+    },
+    {
+      "mod": "mate",
+      "op": "loveGiant",
+      "args": "{mate:e,giant:i}"
+    },
+    {
+      "mod": "mate",
+      "op": "releaseRecord",
+      "args": ""
+    },
+    {
+      "mod": "mate",
+      "op": "setSkin",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "mate",
+      "op": "unlock",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "mate",
+      "op": "unlockByItem",
+      "args": "{tid:t,item:e}"
+    },
+    {
+      "mod": "mate",
+      "op": "upgradeArt",
+      "args": "{tid:t,artIdx:e}"
+    },
+    {
+      "mod": "mate",
+      "op": "upgradeLove",
+      "args": "t"
+    },
+    {
+      "mod": "mate",
+      "op": "upgradeSkin",
+      "args": "{tid:a.tid}"
+    },
+    {
+      "mod": "mission",
+      "op": "clearOneKeyData",
+      "args": "{}"
+    },
+    {
+      "mod": "mission",
+      "op": "fightBoss",
+      "args": "{}"
+    },
+    {
+      "mod": "mission",
+      "op": "fightNormal",
+      "args": "{fightTid:e.missionDt.fight_tid,isHeal:e.mission.isOneKeyFighting()}"
+    },
+    {
+      "mod": "mission",
+      "op": "gainChapterReward",
+      "args": ""
+    },
+    {
+      "mod": "mission",
+      "op": "startOneKey",
+      "args": "{}"
+    },
+    {
+      "mod": "mobei",
+      "op": "enter",
+      "args": ""
+    },
+    {
+      "mod": "mobei",
+      "op": "fight",
+      "args": "{slotTid:t}"
+    },
+    {
+      "mod": "mobei",
+      "op": "fightConfirm",
+      "args": "t"
+    },
+    {
+      "mod": "mobei",
+      "op": "getAwardConfigs",
+      "args": ""
+    },
+    {
+      "mod": "mobei",
+      "op": "getBaseData",
+      "args": "null,t"
+    },
+    {
+      "mod": "mobei",
+      "op": "getFightResultList",
+      "args": "{playerId:t}"
+    },
+    {
+      "mod": "mobei",
+      "op": "getGroupInfo",
+      "args": "{groupInfo:t}"
+    },
+    {
+      "mod": "mobei",
+      "op": "getMemberList",
+      "args": "{unionId:t}"
+    },
+    {
+      "mod": "mobei",
+      "op": "getSelfTeam",
+      "args": ""
+    },
+    {
+      "mod": "mobei",
+      "op": "getUnionList",
+      "args": ""
+    },
+    {
+      "mod": "mobei",
+      "op": "join",
+      "args": "{slotTid:t}"
+    },
+    {
+      "mod": "mobei",
+      "op": "leave",
+      "args": ""
+    },
+    {
+      "mod": "mobei",
+      "op": "report",
+      "args": "{slotTid:t}"
+    },
+    {
+      "mod": "mobei",
+      "op": "settleAward",
+      "args": ""
+    },
+    {
+      "mod": "mobei",
+      "op": "unionBossScore",
+      "args": ""
+    },
+    {
+      "mod": "mobei",
+      "op": "useItem",
+      "args": "{type:e}"
+    },
+    {
+      "mod": "mods",
+      "op": "gainPreviewReward",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "mods",
+      "op": "unlock",
+      "args": "{modTid:e}"
+    },
+    {
+      "mod": "monster",
+      "op": "fight",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "monster",
+      "op": "gainRankAward",
+      "args": ""
+    },
+    {
+      "mod": "moonCake",
+      "op": "draw",
+      "args": "{activityId:this.getActId(),num:t}"
+    },
+    {
+      "mod": "moonCake",
+      "op": "enter",
+      "args": "{activityId:this.getActId()}"
+    },
+    {
+      "mod": "moonCake",
+      "op": "produce",
+      "args": "{activityId:this.getActId(),tid:t,num:e,autoBuy:i}"
+    },
+    {
+      "mod": "moonCake",
+      "op": "receiveManual",
+      "args": "{activityId:this.getActId(),tid:t}"
+    },
+    {
+      "mod": "moonCake",
+      "op": "recycle",
+      "args": "{activityId:this.getActId(),tidList:t,countList:e}"
+    },
+    {
+      "mod": "msg",
+      "op": "subscribe",
+      "args": "e"
+    },
+    {
+      "mod": "msg",
+      "op": "subscribeTiktok",
+      "args": "e"
+    },
+    {
+      "mod": "musterArmy",
+      "op": "claim",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "musterArmy",
+      "op": "draw",
+      "args": "{activityId:t,count:e}"
+    },
+    {
+      "mod": "musterArmy",
+      "op": "drawoptional",
+      "args": "{activityId:this._actCfg.id,params:e}"
+    },
+    {
+      "mod": "musterArmy",
+      "op": "enter",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "musterArmy",
+      "op": "kill",
+      "args": "t"
+    },
+    {
+      "mod": "musterArmy",
+      "op": "tips",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "musterArmy",
+      "op": "toggle",
+      "args": "{activityId:t,type:e}"
+    },
+    {
+      "mod": "opinion",
+      "op": "gainSatisfactionAward",
+      "args": "{tid:1}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherAssistInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherAstrologyInfo",
+      "args": "t"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherBookInfo",
+      "args": "{roleId:t,serverId:e}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherCarInfo",
+      "args": "{roleId:e,serverId:i,extParam:n.toString()}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherGiantInfo",
+      "args": "{roleId:e,serverId:Math.floor(e/1e6),extParam:n.toString()}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherHouseInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherInventInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherMateInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherPetInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherPloyInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherUserInfo",
+      "args": "{roleId:this.roleId,serverId:this.serverId,extParam:e.toString()}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherWarBookInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "other",
+      "op": "getOtherWonderInfo",
+      "args": "{roleId:e,serverId:i}"
+    },
+    {
+      "mod": "peopleChart",
+      "op": "unlock",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "pet",
+      "op": "activatePotential",
+      "args": "{tid:this._curTid}"
+    },
+    {
+      "mod": "pet",
+      "op": "activeSuit",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "pet",
+      "op": "assistantAutoUpgradePotential",
+      "args": ""
+    },
+    {
+      "mod": "pet",
+      "op": "bind",
+      "args": "{holyPetId:this.tid,targetPetId:e}"
+    },
+    {
+      "mod": "pet",
+      "op": "catchPet",
+      "args": "{count:1,isAd:!0}"
+    },
+    {
+      "mod": "pet",
+      "op": "evolve",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "pet",
+      "op": "getLuckPet",
+      "args": "{tidList:s}"
+    },
+    {
+      "mod": "pet",
+      "op": "levelUp",
+      "args": "{tid:t,addLv:i}"
+    },
+    {
+      "mod": "pet",
+      "op": "link",
+      "args": "{tid:e,slot:n}"
+    },
+    {
+      "mod": "pet",
+      "op": "oneKeyStarUp",
+      "args": ""
+    },
+    {
+      "mod": "pet",
+      "op": "refreshLuckList",
+      "args": ""
+    },
+    {
+      "mod": "pet",
+      "op": "releaseLink",
+      "args": "{slot:o}"
+    },
+    {
+      "mod": "pet",
+      "op": "resetHoly",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "pet",
+      "op": "resetLv",
+      "args": "{tid:i}"
+    },
+    {
+      "mod": "pet",
+      "op": "rise",
+      "args": "{tid:t.me.pet.getPetRiseId(n,i)}"
+    },
+    {
+      "mod": "pet",
+      "op": "setWish",
+      "args": "{tid:this.pet}"
+    },
+    {
+      "mod": "pet",
+      "op": "starUp",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "pet",
+      "op": "starUpHoly",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "pet",
+      "op": "unbind",
+      "args": "{holyPetId:this.tid}"
+    },
+    {
+      "mod": "pet",
+      "op": "unlockHoly",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "petFight",
+      "op": "addPet",
+      "args": "{activityId:t.me.petFight.actInst.mainConfig.activityId,petTid:this.selectTid}"
+    },
+    {
+      "mod": "petFight",
+      "op": "getJoinRoomList",
+      "args": "{activityId:t.me.petFight.actInst.mainConfig.activityId}"
+    },
+    {
+      "mod": "petFight",
+      "op": "getRoomInfo",
+      "args": "{activityId:n.mainConfig.activityId}"
+    },
+    {
+      "mod": "petFight",
+      "op": "getSettleRoom",
+      "args": "t.me.petFight.actInst.mainConfig"
+    },
+    {
+      "mod": "ploy",
+      "op": "batchCombinePloy",
+      "args": ""
+    },
+    {
+      "mod": "ploy",
+      "op": "combinePloy",
+      "args": "{tid:e,level:i}"
+    },
+    {
+      "mod": "ploy",
+      "op": "economyPloyClaimMythReward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "ploy",
+      "op": "economyPloyGetStates",
+      "args": ""
+    },
+    {
+      "mod": "ploy",
+      "op": "economyPloyUseSkill",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "ploy",
+      "op": "equipPloy",
+      "args": "{tid:n,level:r}"
+    },
+    {
+      "mod": "ploy",
+      "op": "migrateDeduce",
+      "args": ""
+    },
+    {
+      "mod": "ploy",
+      "op": "mythAuxiliaryLvUp",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "ploy",
+      "op": "mythFrontLvUp",
+      "args": "{tid:n}"
+    },
+    {
+      "mod": "ploy",
+      "op": "mythPloyLevelUp",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "ploy",
+      "op": "mythPloyReset",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "ploy",
+      "op": "ployDeduce",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "ploy",
+      "op": "ployDraw",
+      "args": "{count:e,isAdCnt:i}"
+    },
+    {
+      "mod": "ploy",
+      "op": "ployIllustrateLevelUp",
+      "args": "{tid:e,targetLevel:i}"
+    },
+    {
+      "mod": "ploy",
+      "op": "ployResonance",
+      "args": ""
+    },
+    {
+      "mod": "ploy",
+      "op": "ploySlotLevelUp",
+      "args": "{childType:e}"
+    },
+    {
+      "mod": "powerGuide",
+      "op": "gainAward",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "privilegeCard",
+      "op": "getAward",
+      "args": "{type:t}"
+    },
+    {
+      "mod": "pvp",
+      "op": "fight",
+      "args": "{targetId:this.roleId}"
+    },
+    {
+      "mod": "pvp",
+      "op": "getMatchList",
+      "args": ""
+    },
+    {
+      "mod": "pvp",
+      "op": "getRecords",
+      "args": ""
+    },
+    {
+      "mod": "pvp",
+      "op": "getStageRank",
+      "args": "{stage:t,count:e}"
+    },
+    {
+      "mod": "pvp",
+      "op": "match",
+      "args": ""
+    },
+    {
+      "mod": "rank",
+      "op": "getServerRoleRank",
+      "args": "{tid:102,count:this.rankTb.show_rank,local:!t.me.serverCache.isCrossUnion()||1!==this._crossSelectIndex}"
+    },
+    {
+      "mod": "rank",
+      "op": "getServerUnionRank",
+      "args": "{tid:201,count:this.rankTb.show_rank,local:!t.me.serverCache.isCrossUnion()||1!==this._crossSelectIndex}"
+    },
+    {
+      "mod": "rank",
+      "op": "list",
+      "args": "{bigRankType:void 0,rankType:dd.ActivityRankType.personal,activityId:t.me.fourSea.activityId}"
+    },
+    {
+      "mod": "rank",
+      "op": "onshow",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "rank",
+      "op": "upvote",
+      "args": "{tid:this._selectTid}"
+    },
+    {
+      "mod": "rankSummary",
+      "op": "getSummary",
+      "args": ""
+    },
+    {
+      "mod": "recharge",
+      "op": "createOrder",
+      "args": "{activityId:g,mallId:y,voucherUid:null==S?void 0:S.id}"
+    },
+    {
+      "mod": "recharge",
+      "op": "orderReportSuccess",
+      "args": "{orderNoList:n},!0"
+    },
+    {
+      "mod": "recharge",
+      "op": "tongBaoRecharge",
+      "args": "{activityId:g,mallId:y}"
+    },
+    {
+      "mod": "rechargeFeedback",
+      "op": "getReward",
+      "args": ""
+    },
+    {
+      "mod": "record",
+      "op": "getRecord",
+      "args": "{type:12}"
+    },
+    {
+      "mod": "relatives",
+      "op": "apply",
+      "args": ""
+    },
+    {
+      "mod": "relatives",
+      "op": "appoint",
+      "args": "{relativeId:e,buildTid:this._buildTid}"
+    },
+    {
+      "mod": "relatives",
+      "op": "bind",
+      "args": "{code:t,wechatName:\"\",wechatAvatar:\"\"}"
+    },
+    {
+      "mod": "relatives",
+      "op": "generate",
+      "args": ""
+    },
+    {
+      "mod": "relatives",
+      "op": "getReward",
+      "args": ""
+    },
+    {
+      "mod": "relatives",
+      "op": "kizuna",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "relatives",
+      "op": "onlyBind",
+      "args": "{code:i,wechatName:n,wechatAvatar:r}"
+    },
+    {
+      "mod": "relatives",
+      "op": "parseCode",
+      "args": "{code:e}"
+    },
+    {
+      "mod": "renew",
+      "op": "bindForeverCard",
+      "args": "{targetPlayerId:t.renewDt.recall_player_id}"
+    },
+    {
+      "mod": "renew",
+      "op": "bindPlayer",
+      "args": "{targetPlayerId:this._roleCache.roleId}"
+    },
+    {
+      "mod": "renew",
+      "op": "refreshForeverCard",
+      "args": ""
+    },
+    {
+      "mod": "resRush",
+      "op": "getAchieveAward",
+      "args": ""
+    },
+    {
+      "mod": "resRush",
+      "op": "getRank",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "resRush",
+      "op": "getServerAward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "resRush",
+      "op": "getTaskAward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "resRush",
+      "op": "thumbsUp",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "resRush",
+      "op": "tryCompensateTaskAward",
+      "args": ""
+    },
+    {
+      "mod": "rift",
+      "op": "startBattle",
+      "args": "{levelId:e,crush:this.isCrushEnable(t)},!0"
+    },
+    {
+      "mod": "river",
+      "op": "upgrade",
+      "args": ""
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "claimPioneerAward",
+      "args": "{activityId:i,targetPlayerId:e}"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "enter",
+      "args": "{activityId:i},e"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "galaxyMap",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "heartBeat",
+      "args": "{activityId:e},!0"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "launchShip",
+      "args": "{activityId:i,itemId:e}"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "leave",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "planetInfo",
+      "args": "{activityId:i,planetId:t,settlerCount:e}"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "playerInfo",
+      "args": "{activityId:s,targetPlayerIdList:o},i"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "setEmpire",
+      "args": "{activityId:e,empireName:t.empireName,empireFlagId:t.empireFlagId,empireMotto:t.empireMotto}"
+    },
+    {
+      "mod": "rocketExplore",
+      "op": "settlePlanet",
+      "args": "{activityId:e,planetId:-i}"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "board",
+      "args": "e"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "enter",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "groupInfo",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "launch",
+      "args": "t"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "make",
+      "args": "t"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "recordList",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "rocketInfo",
+      "args": "t"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "rocketList",
+      "args": "t"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "rocketSearch",
+      "args": "{activityId:this.getActivityId(),playerId:this.me.userDt.role_id}"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "setting",
+      "args": "t"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "settle",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "rocketMake",
+      "op": "urgent",
+      "args": "t"
+    },
+    {
+      "mod": "role",
+      "op": "getAllProp",
+      "args": ""
+    },
+    {
+      "mod": "role",
+      "op": "rename",
+      "args": "{name:this._inputText}"
+    },
+    {
+      "mod": "role",
+      "op": "startShowAd",
+      "args": "t.me.activityDt.moon_card_active||t.me.activityDt.forever_card_active?0:e"
+    },
+    {
+      "mod": "role",
+      "op": "updateDt",
+      "args": "e,!0"
+    },
+    {
+      "mod": "role",
+      "op": "updatePower",
+      "args": "void 0,!0"
+    },
+    {
+      "mod": "runMa",
+      "op": "getInfoList",
+      "args": "{startIdx:this.totalMsgGet}"
+    },
+    {
+      "mod": "sageBless",
+      "op": "gainBless",
+      "args": "{blessId:t,isSkip:e}"
+    },
+    {
+      "mod": "sageBless",
+      "op": "getBlessData",
+      "args": ""
+    },
+    {
+      "mod": "sageBless",
+      "op": "getLikeCount",
+      "args": "{blessId:t}"
+    },
+    {
+      "mod": "sageBless",
+      "op": "likeBless",
+      "args": "{blessId:this.blessId}"
+    },
+    {
+      "mod": "sageBless",
+      "op": "sendBless",
+      "args": "{desc:this.ui.input.text}"
+    },
+    {
+      "mod": "sageBless",
+      "op": "settleBless",
+      "args": ""
+    },
+    {
+      "mod": "sageDivine",
+      "op": "divine",
+      "args": "{eventIndex:this._index}"
+    },
+    {
+      "mod": "sageDivine",
+      "op": "happen",
+      "args": "{combo:t.me.sageDivineDt.ten_state?10:1}"
+    },
+    {
+      "mod": "sageRecord",
+      "op": "dailyLike",
+      "args": ""
+    },
+    {
+      "mod": "sageRecord",
+      "op": "gainHonorAchieve",
+      "args": "{tid:e.tid}"
+    },
+    {
+      "mod": "sageRecord",
+      "op": "getGainTitleInfo",
+      "args": "{tid:n}"
+    },
+    {
+      "mod": "sageRecord",
+      "op": "getGainTitleInfos",
+      "args": "{}"
+    },
+    {
+      "mod": "sageRecord",
+      "op": "getSageRecord",
+      "args": "{count:200,tid:this.tid}"
+    },
+    {
+      "mod": "sageRecord",
+      "op": "getSageRoleRecord",
+      "args": "{params:t}"
+    },
+    {
+      "mod": "sageRecord",
+      "op": "newLike",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "sageRecord",
+      "op": "titleRewardReceive",
+      "args": "{tid:n}"
+    },
+    {
+      "mod": "school",
+      "op": "activeLimit",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "appoint",
+      "args": "{giantTid:e,schoolTid:this.schoolTid}"
+    },
+    {
+      "mod": "school",
+      "op": "autoSummon",
+      "args": "void 0,!0"
+    },
+    {
+      "mod": "school",
+      "op": "bookUnlock",
+      "args": "this.tid"
+    },
+    {
+      "mod": "school",
+      "op": "butlerAutoUpgradeBuildings",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "butlerMissionAutoFight",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "butlerSchoolStarAuto",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "childLvUp",
+      "args": "{childTid:this.schoolChildTid}"
+    },
+    {
+      "mod": "school",
+      "op": "childLvUpOneKey",
+      "args": "{tid:this.schoolTid}"
+    },
+    {
+      "mod": "school",
+      "op": "finishTask",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "gainAchieveAward",
+      "args": "{tid:this.officerTid}"
+    },
+    {
+      "mod": "school",
+      "op": "gainAdAward",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "gainAllAchieveAward",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "giantLvUp",
+      "args": "{tid:this._giantTid}"
+    },
+    {
+      "mod": "school",
+      "op": "giantLvUpAll",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "giantLvUpOneKey",
+      "args": "{tid:this._giantTid}"
+    },
+    {
+      "mod": "school",
+      "op": "giantStepUp",
+      "args": "{tid:this._giantTid}"
+    },
+    {
+      "mod": "school",
+      "op": "itemSettle",
+      "args": "{count:i}"
+    },
+    {
+      "mod": "school",
+      "op": "missionFight",
+      "args": "{tidList:this.giantList}"
+    },
+    {
+      "mod": "school",
+      "op": "normalSummon",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "readAllBook",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "readBook",
+      "args": "{bookTid:this.tid,count:i}"
+    },
+    {
+      "mod": "school",
+      "op": "seatUnlock",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "school",
+      "op": "setTaskFull",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "settle",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "starUp",
+      "args": ""
+    },
+    {
+      "mod": "school",
+      "op": "stepUp",
+      "args": "{tid:this.schoolTid}"
+    },
+    {
+      "mod": "school",
+      "op": "unlock",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "school",
+      "op": "watchAllAd",
+      "args": ""
+    },
+    {
+      "mod": "seasonActivity",
+      "op": "enter",
+      "args": "{activityId:i}"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "acceptGuard",
+      "args": "{uuid:t}"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "apply",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "appointCaptain",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "appointGuard",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "cancelInviteGuard",
+      "args": "{uuid:t}"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "donate",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "fight",
+      "args": "e"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getBattleRecord",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getBotFightTeamInfo",
+      "args": "{uuid:t}"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getDonation",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getGoldenShipInfo",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getGoldFleetRechargeReward",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getGuard",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getLoginInfo",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getMatchList",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getReward",
+      "args": "e"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getShipInfo",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getTradeRecord",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getUnionBattleRecord",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getUnionReward",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getUnionShipInfo",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "getUnionTradeRecord",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "goGoldFleet",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "inviteGuard",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "pveFight",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "quickFormation",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "refreshMatchList",
+      "args": ""
+    },
+    {
+      "mod": "seaTrade",
+      "op": "refreshShip",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "refreshUnionShip",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "refuseGuard",
+      "args": "{uuid:t}"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "restoreUnionReward",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "setFellowReward",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "shipInfo",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "shipRecord",
+      "args": "{uuid:t.uuid}"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "stashUnionReward",
+      "args": "t"
+    },
+    {
+      "mod": "seaTrade",
+      "op": "trade",
+      "args": "t"
+    },
+    {
+      "mod": "seaTreasure",
+      "op": "enter",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "seaTreasure",
+      "op": "explore",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "seaTreasure",
+      "op": "oneKeyExplore",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "seaTreasure",
+      "op": "selectBigReward",
+      "args": "{activityId:e.id,bigRewardSelects:t}"
+    },
+    {
+      "mod": "server",
+      "op": "getServerRound",
+      "args": ""
+    },
+    {
+      "mod": "shop",
+      "op": "batchBuy",
+      "args": "s.dataList.map((function(t){return{tid:t.shop,count:t.buyCount}}))"
+    },
+    {
+      "mod": "shop",
+      "op": "batchBuyNoUse",
+      "args": "i"
+    },
+    {
+      "mod": "shop",
+      "op": "buy",
+      "args": "{tid:this._shopTid,count:this._buyCount}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "autoSpeedUp",
+      "args": "{activityId:this.getActivityId(),autoSpeedUp:t,count:e,maxMoveTime:i}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "autoUseItem",
+      "args": "{activityId:this.getActivityId(),autoUseItem:e,count:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "backAutoSpeedUp",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "backAutoUseItem",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "backHome",
+      "args": "{activityId:t.sixCamp.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "cheer",
+      "args": "{activityId:this.activityId,unionId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "enter",
+      "args": "{activityId:this.me.sixCamp.getActivityId(),groupId:t,floorId:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "fight",
+      "args": "{activityId:this.getActivityId(),tileTid:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "gainFloorAward",
+      "args": "{activityId:this.getActivityId(),floorId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getBorrowInfo",
+      "args": "{activityId:this.activityId,floorId:e,groupId:t},i"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getBorrowReward",
+      "args": "{activityId:this.activityId,floorId:e,groupId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getBoxReward",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getCheerData",
+      "args": "{activityId:this.activityId}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getCityReport",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getFloorUnionNum",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getFlyReward",
+      "args": "{activityId:this.getActivityId(),groupId:this.myGroup,floorId:this.myFloor}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getGroupList",
+      "args": "{activityId:this.getActivityId(),floorId:t,groupId:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getGroupScoreList",
+      "args": "{activityId:e.sixCamp.getActivityId(),unionId:e.sixCamp.myUnionId}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getGuessData",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getGuessReward",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getImperialRecord",
+      "args": "{activityId:this.activityId}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getMemberList",
+      "args": "{activityId:this.getActivityId(),unionId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getMemberScoreRank",
+      "args": "{activityId:this.getActivityId(),unionId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getPeakCampJoinList",
+      "args": "{activityId:this.activityId}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getRecordData",
+      "args": "{activityId:t.sixCamp.getActivityId(),groupId:t.sixCamp.lastGroup||t.sixCamp.myGroup,floorId:t.sixCamp.lastFloor||t.sixCamp.myFloor}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getSacrificeRank",
+      "args": "{activityId:this.activityId,floorId:e,groupId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getSelfReport",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getSendPlotReward",
+      "args": "{activityId:this.getActivityId(),id:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getSpeedUpRecord",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getTileDetail",
+      "args": "{activityId:this.getActivityId(),tileTid:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getTileInfo",
+      "args": "{activityId:i,tileTid:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getUnionRank",
+      "args": "{activityId:this.getActivityId(),unionId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getUnionTile",
+      "args": "{activityId:this.getActivityId(),unionId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getUseItemRecord",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "getVoteInfo",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "guanDuBackHome",
+      "args": "{activityId:this.activityId,backHomeList:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "guessSelect",
+      "args": "{activityId:this.getActivityId(),unionIdArr:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "huntScore",
+      "args": "{activityId:this.getActivityId(),count:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "memberScoreList",
+      "args": "{activityId:this.getActivityId(),unionId:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "move",
+      "args": "{activityId:o,soldierType:t,pathList:n,homePathList:s}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "ping",
+      "args": "{activityId:t.me.sixCamp.getActivityId(),groupId:t.me.sixCampMap.peakGroupId,floorId:t.me.sixCampMap.peakFloorId}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "playerBaseData",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "playerGuessDetail",
+      "args": "{activityId:this.getActivityId(),param:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "plotInfo",
+      "args": "{activityId:this.getActivityId()},t"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "postVote",
+      "args": "{activityId:this.getActivityId(),chooseHero:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "receiveReputationReward",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "reputationInfo",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "sendPlot",
+      "args": "{activityId:this.getActivityId(),plotId:t,sendNum:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "sendPlotRecord",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "setAutoMove",
+      "args": "{activityId:i.sixCamp.getActivityId(),soldierType:t,auto:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "setAutoSummon",
+      "args": "{activityId:this.getActivityId(),soldierType:t,auto:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "setCommander",
+      "args": "{activityId:this.getActivityId(),commanderList:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "setPre",
+      "args": "{activityId:this.getActivityId(),soldierType:t,quit:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "setStrategicObj",
+      "args": "{activityId:this.getActivityId(),tileList:n,tileTid:t,type:e,text:i}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "speedUp",
+      "args": "{activityId:i,soldierType:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "summon",
+      "args": "{activityId:this.getActivityId(),summonList:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "syncPower",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "tileTeamCount",
+      "args": "{tileList:t,activityId:e}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "unionScoreList",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "useCavalryItem",
+      "args": "{activityId:this.getActivityId(),useCount:t}"
+    },
+    {
+      "mod": "sixCamp",
+      "op": "worship",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "agreeJoin",
+      "args": "{activityId:n.id,applyPlayerId:t,agree:e}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "applyJoin",
+      "args": "{activityId:e.id,teamId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "balance",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "battleReport",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "changeController",
+      "args": "{activityId:e.id,targetPlayerId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "createTeam",
+      "args": "{activityId:e.id,teamName:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "enter",
+      "args": "{activityId:i.id}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "enterRoom",
+      "args": "{activityId:i.id,zoneId:t,targetTeamId:e}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "fight",
+      "args": "{activityId:e.id,targetTeamId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getFeaturedReport",
+      "args": "{activityId:i.id,zoneId:t,timeId:e}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getFloorDetail",
+      "args": "{activityId:i.id,zoneId:t,roomId:e}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getGuess",
+      "args": "{activityId:i.id,round:n}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getRoomDetail",
+      "args": "{activityId:n.id,zoneId:t,roomId:e,timeId:i}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getRoomList",
+      "args": "{activityId:i.id,zoneId:t,timeId:e}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getRoomRank",
+      "args": "{activityId:i.id,roomId:e,floor:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getRoomSettle",
+      "args": "{activityId:t.id,timeId:0,roomId:0}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getRoster",
+      "args": "{activityId:e.id,rosterId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getTeamDetail",
+      "args": "{activityId:n,teamId:e.teamId}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getTeamList",
+      "args": "{activityId:e.id,zoneId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "getZoneList",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "guessReward",
+      "args": "{activityId:e.id,round:i}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "heartBeat",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "kickout",
+      "args": "{activityId:e.id,targetPlayerId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "leave",
+      "args": "{activityId:t.me.skyBattle.activityId}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "markBattleReportRead",
+      "args": "{activityId:r.id,reportTimes:e,markAll:i},n"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "move",
+      "args": "{activityId:i.id,position:{x:t,y:e,time:this.me.time.nowMSec,birth:!1}},!0"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "quitTeam",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "searchTeam",
+      "args": "{activityId:e.id,teamId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "setBattleOrder",
+      "args": "{activityId:i.id,orderType:t,playerOrder:e}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "setGuess",
+      "args": "{activityId:i.id,round:t,guessTeamIds:e}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "takeoverController",
+      "args": "{activityId:e.id}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "transferCaptain",
+      "args": "{activityId:e.id,targetPlayerId:t}"
+    },
+    {
+      "mod": "skyBattle",
+      "op": "worship",
+      "args": "{activityId:t.id}"
+    },
+    {
+      "mod": "snake",
+      "op": "enterPanel",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "snake",
+      "op": "getEvolutionReward",
+      "args": "{activityId:t.me.snake.actInst.id,tid:this._tid}"
+    },
+    {
+      "mod": "snake",
+      "op": "playNextChapter",
+      "args": "{activityId:this.actInst.id,chapter:e.snakeDt.chapter}"
+    },
+    {
+      "mod": "snake",
+      "op": "playPause",
+      "args": "{activityId:this.actInst.id,playInfo:{direction:0,curGroupValue:0,reviveGot:0,helmetGot:0,reviveUse:Math.min(i.snakeDt.revive_use,i.itemDt.getCount(129002)),helmetUse:Math.min(i.snakeDt.helmet_use,i.itemDt.getCount(129001))},token:i.snakeDt.token,chapter:i.snakeDt.chapter}"
+    },
+    {
+      "mod": "snake",
+      "op": "playRestart",
+      "args": "{activityId:this.actInst.id,chapter:e.snakeDt.chapter}"
+    },
+    {
+      "mod": "snake",
+      "op": "playResult",
+      "args": "{activityId:o.snake.actInst.id,result:i,token:o.snakeDt.token,processInfo:{direction:1==i?this.getDifDirection(n):0,curGroupValue:t.localStorage.getRoleData(o.userDt.role_id,\"SnakeChapterRes\",0),reviveGot:0,helmetGot:0,reviveUse:Math.min(o.snakeDt.revive_use,o.itemDt.getCount(129002)),helmetUse:Math.min(o.snakeDt.helmet_use,o.itemDt.getCount(129001))},chapter:o.snakeDt.chapter,deadType:1==i?null:"
+    },
+    {
+      "mod": "snake",
+      "op": "playRevive",
+      "args": "{activityId:e.snake.actInst.id,chapter:e.snakeDt.chapter}"
+    },
+    {
+      "mod": "snake",
+      "op": "playStart",
+      "args": "{activityId:t.me.snake.actInst.id,chapter:t.me.snakeDt.chapter}"
+    },
+    {
+      "mod": "snake",
+      "op": "sweep",
+      "args": "{activityId:i.snake.actInst.id,chapter:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "arriveCity",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "assistantAutoInvest",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "assistantAutoRun",
+      "args": "{line:t,pathList:i,autoMode:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "autoTick",
+      "args": "{pathList:n}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "buyGoods",
+      "args": "{goods:t,counts:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "finishTask",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "getAdAward",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "invest",
+      "args": "{tid:t,value:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "moveToCity",
+      "args": "{pathList:t}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "repairCar",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "seeAutoResult",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "sellGoods",
+      "args": "{goods:t,counts:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "setAutoBuyCityAndGoods",
+      "args": "{line:t,dataList:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "setAutoBuyGoods",
+      "args": "{line:t,city:e,goods:i,counts:n}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "setAutoCityLine",
+      "args": "{line:t,cityList:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "setAutoRunning",
+      "args": "{line:t,autoMode:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "setFollowPet",
+      "args": "{pos:t,pet:e}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "setTaskFull",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "speedUp",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "stopAutoRunning",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "tryLimitPrivilege",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "unlockArea",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "upgradeArea",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "upgradeCar",
+      "args": ""
+    },
+    {
+      "mod": "songDynasty",
+      "op": "upgradeCarPart",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "songDynasty",
+      "op": "upgradeTitle",
+      "args": ""
+    },
+    {
+      "mod": "songDynastyRank",
+      "op": "tribute",
+      "args": "{tid:i,count:o}"
+    },
+    {
+      "mod": "sonofgods",
+      "op": "enter",
+      "args": ""
+    },
+    {
+      "mod": "sonofgods",
+      "op": "toggle",
+      "args": "{rank:t}"
+    },
+    {
+      "mod": "spectacle",
+      "op": "build",
+      "args": "t"
+    },
+    {
+      "mod": "spectacle",
+      "op": "enter",
+      "args": "t"
+    },
+    {
+      "mod": "spectacle",
+      "op": "getReward",
+      "args": "t"
+    },
+    {
+      "mod": "systemRedPacket",
+      "op": "abandon",
+      "args": "{packetId:e}"
+    },
+    {
+      "mod": "systemRedPacket",
+      "op": "draw",
+      "args": "{packetId:e}"
+    },
+    {
+      "mod": "systemRedPacket",
+      "op": "open",
+      "args": "{packetId:e},i"
+    },
+    {
+      "mod": "systemRedPacket",
+      "op": "send",
+      "args": "{packetId:e,channel:i}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "appointMate",
+      "args": "{tidList:t,mateList:e}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "autoUpgradeBuild",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "autoUpgradeMateArt",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "autoUpgradeStar",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "getAdAward",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "getAllTaskAward",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "getTaskAward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "getTaskStageAward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "guideSettle",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "itemSettle",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "preSettle",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "setTaskFull",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "settle",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "upgradeBuild",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "upgradePublicize",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "upgradeStar",
+      "args": ""
+    },
+    {
+      "mod": "tangMarket",
+      "op": "upgradeTrain",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tangMarket",
+      "op": "watchAllAd",
+      "args": ""
+    },
+    {
+      "mod": "task",
+      "op": "comDisValid",
+      "args": "[e]"
+    },
+    {
+      "mod": "task",
+      "op": "comFinish",
+      "args": "t"
+    },
+    {
+      "mod": "task",
+      "op": "comFull",
+      "args": "[e]"
+    },
+    {
+      "mod": "task",
+      "op": "comValid",
+      "args": "[e]"
+    },
+    {
+      "mod": "task",
+      "op": "finish",
+      "args": ""
+    },
+    {
+      "mod": "task",
+      "op": "finishGuide",
+      "args": "{guides:t}"
+    },
+    {
+      "mod": "task",
+      "op": "finishTimeTask",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "task",
+      "op": "full",
+      "args": ""
+    },
+    {
+      "mod": "task",
+      "op": "getDailyTaskBoxAward",
+      "args": ""
+    },
+    {
+      "mod": "task",
+      "op": "getStoryChapterAward",
+      "args": "t"
+    },
+    {
+      "mod": "teamPve",
+      "op": "battle",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "boxReward",
+      "args": "{tid:i.tid}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "boxRewardList",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "buffCountdown",
+      "args": "{storey:t}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "buffList",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "buffVote",
+      "args": "{storey:i,buffTid:t,settle:e}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "difficulty",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "difficultyConfig",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "embattle",
+      "args": "{petList:n,ployList:r,giantList:o,carTid:this.me.carDt.use_car}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "fightReport",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "gainRankAward",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "gainStoreyAward",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "rankRewardList",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "reward",
+      "args": "{storey:e.storey,id:e.item.id}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "sweep",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "taskRewardList",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamApplyList",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamApplyPermit",
+      "args": "{playerId:t}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamApplyReject",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamAutoReady",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamComeBack",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamCreate",
+      "args": "{teamName:t}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamDissolve",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamFilter",
+      "args": "{teamId:t,serverId:e},!0"
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamJoin",
+      "args": "{teamId:this.teamId}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamKick",
+      "args": "{playerId:this.roleId}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamLeave",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamList",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamLock",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamMy",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamQuery",
+      "args": "{teamId:i}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamReady",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamStepOut",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamTakeOver",
+      "args": ""
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamTransfer",
+      "args": "{playerId:this.roleId}"
+    },
+    {
+      "mod": "teamPve",
+      "op": "teamUnready",
+      "args": ""
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "assistAttack",
+      "args": "{activityId:t,chapterId:e,pointId:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "assistList",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "assistReward",
+      "args": "{activityId:t,chapterId:e,pointId:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "attackMonster",
+      "args": "{activityId:t,chapterId:e,pointId:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "catchUpChapter",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "chapterDetail",
+      "args": "{activityId:t,chapterId:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "enter",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "exploreEnter",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "explorePoint",
+      "args": "{activityId:t,chapterId:e,pointId:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "goNextChapter",
+      "args": "{activityId:t,chapterId:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "logList",
+      "args": "{activityId:this.activityId,limit:t}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "markMonster",
+      "args": "{activityId:t,chapterId:e,pointId:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "movePoint",
+      "args": "{activityId:t,chapterId:e,pointId:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "queryPointMonster",
+      "args": "{activityId:dt,chapterId:ut.chapterId,pointId:ut.pointId}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamApply",
+      "args": "{activityId:e,teamNo:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamApplyList",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamApplyVerify",
+      "args": "{activityId:t,teamNo:i,userIds:[e],approved:!0}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamCancelApply",
+      "args": "{activityId:e,teamNo:i}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamCreate",
+      "args": "{activityId:t,teamName:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamDetail",
+      "args": "{activityId:t,teamNo:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamDissolve",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamFundActivateRewardClaim",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamKickOut",
+      "args": "{activityId:t,userId:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamLeave",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamList",
+      "args": "{activityId:t,filterSameServer:!!e,filterSameUnion:!!i,page:n||0}"
+    },
+    {
+      "mod": "teamWestLand",
+      "op": "teamSearch",
+      "args": "{activityId:t,teamNo:e}"
+    },
+    {
+      "mod": "tech",
+      "op": "aidOthers",
+      "args": ""
+    },
+    {
+      "mod": "tech",
+      "op": "exchange",
+      "args": ""
+    },
+    {
+      "mod": "tech",
+      "op": "finish",
+      "args": ""
+    },
+    {
+      "mod": "tech",
+      "op": "getAidList",
+      "args": ""
+    },
+    {
+      "mod": "tech",
+      "op": "research",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tech",
+      "op": "speedUpAd",
+      "args": "{useDiamond:t}"
+    },
+    {
+      "mod": "tech",
+      "op": "unionAid",
+      "args": "{type:2}"
+    },
+    {
+      "mod": "thirdParty",
+      "op": "joinWeixinGame",
+      "args": ""
+    },
+    {
+      "mod": "thirdParty",
+      "op": "sqReCaptcha",
+      "args": ""
+    },
+    {
+      "mod": "tour",
+      "op": "tour",
+      "args": "{mapType:t.me.userDt.cur_map_type,isBatch:this.ui.oneKey.selected,fromAssistant:!1}"
+    },
+    {
+      "mod": "tower",
+      "op": "fight",
+      "args": "{crush:this.isCrushEnable()},t"
+    },
+    {
+      "mod": "tower",
+      "op": "scan",
+      "args": ""
+    },
+    {
+      "mod": "tower",
+      "op": "selectPack",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "tower",
+      "op": "setAutoEnable",
+      "args": "{isAuto:t}"
+    },
+    {
+      "mod": "tower",
+      "op": "setAutoPreference",
+      "args": "{tidList:t}"
+    },
+    {
+      "mod": "trade",
+      "op": "backStashWorkCard",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "trade",
+      "op": "chapter",
+      "args": "{tid:t},e"
+    },
+    {
+      "mod": "trade",
+      "op": "gainAchieveAward",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "trade",
+      "op": "getcoin",
+      "args": "null,!0"
+    },
+    {
+      "mod": "trade",
+      "op": "getUseWorkCardRecord",
+      "args": ""
+    },
+    {
+      "mod": "trade",
+      "op": "instantGrant",
+      "args": "{type:t,count:e}"
+    },
+    {
+      "mod": "trade",
+      "op": "mission",
+      "args": "{tid:t},e"
+    },
+    {
+      "mod": "trade",
+      "op": "setAutoUseWorkCard",
+      "args": "{enable:t}"
+    },
+    {
+      "mod": "trade",
+      "op": "settle",
+      "args": ""
+    },
+    {
+      "mod": "trade",
+      "op": "settleAward",
+      "args": ""
+    },
+    {
+      "mod": "trade",
+      "op": "stashWorkCard",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "trade",
+      "op": "trade",
+      "args": ""
+    },
+    {
+      "mod": "trade",
+      "op": "unlockBuild",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "trade",
+      "op": "unlockProduct",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "transport",
+      "op": "draw",
+      "args": "t"
+    },
+    {
+      "mod": "transport",
+      "op": "drawLog",
+      "args": "t"
+    },
+    {
+      "mod": "transport",
+      "op": "enter",
+      "args": "t"
+    },
+    {
+      "mod": "transport",
+      "op": "giveGift",
+      "args": "t"
+    },
+    {
+      "mod": "treasure",
+      "op": "discompose",
+      "args": "{ids:i}"
+    },
+    {
+      "mod": "treasure",
+      "op": "forge",
+      "args": "{id:this.tid,count:i,isAutoDiscompose:t.me.treasureDt.auto_apart_build}"
+    },
+    {
+      "mod": "treasure",
+      "op": "grub",
+      "args": "{count:i?tb.ConstGame.TREASURE_BATCH:1,isAd:0,isAutoDiscompose:e.treasureDt.auto_apart_draw}"
+    },
+    {
+      "mod": "treasure",
+      "op": "inherit",
+      "args": "{curId:e,selectId:i}"
+    },
+    {
+      "mod": "treasure",
+      "op": "refine",
+      "args": "{id:e,slotId:i}"
+    },
+    {
+      "mod": "treasure",
+      "op": "refineConfirm",
+      "args": "{id:i,slotId:e}"
+    },
+    {
+      "mod": "treasure",
+      "op": "smelt",
+      "args": "{ids:t}"
+    },
+    {
+      "mod": "treasure",
+      "op": "starUp",
+      "args": "{id:e,useIdKeyList:i,useStoneCount:n}"
+    },
+    {
+      "mod": "treasure",
+      "op": "takeOff",
+      "args": "{id:e}"
+    },
+    {
+      "mod": "treasure",
+      "op": "upgradeCombine",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "treasure",
+      "op": "wear",
+      "args": "[{id:e,giantId:i}]"
+    },
+    {
+      "mod": "treasureBowl",
+      "op": "getPlayerInviteCode",
+      "args": ""
+    },
+    {
+      "mod": "treasurehunting",
+      "op": "custom",
+      "args": "{activity:this.activity.mainConfig.activityId,stage:t,index:e}"
+    },
+    {
+      "mod": "treasurehunting",
+      "op": "fire",
+      "args": "{activity:this.activity.mainConfig.activityId}"
+    },
+    {
+      "mod": "treasurehunting",
+      "op": "pass",
+      "args": "{activity:this.activity.mainConfig.activityId}"
+    },
+    {
+      "mod": "union",
+      "op": "agreeJoin",
+      "args": "{roleId:this._roleId}"
+    },
+    {
+      "mod": "union",
+      "op": "askJoin",
+      "args": "{unionId:this._unionId}"
+    },
+    {
+      "mod": "union",
+      "op": "bargain",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "bargainBuy",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "bargainRecord",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "build",
+      "args": "{type:1,isAd:!1}"
+    },
+    {
+      "mod": "union",
+      "op": "buildAward",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "buildGreatWall",
+      "args": "{useItem:!0,batch:!1}"
+    },
+    {
+      "mod": "union",
+      "op": "cancelTransfer",
+      "args": "{unionId:this.unionId}"
+    },
+    {
+      "mod": "union",
+      "op": "config",
+      "args": "{randJoin:this.ui.canRandom.selected,requireAge:i,needAge:this.ui.limitAge.selected}"
+    },
+    {
+      "mod": "union",
+      "op": "confirmEnter",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "confirmPopupJob",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "confirmPopupLevel",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "confirmTransfer",
+      "args": "{unionId:this.unionId}"
+    },
+    {
+      "mod": "union",
+      "op": "create",
+      "args": "{name:this.ui.name.text,flag:this._curFlag,declare:this.ui.claimInput.text,randAdd:this.ui.check.selected}"
+    },
+    {
+      "mod": "union",
+      "op": "findUnion",
+      "args": "{info:this.ui.inputFind.text}"
+    },
+    {
+      "mod": "union",
+      "op": "getGreatWallBuildRank",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "getGreatWallBuildRoles",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "getSameNameList",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "getUnionDetail",
+      "args": "{unionId:t.me.unionDuel.getLockUnionId(t.me.userDt.role_id,this._unionInfo.unionId2Info)}"
+    },
+    {
+      "mod": "union",
+      "op": "joinList",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "kick",
+      "args": "{toRoleId:e}"
+    },
+    {
+      "mod": "union",
+      "op": "leave",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "localCache",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "modify",
+      "args": "{notice:e,roleId:t.me.userDt.role_id,carriage:t.me.unionDt.lychee_car_skin}"
+    },
+    {
+      "mod": "union",
+      "op": "noBargain",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "queryList",
+      "args": "{not_full:t.me.myUnionDt.only_not_full}"
+    },
+    {
+      "mod": "union",
+      "op": "queryMembers",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "randomJoin",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "randShowMember",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "refuseAllJoin",
+      "args": ""
+    },
+    {
+      "mod": "union",
+      "op": "rename",
+      "args": "{prefix:this.ui.prefixInput.text,name:this.ui.input.text}"
+    },
+    {
+      "mod": "union",
+      "op": "setJob",
+      "args": "{toRoleId:e,job:i}"
+    },
+    {
+      "mod": "union",
+      "op": "transfer",
+      "args": "{unionId:this._unionId}"
+    },
+    {
+      "mod": "union",
+      "op": "transLeader",
+      "args": "{toRoleId:e}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "attack",
+      "args": "n"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "baseInfo",
+      "args": "e"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "call",
+      "args": "i"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "defenders",
+      "args": "i"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "draw",
+      "args": "n"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "fight_scene",
+      "args": "r"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "group_count",
+      "args": "t"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "group_info",
+      "args": "n"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "groupDanInfo",
+      "args": "e"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "guess",
+      "args": "{activityId:this.getActivityId(),unionIdArr:t}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "guess_info",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "guess_names",
+      "args": "{activityId:this.getActivityId(),param:t}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "guess_reward",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "leave",
+      "args": "e"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "member_list",
+      "args": "t"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "optional",
+      "args": "{activityId:this.getActivityId(),round:e,index:i}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "optionalInfo",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "redpoint",
+      "args": "n"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "report",
+      "args": "n"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "report_detail",
+      "args": "t"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "stronghold_build",
+      "args": "r"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "stronghold_detail",
+      "args": "i"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "stronghold_list",
+      "args": "r"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "stronghold_list_update",
+      "args": "t"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "summon_dragon",
+      "args": "i"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "treasureInfo",
+      "args": "t"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "union_damage_info",
+      "args": "{activityId:this.getActivityId(),unionId:t}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "union_group_damage_info",
+      "args": "{activityId:this.getActivityId(),unionId:t}"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "unionTopInfo",
+      "args": "e"
+    },
+    {
+      "mod": "unionareawar",
+      "op": "worship",
+      "args": "{activityId:this.getActivityId()}"
+    },
+    {
+      "mod": "unionBoss",
+      "op": "fight",
+      "args": ""
+    },
+    {
+      "mod": "unionBoss",
+      "op": "gainBoxAward",
+      "args": "{stageTid:this._boxInfo.stageTid,index:i}"
+    },
+    {
+      "mod": "unionBoss",
+      "op": "gainDmgAward",
+      "args": ""
+    },
+    {
+      "mod": "unionBoss",
+      "op": "getBoxAwardInfo",
+      "args": "{stageTid:e}"
+    },
+    {
+      "mod": "unionBoss",
+      "op": "getBoxAwardList",
+      "args": ""
+    },
+    {
+      "mod": "unionBoss",
+      "op": "oneKeyGainBox",
+      "args": ""
+    },
+    {
+      "mod": "unionCongratulate",
+      "op": "congratulate",
+      "args": "{congratulateId:this.data.congratulateId}"
+    },
+    {
+      "mod": "unionCongratulate",
+      "op": "initiate",
+      "args": "{tid:this.congratulateTid}"
+    },
+    {
+      "mod": "unionCongratulate",
+      "op": "markViewed",
+      "args": "{ids:[e.congratulateId]}"
+    },
+    {
+      "mod": "unionCongratulate",
+      "op": "participationCount",
+      "args": "{congratulateIds:this._congratulateCardList.map((function(t){return t.congratulateId}))}"
+    },
+    {
+      "mod": "unionCongratulate",
+      "op": "settlement",
+      "args": "{congratulateId:e.congratulateId}"
+    },
+    {
+      "mod": "unionDuel",
+      "op": "applyRankDetail",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "unionDuel",
+      "op": "enter",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "unionDuel",
+      "op": "getGroupReward",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "unionDuel",
+      "op": "getLastRankingReward",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "unionDuel",
+      "op": "groupRank",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "unionDuel",
+      "op": "personTodayRank",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "celebrationEnter",
+      "args": "{unionId:e}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "celebrationSettlement",
+      "args": "{unionId:t}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "claim",
+      "args": "{type:1,tid:this.roadTb.tid}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "claimLastMonthRank",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "congratulate",
+      "args": "{unionId:t,greetingIndex:e}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "getCurrentMonthRank",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "getCurrentMonthRankRewards",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "getGroupUnions",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "getLastMonthRank",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "getLastMonthRankRewards",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "getTotalRank",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "kiss",
+      "args": ""
+    },
+    {
+      "mod": "unionHonor",
+      "op": "redEnvelope",
+      "args": "{unionId:t,tid:e,index:i}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "redEnvelopeBuy",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "redEnvelopeCount",
+      "args": "{unionId:t,tid:e}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "redEnvelopeFilter",
+      "args": "{unionRedEnvelope:t}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "redEnvelopeGet",
+      "args": "{unionId:t,id:e}"
+    },
+    {
+      "mod": "unionHonor",
+      "op": "redEnvelopeReceive",
+      "args": "{unionId:e,id:i}"
+    },
+    {
+      "mod": "unionShareGift",
+      "op": "get",
+      "args": "{giftId:e,unionId:i}"
+    },
+    {
+      "mod": "unionShareGift",
+      "op": "login",
+      "args": "{unionId:t}"
+    },
+    {
+      "mod": "unionShareGift",
+      "op": "receive",
+      "args": "{giftId:e,unionId:i}"
+    },
+    {
+      "mod": "unionTop",
+      "op": "activityInfo",
+      "args": "{activityId:i},e"
+    },
+    {
+      "mod": "unionTop",
+      "op": "adjustDeployOrder",
+      "args": "e"
+    },
+    {
+      "mod": "unionTop",
+      "op": "championHistory",
+      "args": "t,e"
+    },
+    {
+      "mod": "unionTop",
+      "op": "championSeatInfo",
+      "args": "{activityId:t}"
+    },
+    {
+      "mod": "unionTop",
+      "op": "chooseChampionSeat",
+      "args": "{activityId:e,seat:t}"
+    },
+    {
+      "mod": "unionTop",
+      "op": "claimReward",
+      "args": "e"
+    },
+    {
+      "mod": "unionTop",
+      "op": "claimStrategyReturn",
+      "args": "{activityId:t},!0"
+    },
+    {
+      "mod": "unionTop",
+      "op": "deployedGiantList",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "deployInfo",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "donate",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "donatedCount",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "donateInfo",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "finalRank",
+      "args": "t,e"
+    },
+    {
+      "mod": "unionTop",
+      "op": "getRewardStatus",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "guessInfo",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "guessReward",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "guessRightRoleList",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "matchList",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "reportDetail",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "reportList",
+      "args": "t"
+    },
+    {
+      "mod": "unionTop",
+      "op": "saveDeploy",
+      "args": "e"
+    },
+    {
+      "mod": "unionTop",
+      "op": "saveGuess",
+      "args": "t"
+    },
+    {
+      "mod": "user",
+      "op": "delete",
+      "args": "{openId:t.me.userDt.open_id}"
+    },
+    {
+      "mod": "user",
+      "op": "login",
+      "args": "i"
+    },
+    {
+      "mod": "user",
+      "op": "logout",
+      "args": ""
+    },
+    {
+      "mod": "voyage",
+      "op": "enter",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "voyage",
+      "op": "usrHammer",
+      "args": "{activityId:this.activityCfg.id}"
+    },
+    {
+      "mod": "war",
+      "op": "appointCommander",
+      "args": "{roleId:this.roleId,up:!0}"
+    },
+    {
+      "mod": "war",
+      "op": "appointJob",
+      "args": "{job:t,roleId:e}"
+    },
+    {
+      "mod": "war",
+      "op": "autoDefend",
+      "args": "{soldierType:s,autoDefend:a}"
+    },
+    {
+      "mod": "war",
+      "op": "autoFight",
+      "args": "{soldierType:t,autoFight:e}"
+    },
+    {
+      "mod": "war",
+      "op": "boxRecord",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "cancelMoveCapital",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "cancelMoveHome",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "cancelPreDeclare",
+      "args": "{cityTid:this.data.to}"
+    },
+    {
+      "mod": "war",
+      "op": "declare",
+      "args": "{startCity:r,targetCity:i}"
+    },
+    {
+      "mod": "war",
+      "op": "defend",
+      "args": "{soldierType:t,pathList:e}"
+    },
+    {
+      "mod": "war",
+      "op": "deleteCity",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "war",
+      "op": "dispatch",
+      "args": "{soldierType:t,pathList:e}"
+    },
+    {
+      "mod": "war",
+      "op": "enter",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "exchangeFood",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "war",
+      "op": "fightRobber",
+      "args": "{pathList:n,soldierType:this.selectTid,targetRobber:this.param.tid,posTid:a,count:r}"
+    },
+    {
+      "mod": "war",
+      "op": "gainCenterReward",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getAttackers",
+      "args": "{tid:e,unionId:i}"
+    },
+    {
+      "mod": "war",
+      "op": "getBox",
+      "args": "{tidList:e,countList:i}"
+    },
+    {
+      "mod": "war",
+      "op": "getBoxList",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getCacheUnionList",
+      "args": "{tid:this.cityTid}"
+    },
+    {
+      "mod": "war",
+      "op": "getCityFirstOccupyInfo",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "war",
+      "op": "getDefenders",
+      "args": "{tid:e}"
+    },
+    {
+      "mod": "war",
+      "op": "getFightAward",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getJobAppointList",
+      "args": "{findUnionId:t,findText:e}"
+    },
+    {
+      "mod": "war",
+      "op": "getJoinUnionInfo",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getMemInfoList",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getOfficialList",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getPreviewDetail",
+      "args": "{group:t,startRank:e,count:i}"
+    },
+    {
+      "mod": "war",
+      "op": "getPreviewInfo",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getRankAward",
+      "args": "{rankTid:t}"
+    },
+    {
+      "mod": "war",
+      "op": "getRankCfg",
+      "args": "{tier:t}"
+    },
+    {
+      "mod": "war",
+      "op": "getRecord",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getSituation",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getSpyInfo",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "getUnionTeamInfo",
+      "args": "{unionId:e}"
+    },
+    {
+      "mod": "war",
+      "op": "homeDefend",
+      "args": "{soldierType:this.selectTid,count:r}"
+    },
+    {
+      "mod": "war",
+      "op": "moveCapital",
+      "args": "{tid:this.cityTid}"
+    },
+    {
+      "mod": "war",
+      "op": "moveHome",
+      "args": "{tid:this.cityTid}"
+    },
+    {
+      "mod": "war",
+      "op": "moveHomeFinish",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "ping",
+      "args": "{cityList:e.viewCityList()},!0"
+    },
+    {
+      "mod": "war",
+      "op": "recallTeam",
+      "args": "{tid:t}"
+    },
+    {
+      "mod": "war",
+      "op": "setTargetCity",
+      "args": "{cityTid:this.tid,up:!0,text:this.ui.input.text}"
+    },
+    {
+      "mod": "war",
+      "op": "settleBuild",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "settleRobber",
+      "args": ""
+    },
+    {
+      "mod": "war",
+      "op": "soldierLvUp",
+      "args": "{soldierType:t,fast:this.me.warDt.train_ten}"
+    },
+    {
+      "mod": "war",
+      "op": "summon",
+      "args": "{summonList:[{soldierType:e,count:s}]}"
+    },
+    {
+      "mod": "war",
+      "op": "sweepRobber",
+      "args": "{robberTid:this.robberTid,cityTid:this.cityTid,count:1}"
+    },
+    {
+      "mod": "war",
+      "op": "trainLvUp",
+      "args": "{tid:n.tid}"
+    },
+    {
+      "mod": "war",
+      "op": "useBox",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "warBook",
+      "op": "autoCompoundSetting",
+      "args": "{enabled:t,qualities:e}"
+    },
+    {
+      "mod": "warBook",
+      "op": "compound",
+      "args": "{firstInstanceId:t,secondInstanceId:e,confirmLocked:i}"
+    },
+    {
+      "mod": "warBook",
+      "op": "draw",
+      "args": "{count:t}"
+    },
+    {
+      "mod": "warBook",
+      "op": "info",
+      "args": "t"
+    },
+    {
+      "mod": "warBook",
+      "op": "inlay",
+      "args": "{school:t,slotNo:e,instanceId:i}"
+    },
+    {
+      "mod": "warBook",
+      "op": "lock",
+      "args": "{instanceId:t,locked:e}"
+    },
+    {
+      "mod": "warBook",
+      "op": "starUp",
+      "args": "{instanceId:t}"
+    },
+    {
+      "mod": "warBook",
+      "op": "study",
+      "args": ""
+    },
+    {
+      "mod": "warBook",
+      "op": "switchSchool",
+      "args": "{school:e}"
+    },
+    {
+      "mod": "warFight",
+      "op": "getAtkCityData",
+      "args": "{tidList:t},!0"
+    },
+    {
+      "mod": "warGrab",
+      "op": "autoFinish",
+      "args": ""
+    },
+    {
+      "mod": "warGrab",
+      "op": "beatCollect",
+      "args": "e"
+    },
+    {
+      "mod": "warGrab",
+      "op": "begin",
+      "args": "{massId:t,timeIdx:e,soldier:i,pathList:n,count:r}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "callBack",
+      "args": "e"
+    },
+    {
+      "mod": "warGrab",
+      "op": "delInvite",
+      "args": "{massId:this.massInfo.massId}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "dispatch",
+      "args": "{soldierType:this.selectTid,id:this.param.id,cityTid:this.param.cityTid,fightType:this.param.eventType,pathList:n,posTid:a}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "eventSettle",
+      "args": "{posTidList:[t]}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "fightLeader",
+      "args": "{soldierType:this.selectTid,pathList:n}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "getCollectInfo",
+      "args": "{id:t}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "getEventList",
+      "args": ""
+    },
+    {
+      "mod": "warGrab",
+      "op": "getMassInfoList",
+      "args": "void 0,!0"
+    },
+    {
+      "mod": "warGrab",
+      "op": "getMasterBestTeam",
+      "args": ""
+    },
+    {
+      "mod": "warGrab",
+      "op": "getMemInfoList",
+      "args": "{massIds:[e]}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "invite",
+      "args": "{massId:this.massId,roleIdL:this.selectList}"
+    },
+    {
+      "mod": "warGrab",
+      "op": "join",
+      "args": "{massId:t,soldier:e,pathList:i,count:n}"
+    },
+    {
+      "mod": "warSupport",
+      "op": "produceAccelerate",
+      "args": "e"
+    },
+    {
+      "mod": "wealthAccumulator",
+      "op": "draw",
+      "args": "{activityId:this.actInst.id,drawNum:e}"
+    },
+    {
+      "mod": "wealthAccumulator",
+      "op": "getAwardLeftInfo",
+      "args": "{activityId:e}"
+    },
+    {
+      "mod": "wealthAccumulator",
+      "op": "notice",
+      "args": "{activityId:e.treasureBowl.actInst.id}"
+    },
+    {
+      "mod": "wealthAccumulator",
+      "op": "ShareGame",
+      "args": "{activityId:t.me.treasureBowl.actInst.id}"
+    },
+    {
+      "mod": "weekCard",
+      "op": "weekCardRoundReward",
+      "args": "{activityId:i.activityId}"
+    },
+    {
+      "mod": "withYou",
+      "op": "accept",
+      "args": "{activity:t,inviter:e}"
+    },
+    {
+      "mod": "withYou",
+      "op": "claimSerendipity",
+      "args": "{activity:t,size:e}"
+    },
+    {
+      "mod": "withYou",
+      "op": "firstEnter",
+      "args": "{activity:t}"
+    },
+    {
+      "mod": "withYou",
+      "op": "go",
+      "args": "{activity:t,ten:e}"
+    },
+    {
+      "mod": "withYou",
+      "op": "invite",
+      "args": "{activity:t,invitee:e}"
+    },
+    {
+      "mod": "withYou",
+      "op": "reject",
+      "args": "{activity:t,invitee:[e]}"
+    },
+    {
+      "mod": "withYou",
+      "op": "search",
+      "args": "{activity:t,playerId:e}"
+    },
+    {
+      "mod": "withYou",
+      "op": "suggest",
+      "args": "{activity:t,size:2*this._actInst.params.WITH_YOU_MAX_RECOMMENDED_NUM,singledog:!1}"
+    },
+    {
+      "mod": "wonder",
+      "op": "buildWonder",
+      "args": "{tid:this.tid}"
+    },
+    {
+      "mod": "wonder",
+      "op": "finishVisit",
+      "args": ""
+    },
+    {
+      "mod": "wonder",
+      "op": "getAchievementReward",
+      "args": "{tid:this.achieveTid}"
+    },
+    {
+      "mod": "wonder",
+      "op": "getRechargeReward",
+      "args": ""
+    },
+    {
+      "mod": "wonder",
+      "op": "popularityLvUp",
+      "args": ""
+    },
+    {
+      "mod": "wonder",
+      "op": "setUseWonder",
+      "args": "{wonderTid:this._selectWonderTid,mapType:this._selectMapType}"
+    },
+    {
+      "mod": "wonder",
+      "op": "startBatchVisit",
+      "args": "n"
+    },
+    {
+      "mod": "wonder",
+      "op": "startVisit",
+      "args": ""
+    },
+    {
+      "mod": "wonderland",
+      "op": "autoRewardLst",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "battleFieldData",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "battleFieldEnter",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "battleFieldLeave",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "battleFieldOperate",
+      "args": "r"
+    },
+    {
+      "mod": "wonderland",
+      "op": "bossRank",
+      "args": "e"
+    },
+    {
+      "mod": "wonderland",
+      "op": "clearAutoReward",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "doEventChooseReward",
+      "args": "{activityId:this.actInst.id,position:{x:e,y:i},index:n,autoFlag:this.checkHelperSwitchOpen(6)||!!(null===(a=this._sceneMgr)||void 0===a?void 0:a.autoExplore),islandId:t}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "doEventLight",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "doEventPvp",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "doEventRelic",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "donate",
+      "args": "{activityId:this._actInst.id,propNum:t}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "enterActivity",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "enterFloor",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "explore",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "exploreBatch",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "floorBoxList",
+      "args": "{activityId:this.actInst.id},t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "floorBoxReceive",
+      "args": "{activityId:this.actInst.id,floorId:t}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "getBossMember",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "getIslandList",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "getUserData",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "helpLogList",
+      "args": "{activityId:this.actInst.id},t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "helpLogReceive",
+      "args": "{activityId:this.actInst.id,islandId:t,position:e}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "helpLogReceiveAll",
+      "args": "{activityId:this.me.wonderland.actInst.id}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "leaveActivity",
+      "args": ""
+    },
+    {
+      "mod": "wonderland",
+      "op": "move",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "openBox",
+      "args": "e"
+    },
+    {
+      "mod": "wonderland",
+      "op": "unionLog",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "unionUserList",
+      "args": "{unionId:t,activityId:this.actInst.id,userIds:[]}"
+    },
+    {
+      "mod": "wonderland",
+      "op": "userLog",
+      "args": "t"
+    },
+    {
+      "mod": "wonderland",
+      "op": "worship",
+      "args": "{activityId:this._actInst.id}"
+    },
+    {
+      "mod": "worldConflict",
+      "op": "battle",
+      "args": "{targetId:e}"
+    },
+    {
+      "mod": "worldConflict",
+      "op": "embattle",
+      "args": "e"
+    },
+    {
+      "mod": "worldConflict",
+      "op": "fightReport",
+      "args": ""
+    },
+    {
+      "mod": "worldConflict",
+      "op": "getChallengeList",
+      "args": ""
+    },
+    {
+      "mod": "worldConflict",
+      "op": "getSchedule",
+      "args": ""
+    },
+    {
+      "mod": "worldConflict",
+      "op": "getUserPvpData",
+      "args": ""
+    },
+    {
+      "mod": "worldConflict",
+      "op": "refresh",
+      "args": ""
+    },
+    {
+      "mod": "worldConflict",
+      "op": "worship",
+      "args": ""
+    },
+    {
+      "mod": "yanFire",
+      "op": "appointJob",
+      "args": "{activityId:this.actInst.id,job:t,roleId:e}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "assist",
+      "args": "{activityId:e.yanFire.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "autoUseItem",
+      "args": "{activityId:this.actInst.id,autoUseItem:e,count:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "backAutoUseItem",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "collectReward",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "enter",
+      "args": "t"
+    },
+    {
+      "mod": "yanFire",
+      "op": "enterChoose",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "fight",
+      "args": "{activityId:this.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "fightSpeedUp",
+      "args": "{activityId:this.actInst.id,tileTid:t,useCnt:e}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getAllCampPlayerInfo",
+      "args": "{activityId:this.actInst.id,campId:t.yanFireDt.camp}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getBoxReward",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getCampRank",
+      "args": "{activityId:this._actInst.id,round:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getCampUnionList",
+      "args": "{activityId:this.actInst.id,campId:t.yanFireDt.camp}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getCityReport",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getDayScore",
+      "args": "{activityId:this._actInst.id,campId:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getJobAppointList",
+      "args": "{activityId:this.actInst.id,all:t,sameCamp:e,findUnionId:i,findText:n}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getJobList",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getJungleRank",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getJungleRecord",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getLittleReward",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getPlayerData",
+      "args": "t.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getRedPoint",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getSelfReport",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getSendPlotReward",
+      "args": "{activityId:this.actInst.id,id:\"0\"}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getTaskStrategicReward",
+      "args": "{activityId:this.actInst.id,tileList:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getTileDetail",
+      "args": "{activityId:this.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getTileInfoList",
+      "args": "{activityId:r,tileTidList:e,myTileTid:this._innerCity},n"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getTileScoreRank",
+      "args": "{activityId:this.actInst.id,tileTid:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "getUseItemRecord",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "levelUp",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "move",
+      "args": "{activityId:n.yanFire.actInst.id,soldierType:e,pathList:r.path,homePathList:(null==c?void 0:c.path)||[]}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "normalWorship",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "ping",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "plotInfo",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "receiveReputationReward",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "reputationInfo",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "selectChoose",
+      "args": "{activityId:this._actInst.id,campId:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "sendPlot",
+      "args": "{plotId:e,sendNum:i,activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "sendPlotRecord",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "setAutoMove",
+      "args": "{activityId:this.actInst.id,soldierType:t,auto:e}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "setAutoSummon",
+      "args": "{activityId:this.actInst.id,soldierType:t,auto:e}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "setCityMaster",
+      "args": "{activityId:this.actInst.id,playerId:t,tileTid:e}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "setCommander",
+      "args": "{activityId:this.actInst.id,commanderList:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "setStrategicObj",
+      "args": "t"
+    },
+    {
+      "mod": "yanFire",
+      "op": "settleJungleReward",
+      "args": "{activityId:e,index:t}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "signTile",
+      "args": "{activityId:i.yanFire.actInst.id,tileTid:t,text:e}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "summon",
+      "args": "{activityId:this.actInst.id,summonList:e}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "syncPlayerDt",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "syncPower",
+      "args": "this.actInst.id"
+    },
+    {
+      "mod": "yanFire",
+      "op": "useCavalryItem",
+      "args": "t"
+    },
+    {
+      "mod": "yanFire",
+      "op": "worship",
+      "args": "{activityId:this.actInst.id}"
+    },
+    {
+      "mod": "yanFire",
+      "op": "woundedSummon",
+      "args": "this.actInst.id"
+    }
+  ]
+}

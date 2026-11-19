@@ -1,0 +1,1375 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>时光大爆炸 · 控制台</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --background: oklch(0.145 0 0);
+        --foreground: oklch(0.985 0 0);
+        --card: oklch(0.205 0 0);
+        --primary: oklch(0.922 0 0);
+        --primary-foreground: oklch(0.205 0 0);
+        --secondary: oklch(0.269 0 0);
+        --muted: oklch(0.269 0 0);
+        --muted-foreground: oklch(0.708 0 0);
+        --accent: oklch(0.269 0 0);
+        --border: oklch(0.32 0 0);
+        --input: oklch(0.371 0 0);
+        --ring: oklch(0.556 0 0);
+        --success: #6ee7b7;
+        --warning: #fcd34d;
+        --error: #fca5a5;
+        --radius: 0.625rem;
+        --mono: ui-monospace, Consolas, "Cascadia Mono", monospace;
+      }
+      * { box-sizing: border-box; border-color: var(--border); }
+      [hidden] { display: none !important; }
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--foreground);
+        font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+      /* ---------- 登录界面 ---------- */
+      #loginView { min-height: 100vh; display: grid; place-items: center; padding: 32px 20px; }
+      .login-card {
+        width: min(560px, 100%);
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: calc(var(--radius) * 1.4);
+        padding: 28px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      }
+      .login-card h1 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+      .login-card .sub { margin: 0 0 20px; color: var(--muted-foreground); font-size: 13px; }
+      .accounts { display: grid; gap: 10px; margin-bottom: 18px; }
+      .account {
+        display: flex; align-items: center; gap: 14px;
+        padding: 12px 14px; border: 1px solid var(--border);
+        border-radius: var(--radius); background: color-mix(in oklab, var(--muted) 45%, transparent);
+      }
+      .account.active { border-color: color-mix(in oklab, var(--ring) 70%, transparent); }
+      .account .avatar {
+        width: 42px; height: 42px; border-radius: 50%; flex: none;
+        display: grid; place-items: center;
+        background: var(--secondary); border: 1px solid var(--border);
+        font-family: var(--mono); font-size: 12px; color: var(--muted-foreground);
+      }
+      .account .info { flex: 1; min-width: 0; display: grid; gap: 2px; }
+      .account .info strong { font-size: 14px; font-weight: 600; }
+      .account .info span { font-size: 12px; color: var(--muted-foreground); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .account.broken { border-color: color-mix(in oklab, var(--error) 45%, var(--border)); }
+      .import { border: 1px dashed var(--border); border-radius: var(--radius); padding: 14px; }
+      .import.dragover { border-color: var(--ring); background: color-mix(in oklab, var(--muted) 55%, transparent); }
+      .import summary { cursor: pointer; color: var(--muted-foreground); font-size: 13px; }
+      .import summary:hover { color: var(--foreground); }
+      .drop-title { font-size: 13px; color: var(--muted-foreground); }
+      .steps { margin: 0 0 18px; padding-left: 20px; display: grid; gap: 6px; font-size: 13px; }
+      .steps li::marker { color: var(--muted-foreground); font-family: var(--mono); }
+      .steps b { font-weight: 600; margin-right: 8px; }
+      .steps span { color: var(--muted-foreground); font-size: 12px; }
+      .paste { margin-top: 12px; }
+      .paste textarea, .paste input[type="text"] {
+        width: 100%; margin-top: 10px; background: var(--background); color: var(--foreground);
+        border: 1px solid var(--input); border-radius: calc(var(--radius) * 0.8);
+        padding: 10px 12px; font: 12px/1.5 var(--mono); outline: none; resize: vertical;
+      }
+      .paste textarea { min-height: 110px; }
+      .paste textarea:focus, .paste input[type="text"]:focus { border-color: var(--ring); }
+      .paste .btn { margin-top: 10px; }
+      .faq-body { display: grid; gap: 10px; margin-top: 12px; font-size: 13px; color: var(--muted-foreground); }
+      .faq-body p { margin: 0; }
+      .faq-body b { color: var(--foreground); font-weight: 600; }
+      .guide { display: grid; gap: 14px; }
+      .guide h3 { margin: 0 0 6px; font-size: 13px; font-weight: 600; }
+      .guide p, .guide li { font-size: 13px; color: var(--muted-foreground); }
+      .guide p { margin: 0 0 6px; }
+      .guide ol, .guide ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+      .guide code {
+        font-family: var(--mono); font-size: 12px; background: var(--muted);
+        padding: 1px 5px; border-radius: 4px; color: var(--foreground);
+      }
+      .hint { color: var(--muted-foreground); font-size: 12px; margin: 10px 0 0; }
+      .hint.bad { color: var(--error); }
+      .hint.ok { color: var(--success); }
+      .wechat {
+        border: 1px solid var(--border); border-radius: var(--radius);
+        padding: 14px 16px; background: color-mix(in oklab, var(--muted) 35%, transparent);
+      }
+      .wechat-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+      .wechat-head b { font-size: 14px; font-weight: 600; }
+      .wechat .steps { margin: 0; }
+      .capture-log {
+        margin: 10px 0 0; max-height: 180px; overflow: auto; padding: 10px 12px;
+        border-radius: calc(var(--radius) * 0.8); background: var(--background);
+        border: 1px solid var(--border); font: 12px/1.6 var(--mono);
+        color: var(--muted-foreground); white-space: pre-wrap; word-break: break-all;
+      }
+      .capture-log.bad { border-color: color-mix(in oklab, var(--error) 45%, var(--border)); }
+      a { color: var(--foreground); }
+      /* ---------- 顶栏 ---------- */
+      header {
+        position: sticky; top: 0; z-index: 20;
+        display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        padding: 10px 20px;
+        background: color-mix(in oklab, var(--background) 90%, transparent);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+      }
+      .brand { display: flex; flex-direction: column; gap: 1px; margin-right: 6px; }
+      .brand h1 { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.2px; }
+      .brand span { color: var(--muted-foreground); font-size: 11px; }
+      nav.tabs { display: flex; gap: 2px; overflow-x: auto; flex: 1; min-width: 0; }
+      .tab {
+        height: 32px; padding: 0 12px; border: 0; border-radius: calc(var(--radius) * 0.7);
+        background: transparent; color: var(--muted-foreground);
+        font-size: 13px; cursor: pointer; white-space: nowrap;
+      }
+      .tab:hover { background: var(--accent); color: var(--foreground); }
+      .tab.active { background: var(--secondary); color: var(--foreground); font-weight: 600; }
+      .tab .count { font-family: var(--mono); font-size: 11px; opacity: 0.7; margin-left: 4px; }
+      .spacer { flex: 1; }
+      .pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 26px; padding: 0 10px; border-radius: 6px;
+        background: transparent; border: 1px solid var(--border);
+        font-size: 12px; color: var(--muted-foreground); white-space: nowrap;
+      }
+      .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted-foreground); flex: none; }
+      .dot.online { background: var(--success); }
+      .dot.offline, .dot.closed { background: var(--error); }
+      .dot.reconnecting, .dot.connecting { background: var(--warning); animation: pulse 1.2s infinite; }
+      @keyframes pulse { 50% { opacity: 0.35; } }
+      main { max-width: 1240px; margin: 0 auto; padding: 18px 20px 56px; }
+      .page { display: none; grid-template-columns: 1fr; gap: 16px; }
+      .page.active { display: grid; }
+      .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+      .card {
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 18px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+        min-width: 0;
+      }
+      .card h2 {
+        margin: 0 0 14px; font-size: 13px; font-weight: 600;
+        display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      }
+      .kv { display: grid; grid-template-columns: 96px 1fr; gap: 8px 12px; font-size: 13px; margin: 0; }
+      .kv dt { color: var(--muted-foreground); }
+      .kv dd { margin: 0; font-family: var(--mono); overflow-wrap: anywhere; }
+      .big { font-size: 20px; font-weight: 600; font-family: var(--mono); line-height: 1.2; }
+      .metric { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent); }
+      .metric:last-child { border-bottom: 0; }
+      .metric .label { color: var(--muted-foreground); font-size: 13px; }
+      .bar { display: grid; grid-template-columns: 78px 1fr 64px; align-items: center; gap: 10px; font-size: 12px; }
+      .bar .name { color: var(--muted-foreground); font-family: var(--mono); }
+      .track { height: 6px; border-radius: 999px; background: var(--muted); overflow: hidden; }
+      .fill { display: block; height: 100%; border-radius: 999px; background: var(--foreground); opacity: 0.75; }
+      .bar .num { text-align: right; font-family: var(--mono); }
+      .list { display: grid; gap: 8px; max-height: 320px; overflow: auto; }
+      .change {
+        display: grid; grid-template-columns: 62px 1fr auto; gap: 10px;
+        padding: 8px 10px; border-radius: calc(var(--radius) * 0.8); background: var(--muted);
+        font-size: 12px; align-items: center;
+      }
+      .change time { color: var(--muted-foreground); font-family: var(--mono); }
+      .change .path { font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .change .delta { font-family: var(--mono); color: var(--success); }
+      .empty { color: var(--muted-foreground); font-size: 12px; padding: 10px 0; }
+      .empty.ok { color: var(--success); }
+      .empty.bad { color: var(--warning); }
+      .toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+      input[type="search"] {
+        flex: 1; min-width: 160px; height: 36px; background: transparent; color: var(--foreground);
+        border: 1px solid var(--input); border-radius: calc(var(--radius) * 0.8);
+        padding: 0 12px; outline: none; font-size: 13px;
+      }
+      input[type="search"]::placeholder { color: var(--muted-foreground); }
+      input[type="search"]:focus-visible { border-color: var(--ring); }
+      table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+      th { color: var(--muted-foreground); font-weight: 500; position: sticky; top: 0; background: var(--card); z-index: 1; }
+      tbody tr:hover { background: color-mix(in oklab, var(--muted) 55%, transparent); }
+      td.mono, .mono { font-family: var(--mono); }
+      td.num, th.num { text-align: right; font-family: var(--mono); }
+      .scroll { max-height: 460px; overflow: auto; }
+      .muted { color: var(--muted-foreground); }
+      .tag { font-size: 11px; color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; white-space: nowrap; }
+      .badge { font-size: 11px; border-radius: 999px; padding: 1px 8px; border: 1px solid var(--border); color: var(--muted-foreground); white-space: nowrap; }
+      .badge.on { color: var(--success); border-color: color-mix(in oklab, var(--success) 40%, var(--border)); }
+      .badge.off { color: var(--warning); border-color: color-mix(in oklab, var(--warning) 45%, var(--border)); }
+      .btn, select {
+        height: 34px; background: transparent; color: var(--foreground);
+        border: 1px solid var(--input); border-radius: calc(var(--radius) * 0.8);
+        padding: 0 14px; font-size: 13px; cursor: pointer;
+        transition: background-color 120ms ease, border-color 120ms ease;
+      }
+      select { padding-right: 28px; }
+      .btn:hover:not(:disabled), select:hover:not(:disabled) { background: var(--accent); }
+      .btn:disabled, select:disabled { opacity: 0.45; cursor: not-allowed; }
+      .btn.primary { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); font-weight: 600; }
+      .btn.primary:hover:not(:disabled) { opacity: 0.9; background: var(--primary); }
+      .btn.small { height: 26px; padding: 0 10px; font-size: 12px; }
+      .actions { display: grid; gap: 8px; }
+      .action-row {
+        display: flex; align-items: center; gap: 12px;
+        padding: 8px 10px; border: 1px solid var(--border);
+        border-radius: calc(var(--radius) * 0.8);
+      }
+      .action-row:hover { background: color-mix(in oklab, var(--muted) 50%, transparent); }
+      .check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; flex: 1; min-width: 0; font-size: 13px; }
+      .check input { width: 15px; height: 15px; accent-color: oklch(0.922 0 0); cursor: pointer; flex: none; }
+      .check input:disabled { cursor: not-allowed; }
+      .check .key { color: var(--muted-foreground); font-family: var(--mono); font-size: 11px; margin-left: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .proto-json {
+        width: 190px; height: 28px; flex: none;
+        background: var(--background); color: var(--foreground);
+        border: 1px solid var(--input); border-radius: calc(var(--radius) * 0.7);
+        padding: 0 8px; font: 11px/1 var(--mono); outline: none;
+      }
+      .proto-json:focus { border-color: var(--ring); }
+      .proto-json.bad { border-color: var(--error); }
+      .modules { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+      .module {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px 12px; border: 1px solid var(--border);
+        border-radius: calc(var(--radius) * 0.8);
+      }
+      .module.locked { opacity: 0.62; border-style: dashed; }
+      .module .mtext { flex: 1; min-width: 0; display: grid; gap: 1px; }
+      .module .mtext b { font-size: 13px; font-weight: 600; }
+      .module .mtext span { font-size: 11px; color: var(--muted-foreground); }
+      .auto-bar {
+        display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+        background: color-mix(in oklab, var(--muted) 35%, transparent); margin-bottom: 14px;
+      }
+      #autoResults { display: grid; gap: 4px; margin-top: 12px; font-size: 12px; }
+      #autoResults .row { display: flex; gap: 8px; align-items: center; }
+      #autoResults .row i { width: 6px; height: 6px; border-radius: 50%; background: var(--success); flex: none; }
+      #autoResults .row.fail i { background: var(--warning); }
+      #toast {
+        position: fixed; right: 20px; bottom: 20px; z-index: 50;
+        max-width: 420px; padding: 10px 14px; border-radius: var(--radius);
+        background: var(--card); border: 1px solid var(--border);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45); font-size: 13px;
+        opacity: 0; transform: translateY(8px); transition: opacity 160ms ease, transform 160ms ease;
+        pointer-events: none;
+      }
+      #toast.show { opacity: 1; transform: none; }
+      #toast.ok { border-color: color-mix(in oklab, var(--success) 45%, var(--border)); }
+      #toast.bad { border-color: color-mix(in oklab, var(--warning) 55%, var(--border)); }
+      @media (max-width: 720px) {
+        header { padding: 10px 14px; }
+        main { padding: 14px; }
+        .kv { grid-template-columns: 84px 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 登录界面 -->
+    <section id="loginView">
+      <div class="login-card">
+        <h1>时光大爆炸 · 挂机控制台</h1>
+        <p class="sub">只在你自己的电脑上运行，账号信息只保存在本机、不会上传。任何等级、任何区服的账号都能用。</p>
+
+        <div class="wechat" id="wechatBox">
+          <div class="wechat-head">
+            <b>微信登录</b>
+            <span class="tag">自动获取账号，不用手动抓包</span>
+          </div>
+          <ol class="steps">
+            <li><b>确认电脑微信已登录</b><span>用要挂机的微信登录电脑版微信</span></li>
+            <li><b>点「开始微信登录」</b><span>首次会安装本机测试证书，Windows 弹出安全警告时点「是」</span></li>
+            <li><b>在微信里打开游戏</b><span>把《时光大爆炸》完全关闭后重新打开，并进入主界面</span></li>
+            <li><b>等待自动完成</b><span>抓到登录后自动保存账号并进入控制台，通常十几秒</span></li>
+          </ol>
+          <div class="toolbar" style="margin-top: 12px">
+            <button class="btn primary" id="wechatStart">开始微信登录</button>
+            <button class="btn" id="wechatCancel" hidden>取消</button>
+            <span class="tag" id="wechatPhase">未开始</span>
+          </div>
+          <div class="hint" id="wechatMsg">点开始后按上面的顺序操作；结束会自动还原系统代理。</div>
+          <pre class="capture-log" id="wechatLog" hidden></pre>
+          <div class="hint"><a href="#" id="removeCert">移除本机测试证书</a> · 抓包只在本机进行，不会上传账号。</div>
+        </div>
+
+        <p class="sub" style="margin: 20px 0 8px">或者使用已有的 capture.json：</p>
+
+        <ol class="steps">
+          <li><b>准备账号文件</b><span>拿到自己的 capture.json（见下方说明），或从别的电脑抓好后拷过来</span></li>
+          <li><b>导入账号</b><span>把文件拖进来，或点「选择文件」，也可以粘贴内容</span></li>
+          <li><b>进入控制台</b><span>在账号列表点「进入」，再到「操作」页勾选要自动做的事</span></li>
+        </ol>
+
+        <div class="accounts" id="accountList"><div class="empty">正在读取账号…</div></div>
+        <div class="hint" id="loginMsg"></div>
+
+        <div class="import" id="dropZone">
+          <div class="drop-title">把 capture.json 拖到这块区域，或者：</div>
+          <div class="toolbar" style="margin: 10px 0 0">
+            <button class="btn primary" id="pickFile">选择文件</button>
+            <button class="btn" id="openAccounts">打开账号目录</button>
+            <button class="btn" id="refreshAccounts">刷新列表</button>
+          </div>
+          <input type="file" id="fileInput" accept=".json,application/json" hidden />
+          <div class="hint" id="importMsg"></div>
+          <details class="paste">
+            <summary>没有文件？直接粘贴 capture.json 内容</summary>
+            <input type="text" id="importName" placeholder="备注名，可留空" />
+            <textarea id="importText" placeholder="把 capture.json 的完整内容粘贴到这里"></textarea>
+            <button class="btn" id="importBtn">导入账号</button>
+          </details>
+        </div>
+
+        <details class="import" style="margin-top: 14px">
+          <summary>怎么拿到账号文件？使用中遇到问题？</summary>
+          <div class="faq-body">
+            <p><b>怎么登录：</b>推荐直接用上面的「开始微信登录」：确认电脑微信已登录，点开始，然后在微信里重新打开游戏并进入主界面。抓包只在你自己的电脑上进行，登录成功后会生成账号文件并自动进入控制台。</p>
+            <p><b>会不会装东西：</b>首次使用会往「当前用户」的受信任根证书里装一张本机测试证书（Windows 可能弹出安全警告，点「是」），用来在本机解密游戏登录；不需要管理员权限。不用了可以在登录页点「移除本机测试证书」。</p>
+            <p><b>账号文件：</b>抓到或导入的账号保存在本机 <code>work/accounts</code>，登录页可以随时切换。文件里是一次登录的凭证，过期后重新用「微信登录」抓一次即可。</p>
+            <p><b>能放多个账号：</b>不同账号的文件都拖进来会分别保存，登录页可以随时切换，互不影响。</p>
+            <p><b>怎么开启挂机：</b>双击 exe 就能直接领奖、升级和自动挂机，不需要额外的启动脚本。</p>
+            <p><b>等级不一样也能用：</b>没解锁的模块会标注「未解锁」；条件不满足的动作会自动跳过，不会报错，也不需要改配置。</p>
+            <p><b>安全提醒：</b>账号文件等同于登录凭证，不要发到群里或公开。写操作会真实改动账号数据，请自行判断使用。</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 控制台 -->
+    <div id="appView" hidden>
+      <header>
+        <div class="brand">
+          <h1>时光大爆炸 · 控制台</h1>
+          <span id="accountLine">未登录</span>
+        </div>
+        <nav class="tabs" id="tabs">
+          <button class="tab active" data-tab="overview">概览</button>
+          <button class="tab" data-tab="profile">角色</button>
+          <button class="tab" data-tab="items">资源</button>
+          <button class="tab" data-tab="tasks">任务</button>
+          <button class="tab" data-tab="builds">建筑</button>
+          <button class="tab" data-tab="activities">活动</button>
+          <button class="tab" data-tab="actions">操作</button>
+          <button class="tab" data-tab="attrs">全部属性</button>
+          <button class="tab" data-tab="help">说明</button>
+        </nav>
+        <span class="spacer"></span>
+        <span class="pill"><i class="dot connecting" id="dot"></i><span id="statusText">连接中</span></span>
+        <span class="pill" id="syncText">尚未同步</span>
+        <button class="btn small" id="logoutBtn">切换账号</button>
+      </header>
+
+      <main>
+        <!-- 概览 -->
+        <section class="page active" data-page="overview">
+          <div class="grid">
+            <article class="card">
+              <h2>角色</h2>
+              <dl class="kv">
+                <dt>昵称</dt><dd id="p-name">—</dd>
+                <dt>等级</dt><dd id="p-level">—</dd>
+                <dt>角色 ID</dt><dd id="p-roleId">—</dd>
+                <dt>区服</dt><dd id="p-serverId">—</dd>
+                <dt>开服天数</dt><dd id="p-roleDay">—</dd>
+                <dt>所在地</dt><dd id="p-ip">—</dd>
+                <dt>历史战力</dt><dd id="p-power">—</dd>
+              </dl>
+            </article>
+            <article class="card">
+              <h2>进度</h2>
+              <div class="metric"><span class="label">已解锁模块</span><span class="big" id="m-mods">—</span></div>
+              <div class="metric"><span class="label">任务状态记录</span><span class="big" id="m-tasks">—</span></div>
+              <div class="metric"><span class="label">建筑等级记录</span><span class="big" id="m-builds">—</span></div>
+              <div class="metric"><span class="label">已加载活动</span><span class="big" id="m-acts">—</span></div>
+              <div class="metric"><span class="label">属性解析</span><span class="big" id="m-attrs">—</span></div>
+            </article>
+            <article class="card">
+              <h2>最近变动</h2>
+              <div class="list" id="changes"><div class="empty">等待服务器推送…</div></div>
+            </article>
+          </div>
+          <article class="card">
+            <h2>模块状态 <span class="tag">未解锁的模块同样展示</span></h2>
+            <div class="modules" id="moduleGrid"></div>
+          </article>
+        </section>
+
+        <!-- 角色 -->
+        <section class="page" data-page="profile">
+          <div class="grid">
+            <article class="card">
+              <h2>角色资料</h2>
+              <dl class="kv" id="profileFull"></dl>
+            </article>
+            <article class="card">
+              <h2>模块状态</h2>
+              <div class="modules" id="moduleGrid2"></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 资源 -->
+        <section class="page" data-page="items">
+          <article class="card">
+            <h2>资源 / 道具 <span class="tag" id="itemCount">0 项</span></h2>
+            <div class="list" id="items"><div class="empty">暂无数据</div></div>
+          </article>
+        </section>
+
+        <!-- 任务 -->
+        <section class="page" data-page="tasks">
+          <article class="card">
+            <h2>任务状态 <span class="tag" id="taskTotal">0 条记录</span></h2>
+            <div class="scroll">
+              <table>
+                <thead><tr><th style="width: 160px">comState</th><th class="num" style="width: 120px">数量</th><th>说明</th></tr></thead>
+                <tbody id="taskTable"></tbody>
+              </table>
+            </div>
+            <p class="hint">任务状态直接来自 TaskDt.comState，值含义由服务器下发，这里只做统计展示。</p>
+          </article>
+        </section>
+
+        <!-- 建筑 -->
+        <section class="page" data-page="builds">
+          <article class="card">
+            <h2>建筑等级 <span class="tag" id="buildCount">0 项</span></h2>
+            <div class="toolbar">
+              <select id="buildSelect"></select>
+              <button class="btn" data-run="build.upgrade">升级选中建筑</button>
+            </div>
+            <div class="scroll">
+              <table>
+                <thead><tr><th style="width: 140px">建筑 ID</th><th style="width: 120px">等级</th><th>进度</th></tr></thead>
+                <tbody id="buildTable"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- 活动 -->
+        <section class="page" data-page="activities">
+          <article class="card">
+            <h2>活动奖励 <span class="tag" id="activityCount">0 项</span></h2>
+            <div class="toolbar">
+              <button class="btn" data-run="activity.claimAll">领取全部可领活动</button>
+              <span class="tag">只处理免费/签到类活动</span>
+            </div>
+            <div class="scroll">
+              <table>
+                <thead><tr><th>活动类型</th><th class="num">活动 ID</th><th class="num">可领</th><th class="num">已领</th><th class="num">条件</th><th style="width: 96px"></th></tr></thead>
+                <tbody id="activityTable"></tbody>
+              </table>
+            </div>
+            <p class="hint">账号未解锁的活动同样会列出，可领数为 0 时按钮会自动跳过。</p>
+          </article>
+        </section>
+
+        <!-- 操作 -->
+        <section class="page" data-page="actions">
+          <article class="card">
+            <h2>自动挂机 <span class="tag" id="writeMode">可写</span></h2>
+            <div class="auto-bar">
+              <label class="check" style="flex: none">
+                <input type="checkbox" id="autoToggle" />
+                <span>启用自动挂机</span>
+              </label>
+              <span class="tag" id="autoState">自动挂机：关闭</span>
+              <button class="btn" id="runNowBtn">立即执行一轮</button>
+              <span class="spacer"></span>
+              <span class="tag">每轮只执行下方勾选的动作</span>
+            </div>
+            <div id="autoResults"></div>
+          </article>
+
+          <article class="card">
+            <h2>动作列表 <span class="tag">勾选后加入自动挂机</span></h2>
+            <div class="actions" id="actionList"></div>
+            <div class="hint" id="actionResult">写操作已开启；执行前会再确认一次。</div>
+          </article>
+
+          <article class="card">
+            <h2>全部协议 <span class="tag" id="protoCount">0 项</span> <span class="tag">勾选后同样加入自动挂机</span></h2>
+            <div class="toolbar">
+              <input type="search" id="protoSearch" placeholder="搜索 mod.op，例如 task. / build.collect" />
+              <label class="check" style="flex: none"><input type="checkbox" id="protoOnlyChecked" /><span>只看已勾选</span></label>
+            </div>
+            <div class="actions" id="protoList"><div class="empty">正在读取协议…</div></div>
+            <div class="toolbar" style="margin-top: 12px">
+              <button class="btn" id="protoMore" hidden>加载更多</button>
+              <span class="tag" id="protoShown">已显示 0 / 0</span>
+            </div>
+            <p class="hint">参数栏填 JSON（留空按 {} 发送）；带参数但未填的协议执行时可能被服务器拒绝。</p>
+          </article>
+        </section>
+
+        <!-- 全部属性 -->
+        <section class="page" data-page="attrs">
+          <article class="card">
+            <h2>全部属性</h2>
+            <div class="toolbar">
+              <input type="search" id="search" placeholder="按属性名或 ID 过滤，例如 UserDt.level / 5001" />
+              <span class="tag" id="rowCount">0 项</span>
+            </div>
+            <div class="scroll">
+              <table>
+                <thead><tr><th style="width: 130px">属性 ID</th><th style="width: 240px">名称</th><th style="width: 120px">分类</th><th>值</th></tr></thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- 说明 -->
+        <section class="page" data-page="help">
+          <div class="grid">
+            <article class="card">
+              <h2>开始使用</h2>
+              <div class="guide">
+                <div>
+                  <h3>1. 微信登录（推荐）</h3>
+                  <p>确认电脑微信已登录 → 点登录页的「开始微信登录」→ 在微信里把游戏完全关闭后重新打开并进入主界面。抓到登录后会自动保存账号并进入控制台。首次使用会安装本机测试证书，Windows 弹出安全警告时点「是」即可，不需要管理员权限。</p>
+                </div>
+                <div>
+                  <h3>2. 也可以导入账号文件</h3>
+                  <p>已经有 <code>capture.json</code>（比如从别的电脑抓好拷过来）时，点右上角「切换账号」，把文件拖进虚线框或点「选择文件」。登录页的「打开账号目录」可以直接查看本机已保存的账号文件。</p>
+                </div>
+                <div>
+                  <h3>3. 进入并勾选</h3>
+                  <p>在账号列表点「进入」，打开「操作」页。上方是常用的精选动作，勾选后就会加入自动挂机；点「立即执行一轮」可以马上做一次。</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <h2>微信登录是怎么工作的</h2>
+              <div class="guide">
+                <ul>
+                  <li>游戏小游戏没有独立的扫码登录接口，所以面板会在本机开一个只针对游戏域名的解密代理，读出电脑微信里小游戏的登录报文。</li>
+                  <li>首次使用会把一张本机测试证书加入「当前用户」的受信任根证书，Windows 弹出安全警告时点「是」。不需要管理员权限。</li>
+                  <li>整个抓包只在本机进行，报文不经过任何第三方服务器；结束后自动还原系统代理。</li>
+                  <li>不用了可以在登录页点「移除本机测试证书」，或到「管理用户证书」里手动删除。</li>
+                  <li>如果一直抓不到：确认电脑微信已登录、游戏是重新打开的、没有开其它代理/VPN 软件；也可以先点「取消」，再重新开始一次。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="card">
+              <h2>两种启动方式</h2>
+              <div class="guide">
+                <ul>
+                  <li><b>默认直接可用</b>：双击 exe 就能领奖、结算、升级和自动挂机，不需要额外的启动脚本。</li>
+                  <li><b>只读模式</b>：只想看数据时，可在命令行启动并加 --read-only，所有写操作都会被拦截。</li>
+                </ul>
+                <p>面板地址是 <code>http://127.0.0.1:8848</code>，窗口关掉后服务也会停止。</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <h2>所有账号、所有等级</h2>
+              <div class="guide">
+                <ul>
+                  <li>接口来自游戏客户端本身，角色、等级、区服不同不影响使用，多账号可以分别导入。</li>
+                  <li>未解锁的模块照常显示并标注「未解锁」，不是错误。</li>
+                  <li>每个动作执行前都会检查当前账号的数据：没有可领奖励、没解锁、次数用完时会自动跳过，不会中断其他动作。</li>
+                  <li>低等级号建议只勾选「任务、邮件、挂机结算、离线收益」这些基础项；高等级号可以再勾集市、管家、科技、奇观等。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="card">
+              <h2>推荐的必做日常</h2>
+              <div class="guide">
+                <ul>
+                  <li>任务领奖、每日任务宝箱、主线领奖</li>
+                  <li>邮件一键领取</li>
+                  <li>挂机资源结算、离线收益结算、收取建筑产物</li>
+                  <li>活动奖励（全部可领）与免费礼包</li>
+                </ul>
+                <p>这些都在「操作」页默认勾选。开启自动挂机后会按启动时设置的间隔循环执行。</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="card">
+            <h2>常见问题</h2>
+            <div class="guide">
+              <p><b>一直显示离线 / 登录被拒绝？</b>账号凭证过期了，或这个账号已经在别的设备登录。回到登录页重新用「微信登录」抓一次即可。</p>
+              <p><b>点了执行没反应？</b>先看顶部状态是不是「已连接」。如果启动时加了 --read-only，按钮会是灰的，去掉该参数重启即可。</p>
+              <p><b>会不会和手机上的游戏冲突？</b>同一账号同时登录可能互相顶下线，建议只在挂机时使用。</p>
+              <p><b>「全部协议」怎么用？</b>那是从客户端里整理出的全部协议，给进阶玩家排查用。普通玩家只需要用上方精选动作；协议默认不勾选，参数不确定时不要执行。</p>
+              <p><b>数据会上传吗？</b>不会。所有请求都从本机直接发往官方游戏网关，账号文件只存在本机 work 目录。</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <h2>安全提醒</h2>
+            <div class="guide">
+              <p>capture.json 里包含你的登录凭证，等同于账号密码，不要发到群里或公开。写操作会真实改动账号数据（消耗资源、领取奖励等），请自行判断是否使用，并遵守游戏规则。</p>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const STATUS = { 'no-account': '未登录', connecting: '连接中', online: '已连接', reconnecting: '重连中', offline: '离线', closed: '已关闭' };
+      const fmtTime = (ms) => (ms ? new Date(ms).toLocaleTimeString('zh-CN', { hour12: false }) : '—');
+      const fmtDate = (ms) => (ms ? new Date(ms).toLocaleString('zh-CN', { hour12: false }) : '—');
+      const fmtTs = (value) => {
+        const n = Number(value);
+        if (!n) return '—';
+        return fmtDate(n > 1e12 ? n : n * 1000);
+      };
+      const fmtNum = (value) => {
+        if (typeof value === 'number') return value.toLocaleString('zh-CN');
+        if (typeof value === 'string') return value;
+        return value == null ? '—' : JSON.stringify(value);
+      };
+      const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+
+      let latestState = null;
+      let lastRows = [];
+      let WRITE_ENABLED = false;
+      let planTimer = 0;
+      let autoTimer = 0;
+      let toastTimer = 0;
+      let loginVisible = false;
+      let planSet = new Set();
+      let PROTOCOLS = [];
+      let PROTO_DATA = {};
+      let protoLimit = 120;
+
+      function toast(message, kind = '') {
+        const el = $('toast');
+        el.textContent = message;
+        el.className = `show ${kind}`;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => { el.className = ''; }, 4200);
+      }
+
+      function switchTab(name) {
+        document.querySelectorAll('.tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === name));
+        document.querySelectorAll('.page').forEach((page) => page.classList.toggle('active', page.dataset.page === name));
+        if (name === 'attrs') loadRows();
+      }
+
+      $('tabs').addEventListener('click', (event) => {
+        const tab = event.target.closest('.tab');
+        if (tab) switchTab(tab.dataset.tab);
+      });
+
+      // ---------- 登录页 ----------
+
+      async function loadAccounts() {
+        try {
+          const response = await fetch('/api/accounts');
+          const data = await response.json();
+          renderAccounts(data.accounts ?? []);
+        } catch (error) {
+          $('accountList').innerHTML = `<div class="empty bad">读取账号失败：${esc(error.message)}</div>`;
+        }
+      }
+
+      // ---------- 微信登录 ----------
+
+      const WECHAT_PHASE = {
+        idle: '未开始', starting: '正在准备…', waiting: '等待微信登录',
+        done: '已完成', error: '失败', cancelled: '已取消',
+      };
+      let wechatTimer = 0;
+      let wechatLastPhase = 'idle';
+
+      function renderWechat(status) {
+        const phase = status?.phase || 'idle';
+        $('wechatPhase').textContent = WECHAT_PHASE[phase] ?? phase;
+        $('wechatStart').disabled = Boolean(status?.active);
+        $('wechatCancel').hidden = !status?.active;
+        const message = status?.message || '点开始后按上面的顺序操作；结束会自动还原系统代理。';
+        $('wechatMsg').className = `hint ${phase === 'error' ? 'bad' : phase === 'done' ? 'ok' : ''}`;
+        $('wechatMsg').textContent = phase === 'error' && status?.error ? `${message}：${status.error}` : message;
+
+        const lines = status?.logs ?? [];
+        const log = $('wechatLog');
+        log.hidden = !lines.length;
+        log.className = `capture-log ${phase === 'error' ? 'bad' : ''}`;
+        log.textContent = lines.map((line) => `${fmtTime(line.at)}  ${line.text}`).join('\n');
+        log.scrollTop = log.scrollHeight;
+
+        if (phase === 'done' && wechatLastPhase !== 'done') {
+          toast('微信登录成功，账号已自动保存', 'ok');
+          loadAccounts();
+        }
+        if (phase === 'error' && wechatLastPhase !== 'error') toast(status?.error || '微信登录抓包失败', 'bad');
+        wechatLastPhase = phase;
+      }
+
+      async function pollWechat() {
+        try {
+          const response = await fetch('/api/wechat/status');
+          if (response.ok) renderWechat(await response.json());
+        } catch { /* 服务重启时忽略一次失败 */ }
+      }
+
+      function startWechatPolling() {
+        if (wechatTimer) return;
+        pollWechat();
+        wechatTimer = setInterval(pollWechat, 1000);
+      }
+
+      function stopWechatPolling() {
+        if (wechatTimer) clearInterval(wechatTimer);
+        wechatTimer = 0;
+      }
+
+      $('wechatStart').addEventListener('click', async () => {
+        $('wechatStart').disabled = true;
+        $('wechatMsg').className = 'hint';
+        $('wechatMsg').textContent = '正在安装测试证书并启动本机代理…';
+        try {
+          const response = await fetch('/api/wechat/start', { method: 'POST' });
+          const result = await response.json();
+          if (!result.ok) throw new Error(result.error || '启动失败');
+          renderWechat(result.status);
+        } catch (error) {
+          $('wechatStart').disabled = false;
+          $('wechatMsg').className = 'hint bad';
+          $('wechatMsg').textContent = `启动失败：${error.message}`;
+          toast(`启动失败：${error.message}`, 'bad');
+        }
+      });
+
+      $('wechatCancel').addEventListener('click', async () => {
+        await fetch('/api/wechat/cancel', { method: 'POST' });
+        toast('已取消，系统代理会自动还原');
+      });
+
+      $('removeCert').addEventListener('click', async (event) => {
+        event.preventDefault();
+        if (!confirm('移除测试证书后，下次微信登录需要重新安装。继续？')) return;
+        try {
+          const response = await fetch('/api/wechat/cert', { method: 'DELETE' });
+          const result = await response.json();
+          if (!result.ok) throw new Error(result.error || '移除失败');
+          toast(result.installed ? '证书仍在证书库中' : '测试证书已移除', result.installed ? 'bad' : 'ok');
+        } catch (error) {
+          toast(`移除失败：${error.message}`, 'bad');
+        }
+      });
+
+      function renderAccounts(accounts) {
+        if (!accounts.length) {
+          $('accountList').innerHTML = '<div class="empty">还没有账号。请把 capture.json 放到 work 目录，或在下方导入。</div>';
+          return;
+        }
+        $('accountList').innerHTML = accounts.map((account) => {
+          const title = account.name || account.file;
+          const level = account.level != null ? `Lv.${account.level}` : '—';
+          const meta = [account.roleId ? `角色 ${account.roleId}` : null, account.serverId ? `区服 ${account.serverId}` : null]
+            .filter(Boolean).join(' · ') || '登录信息不完整';
+          const sub = `${account.file} · ${account.mtime ? fmtDate(account.mtime) : '—'}`;
+          return `<div class="account ${account.valid ? '' : 'broken'} ${account.active ? 'active' : ''}">
+            <div class="avatar">${esc(level)}</div>
+            <div class="info">
+              <strong>${esc(title)}</strong>
+              <span title="${esc(meta)}">${esc(meta)}</span>
+              <span class="muted" title="${esc(sub)}">${esc(sub)}</span>
+            </div>
+            <button class="btn ${account.valid ? 'primary' : ''}" data-enter="${esc(account.path)}" ${account.valid ? '' : 'disabled'}>进入</button>
+          </div>`;
+        }).join('');
+      }
+
+      $('accountList').addEventListener('click', async (event) => {
+        const button = event.target.closest('[data-enter]');
+        if (!button) return;
+        button.disabled = true;
+        $('loginMsg').className = 'hint';
+        $('loginMsg').textContent = '正在连接账号…';
+        try {
+          const response = await fetch('/api/account/select', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ file: button.dataset.enter }),
+          });
+          const result = await response.json();
+          if (!result.ok) throw new Error(result.error || '登录失败');
+          $('loginMsg').textContent = '已发起登录，等待服务器响应…';
+        } catch (error) {
+          button.disabled = false;
+          $('loginMsg').className = 'hint bad';
+          $('loginMsg').textContent = error.message;
+        }
+      });
+
+      $('refreshAccounts').addEventListener('click', () => loadAccounts());
+
+      async function importAccount(content, name, target) {
+        const msg = target || $('importMsg');
+        msg.className = 'hint';
+        msg.textContent = '正在导入…';
+        try {
+          const response = await fetch('/api/accounts/import', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name || '', content }),
+          });
+          const result = await response.json();
+          if (!result.ok) throw new Error(result.error || '导入失败');
+          msg.className = 'hint ok';
+          msg.textContent = `已导入：${result.account.name || result.account.file}`;
+          await loadAccounts();
+          return true;
+        } catch (error) {
+          msg.className = 'hint bad';
+          msg.textContent = `导入失败：${error.message}`;
+          return false;
+        }
+      }
+
+      $('importBtn').addEventListener('click', async () => {
+        const content = $('importText').value.trim();
+        if (!content) {
+          $('importMsg').className = 'hint bad';
+          $('importMsg').textContent = '请先粘贴 capture.json 内容。';
+          return;
+        }
+        $('importBtn').disabled = true;
+        const ok = await importAccount(content, $('importName').value.trim(), $('importMsg'));
+        if (ok) {
+          $('importText').value = '';
+          $('importName').value = '';
+        }
+        $('importBtn').disabled = false;
+      });
+
+      $('pickFile').addEventListener('click', () => $('fileInput').click());
+
+      $('fileInput').addEventListener('change', async () => {
+        const file = $('fileInput').files?.[0];
+        if (!file) return;
+        const content = await file.text();
+        await importAccount(content, file.name.replace(/\.json$/i, ''), $('importMsg'));
+        $('fileInput').value = '';
+      });
+
+      $('openAccounts').addEventListener('click', async () => {
+        try {
+          const response = await fetch('/api/system/open-accounts', { method: 'POST' });
+          const result = await response.json();
+          if (!result.ok) throw new Error(result.error || '打开失败');
+          $('importMsg').className = 'hint';
+          $('importMsg').textContent = `账号目录：${result.dir}`;
+        } catch (error) {
+          $('importMsg').className = 'hint bad';
+          $('importMsg').textContent = `打开失败：${error.message}`;
+        }
+      });
+
+      const dropZone = $('dropZone');
+      dropZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropZone.classList.add('dragover');
+      });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+      dropZone.addEventListener('drop', async (event) => {
+        event.preventDefault();
+        dropZone.classList.remove('dragover');
+        const file = event.dataTransfer?.files?.[0];
+        if (!file) return;
+        const content = await file.text();
+        await importAccount(content, file.name.replace(/\.json$/i, ''), $('importMsg'));
+      });
+
+      $('logoutBtn').addEventListener('click', async () => {
+        if (!confirm('断开当前账号并回到登录界面？')) return;
+        await fetch('/api/account/logout', { method: 'POST' });
+        $('loginMsg').textContent = '';
+        await loadAccounts();
+      });
+
+      // ---------- 状态渲染 ----------
+
+      function renderModules(modules) {
+        const html = (modules ?? []).map((module) => `
+          <div class="module ${module.unlocked ? '' : 'locked'}">
+            <div class="mtext"><b>${esc(module.name)}</b><span>${esc(module.desc)}</span></div>
+            <span class="badge ${module.unlocked ? 'on' : 'off'}">${module.unlocked ? '已解锁' : '未解锁'}</span>
+          </div>`).join('');
+        $('moduleGrid').innerHTML = html;
+        $('moduleGrid2').innerHTML = html;
+      }
+
+      function renderProfile(profile) {
+        const p = profile ?? {};
+        $('p-name').textContent = p.name ?? '—';
+        $('p-level').textContent = p.level ?? '—';
+        $('p-roleId').textContent = p.roleId ?? '—';
+        $('p-serverId').textContent = p.serverId ?? '—';
+        $('p-roleDay').textContent = p.roleDay ?? '—';
+        $('p-ip').textContent = p.ip ?? '—';
+        $('p-power').textContent = fmtNum(p.power);
+
+        const rows = [
+          ['昵称', p.name ?? '—'],
+          ['等级', p.level ?? '—'],
+          ['角色 ID', p.roleId ?? '—'],
+          ['区服', p.serverId ?? '—'],
+          ['开服天数', p.roleDay ?? '—'],
+          ['性别', p.sex ?? '—'],
+          ['所在地', p.ip ?? '—'],
+          ['历史战力', fmtNum(p.power)],
+          ['注册时间', fmtTs(p.registerTime)],
+          ['最后登录', fmtTs(p.lastLoginTime)],
+          ['离线时间', fmtTs(p.offlineTime)],
+        ];
+        $('profileFull').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('');
+      }
+
+      function renderChanges(changes) {
+        $('changes').innerHTML = changes.length
+          ? changes.map((c) => `<div class="change"><time>${fmtTime(c.at)}</time><span class="path" title="${esc(c.label)}">${esc(c.label)}</span><span class="delta">${fmtNum(c.before)} → ${fmtNum(c.after)}</span></div>`).join('')
+          : '<div class="empty">暂无变动，服务器推送属性变化后会出现在这里。</div>';
+      }
+
+      function renderItems(items) {
+        $('itemCount').textContent = `${items.length} 项`;
+        const max = items.length ? items[0].count : 1;
+        $('items').innerHTML = items.length
+          ? items.map((item) => `<div class="bar"><span class="name">#${item.tid}</span><span class="track"><span class="fill" style="width:${Math.max(3, (item.count / max) * 100)}%"></span></span><span class="num">${fmtNum(item.count)}</span></div>`).join('')
+          : '<div class="empty">暂无道具数据</div>';
+      }
+
+      function renderTasks(tasks) {
+        const states = tasks?.states ?? {};
+        const keys = Object.keys(states).sort((a, b) => Number(a) - Number(b));
+        $('taskTotal').textContent = `${tasks?.total ?? 0} 条记录`;
+        $('taskTable').innerHTML = keys.length
+          ? keys.map((key) => `<tr><td class="mono">comState = ${esc(key)}</td><td class="num">${states[key]}</td><td class="muted">—</td></tr>`).join('')
+          : '<tr><td colspan="3" class="empty">暂无任务数据</td></tr>';
+      }
+
+      function renderBuilds(state) {
+        const builds = state.builds?.list ?? [];
+        $('buildCount').textContent = `${builds.length} 项`;
+        $('buildTable').innerHTML = builds.length
+          ? builds.map((build) => `<tr><td class="mono">#${build.tid}</td><td class="mono">Lv.${build.lv}</td><td><span class="track"><span class="fill" style="width:${Math.min(100, build.lv * 2)}%"></span></span></td></tr>`).join('')
+          : '<tr><td colspan="3" class="empty">暂无建筑数据</td></tr>';
+
+        const select = $('buildSelect');
+        const wanted = builds.map((build) => `${build.tid}|${build.lv}`).join(',');
+        if (select.dataset.key !== wanted) {
+          const current = select.value;
+          select.dataset.key = wanted;
+          select.innerHTML = builds.length
+            ? builds.map((build) => `<option value="${build.tid}">#${build.tid} · Lv.${build.lv}</option>`).join('')
+            : '<option value="">暂无建筑</option>';
+          if (current) select.value = current;
+        }
+        select.disabled = !WRITE_ENABLED || !builds.length;
+      }
+
+      function renderActivities(activities) {
+        $('activityCount').textContent = `${activities.length} 项`;
+        $('activityTable').innerHTML = activities.length
+          ? activities.map((activity) => `<tr>
+              <td>${esc(activity.typeName)}</td>
+              <td class="num">#${activity.activityId}</td>
+              <td class="num">${activity.claimable}</td>
+              <td class="num muted">${activity.got ?? 0}</td>
+              <td class="num muted">${activity.total}</td>
+              <td class="num"><button class="btn small" data-run="activity.claim" data-activity="${activity.activityId}" ${activity.claimable > 0 ? '' : 'disabled'}>领取</button></td>
+            </tr>`).join('')
+          : '<tr><td colspan="6" class="empty">暂无可展示的活动（登录推送后出现）</td></tr>';
+      }
+
+      function renderAuto(state, resultsHtml) {
+        const auto = state.auto ?? {};
+        if (Date.now() - autoTimer > 1500) $('autoToggle').checked = Boolean(auto.enabled);
+        $('autoToggle').disabled = !WRITE_ENABLED;
+        const picked = (state.autoPlan ?? []).length;
+        const last = auto.lastRunAt ? fmtTime(auto.lastRunAt) : '尚未运行';
+        $('autoState').textContent = auto.enabled
+          ? `自动挂机：开启 · 每 ${auto.intervalSec} 秒 · 已勾选 ${picked} 项 · 上次 ${last}${auto.running ? ' · 执行中' : ''}`
+          : `自动挂机：关闭 · 已勾选 ${picked} 项`;
+        $('autoResults').innerHTML = resultsHtml;
+      }
+
+      function applyPlanToCheckboxes(plan) {
+        if (Date.now() - planTimer < 1500) return;
+        planSet = new Set(plan ?? []);
+        document.querySelectorAll('#actionList input[data-plan]').forEach((input) => {
+          input.checked = planSet.has(input.dataset.plan);
+        });
+        document.querySelectorAll('#protoList input[data-proto]').forEach((input) => {
+          input.checked = planSet.has(input.dataset.proto);
+        });
+        if (latestState) latestState.autoPlan = plan ?? [];
+      }
+
+      function render(state) {
+        latestState = state;
+        const loggedIn = Boolean(state.account);
+        $('loginView').hidden = loggedIn;
+        $('appView').hidden = !loggedIn;
+        if (!loggedIn) {
+          if (!loginVisible) {
+            loginVisible = true;
+            loadAccounts();
+          }
+          startWechatPolling();
+          return;
+        }
+        loginVisible = false;
+        stopWechatPolling();
+
+        const account = state.account;
+        $('accountLine').textContent = `${account.name || account.file}${account.roleId ? ` · ${account.roleId}` : ''}`;
+        $('dot').className = `dot ${state.status}`;
+        $('statusText').textContent = state.error && state.status !== 'online'
+          ? `${STATUS[state.status] ?? state.status}：${state.error}`
+          : (STATUS[state.status] ?? state.status);
+        $('syncText').textContent = state.syncedAt ? `同步于 ${fmtTime(state.syncedAt)}` : '尚未同步';
+        $('writeMode').textContent = state.writeEnabled ? '可写' : '只读';
+
+        renderProfile(state.profile);
+        renderModules(state.modules);
+        renderChanges(state.changes ?? []);
+        renderItems(state.items ?? []);
+        renderTasks(state.tasks);
+        renderBuilds(state);
+        renderActivities(state.activities ?? []);
+
+        $('m-mods').textContent = state.mods?.unlocked ?? 0;
+        $('m-tasks').textContent = state.tasks?.total ?? 0;
+        $('m-builds').textContent = state.builds?.total ?? 0;
+        $('m-acts').textContent = state.activityTotal ?? 0;
+        $('m-attrs').textContent = `${state.counters?.parsed ?? 0} / ${state.counters?.attrs ?? 0}`;
+
+        const autoResults = (state.auto?.lastResults ?? []).map((row) => `<div class="row ${row.ok ? '' : 'fail'}"><i></i><span>${esc(row.title || row.name)}</span><span class="muted">${row.ok ? '完成' : esc(row.note || '跳过')}</span></div>`).join('');
+        renderAuto(state, autoResults);
+        applyPlanToCheckboxes(state.autoPlan);
+      }
+
+      // ---------- 动作 ----------
+
+      async function loadActions() {
+        try {
+          const response = await fetch('/api/auto-plan');
+          const meta = await response.json();
+          WRITE_ENABLED = Boolean(meta.allowWrite);
+          planSet = new Set(meta.plan ?? []);
+          PROTO_DATA = meta.protoData && typeof meta.protoData === 'object' ? { ...meta.protoData } : {};
+          renderActionList(meta.actions ?? []);
+        } catch (error) {
+          $('actionList').innerHTML = `<div class="empty bad">读取动作失败：${esc(error.message)}</div>`;
+        }
+      }
+
+      async function savePlan(includeProtoData = false) {
+        planTimer = Date.now();
+        const payload = { plan: [...planSet] };
+        if (includeProtoData) payload.protoData = PROTO_DATA;
+        const response = await fetch('/api/auto-plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json();
+        if (!result.ok) throw new Error(result.error || '保存失败');
+        planSet = new Set(result.plan ?? []);
+        if (result.protoData) PROTO_DATA = { ...result.protoData };
+        if (latestState) latestState.autoPlan = [...planSet];
+      }
+
+      function renderActionList(actions) {
+        $('actionList').innerHTML = actions.map((action) => `
+          <div class="action-row">
+            <label class="check">
+              <input type="checkbox" data-plan="${esc(action.name)}" ${planSet.has(action.name) ? 'checked' : ''} />
+              <span>${esc(action.title)}<span class="key">${esc(action.name)}</span></span>
+            </label>
+            <button class="btn small" data-run="${esc(action.name)}" ${WRITE_ENABLED ? '' : 'disabled'}>执行</button>
+          </div>`).join('');
+        if (!actions.length) $('actionList').innerHTML = '<div class="empty">没有可用动作</div>';
+        $('actionResult').textContent = WRITE_ENABLED
+          ? '勾选动作会保存到本机设置，并用于自动挂机。'
+          : '当前是只读模式（启动时加了 --read-only）；去掉该参数重启即可执行写操作。';
+        $('runNowBtn').disabled = !WRITE_ENABLED;
+      }
+
+      // ---------- 协议库 ----------
+
+      async function loadProtocols() {
+        try {
+          const response = await fetch('/api/protocols');
+          const data = await response.json();
+          PROTOCOLS = data.list ?? [];
+          if (data.protoData) PROTO_DATA = { ...PROTO_DATA, ...data.protoData };
+          for (const name of data.plan ?? []) if (name.includes('.')) planSet.add(name);
+          protoLimit = 120;
+          renderProtocols();
+        } catch (error) {
+          $('protoList').innerHTML = `<div class="empty bad">读取协议失败：${esc(error.message)}</div>`;
+        }
+      }
+
+      function renderProtocols() {
+        const query = $('protoSearch').value.trim().toLowerCase();
+        const onlyChecked = $('protoOnlyChecked').checked;
+        const matched = PROTOCOLS.filter((item) => {
+          const key = `${item.mod}.${item.op}`;
+          if (onlyChecked && !planSet.has(key)) return false;
+          return !query || key.toLowerCase().includes(query);
+        });
+        const shown = matched.slice(0, protoLimit);
+        $('protoCount').textContent = `${PROTOCOLS.length} 项`;
+        $('protoShown').textContent = `已显示 ${shown.length} / ${matched.length}`;
+        $('protoMore').hidden = shown.length >= matched.length;
+        $('protoList').innerHTML = shown.map((item) => {
+          const key = `${item.mod}.${item.op}`;
+          const value = PROTO_DATA[key] ? JSON.stringify(PROTO_DATA[key]) : '';
+          return `<div class="action-row">
+            <label class="check">
+              <input type="checkbox" data-proto="${esc(key)}" ${planSet.has(key) ? 'checked' : ''} />
+              <span class="mono">${esc(key)}</span>
+              <span class="key" title="${esc(item.args || '无参')}">${item.args ? `参数 ${esc(item.args.slice(0, 46))}` : '无参'}</span>
+            </label>
+            <input class="proto-json" data-proto-json="${esc(key)}" value="${esc(value)}" placeholder="{}" />
+            <button class="btn small" data-run-proto="${esc(key)}" ${WRITE_ENABLED ? '' : 'disabled'}>执行</button>
+          </div>`;
+        }).join('') || '<div class="empty">没有匹配的协议</div>';
+      }
+
+      $('protoSearch').addEventListener('input', () => {
+        protoLimit = 120;
+        renderProtocols();
+      });
+
+      $('protoOnlyChecked').addEventListener('change', renderProtocols);
+
+      $('protoMore').addEventListener('click', () => {
+        protoLimit += 200;
+        renderProtocols();
+      });
+
+      $('protoList').addEventListener('change', async (event) => {
+        const checkbox = event.target.closest('input[data-proto]');
+        if (checkbox) {
+          const key = checkbox.dataset.proto;
+          if (checkbox.checked) planSet.add(key); else planSet.delete(key);
+          try {
+            await savePlan();
+            toast(`已保存自动挂机勾选：${planSet.size} 项`, 'ok');
+          } catch (error) {
+            if (checkbox.checked) planSet.delete(key); else planSet.add(key);
+            checkbox.checked = !checkbox.checked;
+            toast(`保存失败：${error.message}`, 'bad');
+          }
+          return;
+        }
+        const input = event.target.closest('input[data-proto-json]');
+        if (!input) return;
+        const key = input.dataset.protoJson;
+        const text = input.value.trim();
+        let data = {};
+        if (text) {
+          try {
+            data = JSON.parse(text);
+          } catch {
+            input.classList.add('bad');
+            toast('参数不是合法 JSON', 'bad');
+            return;
+          }
+        }
+        input.classList.remove('bad');
+        if (text) PROTO_DATA[key] = data; else delete PROTO_DATA[key];
+        try {
+          await savePlan(true);
+        } catch (error) {
+          toast(`参数保存失败：${error.message}`, 'bad');
+        }
+      });
+
+      $('actionList').addEventListener('change', async (event) => {
+        const input = event.target.closest('input[data-plan]');
+        if (!input) return;
+        const name = input.dataset.plan;
+        if (input.checked) planSet.add(name); else planSet.delete(name);
+        try {
+          await savePlan();
+          toast(`已保存自动挂机勾选：${planSet.size} 项`, 'ok');
+        } catch (error) {
+          if (input.checked) planSet.delete(name); else planSet.add(name);
+          input.checked = !input.checked;
+          toast(`保存失败：${error.message}`, 'bad');
+        }
+      });
+
+      $('autoToggle').addEventListener('change', async (event) => {
+        const enabled = event.target.checked;
+        autoTimer = Date.now();
+        try {
+          const response = await fetch('/api/auto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ enabled }),
+          });
+          const result = await response.json();
+          if (!result.ok) throw new Error(result.error || '切换失败');
+          toast(enabled ? '已开启自动挂机' : '已关闭自动挂机', 'ok');
+        } catch (error) {
+          event.target.checked = !enabled;
+          toast(error.message, 'bad');
+        }
+      });
+
+      $('runNowBtn').addEventListener('click', async () => {
+        if (!WRITE_ENABLED) {
+          toast('当前是只读模式（--read-only），去掉该参数重启即可执行', 'bad');
+          return;
+        }
+        if (!confirm('立即执行一轮已勾选的动作？这会真实改动账号数据。')) return;
+        $('runNowBtn').disabled = true;
+        $('actionResult').className = 'hint';
+        $('actionResult').textContent = '正在执行…';
+        try {
+          const response = await fetch('/api/auto/run-now', { method: 'POST' });
+          const result = await response.json();
+          if (!result.ok) throw new Error(result.error || '执行失败');
+          $('actionResult').className = 'hint ok';
+          $('actionResult').textContent = `本轮完成：成功 ${result.done} / ${result.total} 项`;
+          toast(`本轮完成：成功 ${result.done} / ${result.total} 项`, 'ok');
+        } catch (error) {
+          $('actionResult').className = 'hint bad';
+          $('actionResult').textContent = `执行失败：${error.message}`;
+          toast(`执行失败：${error.message}`, 'bad');
+        } finally {
+          $('runNowBtn').disabled = false;
+        }
+      });
+
+      async function runAction(name, params, button, labelOverride) {
+        if (!WRITE_ENABLED) {
+          toast('当前是只读模式（--read-only），去掉该参数重启即可执行', 'bad');
+          return;
+        }
+        const label = labelOverride || button?.textContent?.trim() || name;
+        if (!confirm(`确定执行「${label}」？这会真实改动账号数据。`)) return;
+        if (button) button.disabled = true;
+        $('actionResult').className = 'hint';
+        $('actionResult').textContent = `执行中：${label}`;
+        try {
+          const response = await fetch('/api/action', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, params }),
+          });
+          const result = await response.json();
+          const codeText = Array.isArray(result.code) ? result.code[0] : result.code;
+          const ok = Boolean(result.ok);
+          $('actionResult').className = ok ? 'hint ok' : 'hint bad';
+          $('actionResult').textContent = ok
+            ? `「${result.title || label}」完成${codeText == null ? '' : `，code=${codeText}`}，耗时 ${result.elapsedMs ?? 0}ms`
+            : `「${result.title || label}」未执行：${result.error || result.skipped || `服务端返回 code=${codeText}`}`;
+          toast($('actionResult').textContent, ok ? 'ok' : 'bad');
+          if (ok) loadRows();
+        } catch (error) {
+          $('actionResult').className = 'hint bad';
+          $('actionResult').textContent = `请求失败：${error.message}`;
+          toast(`请求失败：${error.message}`, 'bad');
+        } finally {
+          if (button) button.disabled = false;
+        }
+      }
+
+      document.addEventListener('click', (event) => {
+        const protoButton = event.target.closest('[data-run-proto]');
+        if (protoButton) {
+          const key = protoButton.dataset.runProto;
+          const [mod, op] = key.split('.');
+          if (!mod || !op) return;
+          runAction('proto.call', { mod, op, data: PROTO_DATA[key] ?? {} }, protoButton, key);
+          return;
+        }
+        const button = event.target.closest('[data-run]');
+        if (!button) return;
+        const name = button.dataset.run;
+        const params = {};
+        if (name === 'build.upgrade') {
+          params.buildTid = Number($('buildSelect').value);
+          if (!params.buildTid) {
+            toast('请先选择要升级的建筑', 'bad');
+            return;
+          }
+        }
+        if (name === 'activity.claim') {
+          params.activityId = Number(button.dataset.activity);
+          if (!params.activityId) return;
+        }
+        runAction(name, params, button);
+      });
+
+      // ---------- 全部属性 ----------
+
+      function renderRows() {
+        const query = $('search').value.trim().toLowerCase();
+        const rows = query
+          ? lastRows.filter((row) => row.label.toLowerCase().includes(query) || String(row.id).includes(query))
+          : lastRows;
+        $('rowCount').textContent = `${rows.length} 项`;
+        $('rows').innerHTML = rows
+          .slice(0, 500)
+          .map((row) => `<tr><td class="mono">${row.id}</td><td class="mono">${esc(row.label)}</td><td class="muted">${esc(row.cls ?? '—')}</td><td class="mono">${esc(fmtNum(row.value))}</td></tr>`)
+          .join('') || '<tr><td colspan="4" class="empty">暂无数据</td></tr>';
+      }
+
+      async function loadRows() {
+        try {
+          const response = await fetch('/api/rows');
+          if (!response.ok) return;
+          lastRows = await response.json();
+          renderRows();
+        } catch {}
+      }
+
+      $('search').addEventListener('input', renderRows);
+
+      // ---------- 启动 ----------
+
+      loadAccounts();
+      loadActions();
+      loadProtocols();
+
+      const events = new EventSource('/api/events');
+      events.addEventListener('state', (event) => {
+        const state = JSON.parse(event.data);
+        render(state);
+        if (state.account) loadRowsThrottled();
+      });
+      events.onerror = () => {
+        $('dot').className = 'dot reconnecting';
+        $('statusText').textContent = '本地服务已断开';
+      };
+
+      let rowsTimer = 0;
+      function loadRowsThrottled() {
+        if (rowsTimer) return;
+        rowsTimer = setTimeout(() => {
+          rowsTimer = 0;
+          loadRows();
+        }, 1200);
+      }
+    </script>
+  </body>
+</html>
