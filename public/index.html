@@ -844,7 +844,7 @@
       $('wechatStart').addEventListener('click', async () => {
         $('wechatStart').disabled = true;
         $('wechatMsg').className = 'hint';
-        $('wechatMsg').textContent = '正在安装测试证书并启动本机代理…';
+        $('wechatMsg').textContent = '正在生成并安装本机证书，随后启动代理…';
         try {
           const response = await fetch('/api/wechat/start', { method: 'POST' });
           const result = await response.json();

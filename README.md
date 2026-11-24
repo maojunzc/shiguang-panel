@@ -22,7 +22,7 @@ npm install
 npm start
 ```
 
-`npm start` 会自动在本地生成抓包用的测试证书（文件不会提交到仓库），然后打开 <http://127.0.0.1:8848>。
+打开 <http://127.0.0.1:8848>。首次点击「开始微信登录」时，应用才会在本机生成专属证书；无需预先安装 OpenSSL。
 
 ### 方式二：打包成单文件 exe
 
@@ -31,13 +31,13 @@ npm install
 npm run build:exe
 ```
 
-产物在 `dist/时光大爆炸面板.exe`，双击即可运行，浏览器打开 <http://127.0.0.1:8848>。打包过程会把 `public/` 和空的 `work/` 一起放到 exe 旁边；不会带上你自己的账号数据。
+产物在 `dist/时光大爆炸面板.exe`。双击后打开 <http://127.0.0.1:8848>。exe 是独立文件，不携带账号、设置或证书；运行数据保存在 `%LOCALAPPDATA%\ShiguangPanel\work`，升级 exe 不会覆盖这些数据。旧版 exe 同目录下的 `work/` 文件会在首次启动时复制过去，已有的新数据不会被覆盖。
 
 ### 微信登录步骤
 
 1. 在电脑上登录微信（要挂机的那个号）。
 2. 打开面板，点「开始微信登录」。
-3. 首次使用会把一张本机测试证书加入「当前用户」的受信任根证书，Windows 弹出安全警告时点「是」即可，不需要管理员权限。
+3. 首次使用时，应用会在 `%LOCALAPPDATA%\ShiguangPanel\work\mitm` 生成本机专属证书，并请求将其加入「当前用户」的受信任根证书。只有在确认信任正在运行的软件时，才在 Windows 安全提示中确认；不需要管理员权限。
 4. 在微信里把游戏完全关闭后重新打开，进入游戏主界面。
 5. 面板自动抓到登录、保存账号并进入控制台。结束后会自动还原系统代理。
 6. 不想再使用时，在登录页点「移除本机测试证书」。
@@ -46,16 +46,15 @@ npm run build:exe
 
 ## 数据与隐私
 
-下面这些内容都已经在 [.gitignore](.gitignore) 中排除，不会被提交：
+源码仓库只保存程序代码和公开协议资料，不保存任何人的账号或运行记录。以下本机数据路径由 [.gitignore](.gitignore) 排除：
 
 | 路径 | 内容 |
 | --- | --- |
-| `work/` | 账号凭证、抓包结果、设置、代理备份 |
-| `certificates/` | 构建期生成的测试证书（含 CA 私钥） |
-| `src/capture/certs.mjs` | 内嵌到 exe 的证书内容，由构建脚本自动生成 |
+| `work/`、`%LOCALAPPDATA%\ShiguangPanel\work` | 账号凭证、抓包结果、设置、代理备份及运行时证书 |
+| `certificates/` | 手动生成或兼容旧版的本机证书（含 CA 私钥） |
 | `dist/`、`build/`、`*.exe` | 构建产物 |
 
-每个人下载源码后，`npm run build:exe` 或 `npm start` 都会在自己的电脑上重新生成一套测试证书，互不影响。请不要把自己的 `work/` 目录、`capture.json` 或 exe 上传到公开仓库，它们等同于账号登录凭证。
+证书和账号凭证只在运行时写入本机数据目录，不会写入源码或打包进 exe。请勿分享 `work/`、`capture.json` 或 `mitm/`，它们包含登录凭证或私钥。
 
 ## 项目结构
 
@@ -71,7 +70,7 @@ src/
     proxy.mjs         本机 MITM 代理（仅解密游戏域名）
     session.mjs       微信登录抓包会话
     system.mjs        Windows 系统代理与证书操作
-    certs.mjs         构建期生成的证书（不提交）
+    generate-certificates.mjs  首次登录时生成本机证书
 public/index.html     面板页面（登录、概览、操作、说明）
 tools/
   gen-certs.mjs       生成测试证书
@@ -88,7 +87,7 @@ node src/server.mjs [--capture work/capture.json] [--port 8848] [--read-only] [-
 - `--auto`：启动后自动登录默认账号并按间隔执行勾选动作。
 - `--interval`：自动挂机间隔秒数，默认 300。
 
-> 直接运行 `node src/server.mjs` 前，请先执行一次 `npm run certs` 生成 `src/capture/certs.mjs`；用 `npm start` 会自动完成这一步。
+微信登录所需证书会在首次启动抓包时生成；无需手动运行 `npm run certs`。
 
 ## 常见问题
 

@@ -134,14 +134,14 @@ export async function installCa(dir, log = () => {}, certificates = loadCertific
   throw new Error('测试证书未出现在当前用户根证书库，可能被安全软件拦截');
 }
 
-export async function removeCa(log = () => {}) {
+export async function removeCa({ dir, log = () => {} } = {}) {
   assertWindows();
-  if (!isCaInstalled({ fresh: true })) {
+  if (!isCaInstalled({ fresh: true, dir })) {
     log('ca', '当前用户根证书里没有本工具的测试证书，无需移除');
     return false;
   }
   try {
-    await execFileAsync('certutil', ['-user', '-delstore', 'Root', loadCertificates().thumbprint], { windowsHide: true, timeout: 60000 });
+    await execFileAsync('certutil', ['-user', '-delstore', 'Root', loadCertificates(dir).thumbprint], { windowsHide: true, timeout: 60000 });
   } catch (error) {
     throw new Error(`移除测试证书失败：${error.message}`);
   }

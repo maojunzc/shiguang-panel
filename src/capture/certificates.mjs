@@ -22,5 +22,5 @@ export function loadCertificates(dir) {
       throw new Error(`本机抓包证书不可用（${directory}）：${error.message}。请运行 node tools/gen-certs.mjs --dir "${directory}" --force 重新生成，再开始抓包。`);
     }
   }
-  throw new Error(`缺少本机抓包证书。请在本机源码目录运行 npm run certs，或运行 node tools/gen-certs.mjs --dir "${directories[0]}"；需要 ca.crt、leaf.crt 和 leaf.key。使用 exe 时请将本机生成的证书放到 exe 同目录的 certificates 或 work/mitm 目录，再开始抓包。`);
+  throw new Error(`缺少本机抓包证书。请在面板中点击「开始微信登录」，应用会在本地自动生成专属证书（${directories[0]}）。`);
 }

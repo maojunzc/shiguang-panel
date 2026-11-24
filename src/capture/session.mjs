@@ -18,6 +18,11 @@ const SEED_HOSTS = ['login-cc-31.y55l6.com', 'login-cc-32.y55l6.com', 'login-cc-
 const DEFAULT_TIMEOUT_MS = 180 * 1000;
 const SNAPSHOT_GRACE_MS = 10 * 1000;
 
+async function generateCertificatesInWorkDirectory(directory) {
+  const { generateRuntimeCertificates } = await import('./generate-certificates.mjs');
+  return generateRuntimeCertificates(directory);
+}
+
 // 初始放行登录域名；出现网关地址后再把网关域名加进来。
 class GameHosts extends Set {
   has(host) {
@@ -45,6 +50,7 @@ export function createCaptureSession({
   port = DEFAULT_PROXY_PORT,
   timeoutMs = DEFAULT_TIMEOUT_MS,
   record = false,
+  generateCertificates = generateCertificatesInWorkDirectory,
   onCapture = () => null,
   log = () => {},
 } = {}) {
@@ -247,6 +253,10 @@ export function createCaptureSession({
     }
 
     try {
+      addLog('ca', '正在检查本机抓包证书');
+      if (await generateCertificates(caDir)) {
+        addLog('ca', '已在本机生成专属测试证书');
+      }
       const certificates = loadCertificates(caDir);
       if (!isCaInstalled({ certificates })) await installCa(caDir, addLog, certificates);
       else addLog('ca', '测试证书已安装');

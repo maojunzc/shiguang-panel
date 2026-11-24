@@ -5,8 +5,7 @@ import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
-import { isSea } from 'node:sea';
+import { getAsset } from 'node:sea';
 import { ShiguangClient, attrName } from './client.mjs';
 import { ACTIONS, listActions, runAction } from './actions.mjs';
 import { describeActions } from './action-state.mjs';
@@ -15,12 +14,11 @@ import { activityBook } from './activities.mjs';
 import PROTOCOLS from './protocols.mjs';
 import { createCaptureSession } from './capture/session.mjs';
 import { removeCa } from './capture/system.mjs';
+import { APP_DIRECTORY, IS_PACKAGED, prepareWorkDirectory } from './paths.mjs';
 
-// 源码运行取 src 的上级；打包成 exe 后取 exe 所在目录（public/ 与 work/ 放在 exe 旁边）。
-const SRC_DIR = typeof __dirname === 'string' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
-const ROOT = isSea() ? path.dirname(process.execPath) : path.resolve(SRC_DIR, '..');
+const ROOT = APP_DIRECTORY;
 const PUBLIC = path.join(ROOT, 'public');
-const WORK = path.join(ROOT, 'work');
+const WORK = prepareWorkDirectory();
 const ACCOUNTS_DIR = path.join(WORK, 'accounts');
 const SETTINGS_FILE = path.join(WORK, 'settings.json');
 
@@ -41,7 +39,7 @@ function parseArgs(argv) {
 
 const options = parseArgs(process.argv.slice(2));
 if (options.help) {
-  console.log(`用法：${isSea() ? path.basename(process.execPath) : 'node src/server.mjs'} [--capture work/capture.json] [--port 8848] [--read-only] [--auto] [--interval 300] [--record]`);
+  console.log(`用法：${IS_PACKAGED ? path.basename(process.execPath) : 'node src/server.mjs'} [--capture work/capture.json] [--port 8848] [--read-only] [--auto] [--interval 300] [--record]`);
   console.log('  默认可写：面板里的领奖/结算/升级按钮会真实发请求。只看数据时加 --read-only。');
   console.log('  加 --auto 后启动即登录默认账号，并按 --interval 秒（默认 300）自动执行勾选的动作；只读模式下不生效。');
   console.log('  加 --record 后抓包不会自动结束，所有 WS 帧会写入 work/record-*.jsonl，手动取消时停止。');
@@ -550,6 +548,25 @@ function readBody(req) {
   });
 }
 
+function readPublicFile(pathname) {
+  const relativePath = path.posix.normalize(pathname.replace(/^[/\\]+/, ''));
+  if (!relativePath || relativePath.startsWith('..') || path.posix.isAbsolute(relativePath)) return null;
+
+  if (IS_PACKAGED) {
+    try {
+      return Buffer.from(getAsset(`public/${relativePath}`));
+    } catch {
+      return null;
+    }
+  }
+
+  const file = path.resolve(PUBLIC, relativePath);
+  const relativeToPublic = path.relative(PUBLIC, file);
+  if (relativeToPublic.startsWith('..') || path.isAbsolute(relativeToPublic) || !fs.existsSync(file)) return null;
+  if (!fs.statSync(file).isFile()) return null;
+  return fs.readFileSync(file);
+}
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
 
@@ -634,7 +651,10 @@ const server = http.createServer(async (req, res) => {
 
   if (url.pathname === '/api/wechat/cert' && req.method === 'DELETE') {
     try {
-      await removeCa((kind, message) => console.log(`[微信登录 ${kind}] ${message}`));
+      await removeCa({
+        dir: path.join(WORK, 'mitm'),
+        log: (kind, message) => console.log(`[微信登录 ${kind}] ${message}`),
+      });
       sendJson(res, 200, { ok: true, installed: captureSession.status().certInstalled });
     } catch (error) {
       sendJson(res, 400, { ok: false, error: error.message });
@@ -812,14 +832,14 @@ const server = http.createServer(async (req, res) => {
   }
 
   const relative = url.pathname === '/' ? '/index.html' : url.pathname;
-  const file = path.join(PUBLIC, path.normalize(relative).replace(/^([/\\])+/, ''));
-  if (!file.startsWith(PUBLIC) || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
+  const content = readPublicFile(relative);
+  if (!content) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('not found');
     return;
   }
-  res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] ?? 'application/octet-stream' });
-  fs.createReadStream(file).pipe(res);
+  res.writeHead(200, { 'Content-Type': MIME[path.posix.extname(relative)] ?? 'application/octet-stream' });
+  res.end(content);
 });
 
 server.listen(options.port, '127.0.0.1', () => {
