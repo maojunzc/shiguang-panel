@@ -9,6 +9,8 @@ import { fileURLToPath } from 'node:url';
 import { isSea } from 'node:sea';
 import { ShiguangClient, attrName } from './client.mjs';
 import { ACTIONS, listActions, runAction } from './actions.mjs';
+import { describeActions } from './action-state.mjs';
+import { AutoRunner, SAFE_AUTO_PLAN } from './auto-runner.mjs';
 import { activityBook } from './activities.mjs';
 import PROTOCOLS from './protocols.mjs';
 import { createCaptureSession } from './capture/session.mjs';
@@ -30,6 +32,7 @@ function parseArgs(argv) {
     else if (argv[i] === '--read-only') options.allowWrite = false;
     else if (argv[i] === '--allow-write') options.allowWrite = true;
     else if (argv[i] === '--auto') options.auto = true;
+    else if (argv[i] === '--record') options.record = true;
     else if (argv[i] === '--interval') options.interval = Math.max(30, Number(argv[++i]));
     else if (argv[i] === '--help' || argv[i] === '-h') options.help = true;
   }
@@ -38,9 +41,10 @@ function parseArgs(argv) {
 
 const options = parseArgs(process.argv.slice(2));
 if (options.help) {
-  console.log(`用法：${isSea() ? path.basename(process.execPath) : 'node src/server.mjs'} [--capture work/capture.json] [--port 8848] [--read-only] [--auto] [--interval 300]`);
+  console.log(`用法：${isSea() ? path.basename(process.execPath) : 'node src/server.mjs'} [--capture work/capture.json] [--port 8848] [--read-only] [--auto] [--interval 300] [--record]`);
   console.log('  默认可写：面板里的领奖/结算/升级按钮会真实发请求。只看数据时加 --read-only。');
   console.log('  加 --auto 后启动即登录默认账号，并按 --interval 秒（默认 300）自动执行勾选的动作；只读模式下不生效。');
+  console.log('  加 --record 后抓包不会自动结束，所有 WS 帧会写入 work/record-*.jsonl，手动取消时停止。');
   process.exit(0);
 }
 
@@ -75,22 +79,24 @@ function saveProtoData() {
   writeSettings(settings);
 }
 
-// 自动模式只跑这些「不消耗资源、不需要选目标」的动作；全部只操作已勾选项。
-const DEFAULT_AUTO_PLAN = [
-  'build.collect', 'build.settle', 'build.offline',
-  'task.claimAll', 'task.dailyBox', 'task.mainFinish',
-  'mail.claimAll', 'helper.collect', 'helper.gainAward',
-  'market.settle', 'market.rumor', 'market.replenish',
-  'tech.finish', 'tech.aidOthers', 'wonder.finishVisit',
-  'privilege.moon', 'privilege.forever', 'freeshopping.claim',
-  'activity.claimAll',
-];
+// 自动模式默认仅勾选已核验前置条件的领奖/收取动作；扩展动作需手动单次执行验证。
+const DEFAULT_AUTO_PLAN = [...SAFE_AUTO_PLAN];
 
 const autoPlan = new Set(
   Array.isArray(settings.autoPlan)
-    ? settings.autoPlan.filter((name) => isValidPlanName(name))
+    ? settings.autoPlan.filter((name) => isValidPlanName(name) && SAFE_AUTO_PLAN.includes(name))
     : DEFAULT_AUTO_PLAN.filter((name) => ACTIONS[name]),
 );
+
+// 清理旧版默认加入但未完成消耗/条件核验的动作，防止升级后自动执行。
+const AUTO_PLAN_VERSION = 3;
+if (Number(settings.autoPlanVersion ?? 1) < AUTO_PLAN_VERSION) {
+  const previousSafe = new Set(SAFE_AUTO_PLAN);
+  for (const name of autoPlan) if (!previousSafe.has(name)) autoPlan.delete(name);
+  settings.autoPlanVersion = AUTO_PLAN_VERSION;
+  settings.autoEnabled = false;
+  saveAutoPlan();
+}
 
 function saveAutoPlan() {
   settings.autoPlan = [...autoPlan];
@@ -178,6 +184,7 @@ function isAllowedCapture(file) {
 const captureSession = createCaptureSession({
   workDir: WORK,
   accountsDir: ACCOUNTS_DIR,
+  record: Boolean(options.record),
   onCapture(file) {
     startAccount(file);
     return describeCapture(file);
@@ -205,13 +212,70 @@ const prevDt = new Map();
 let status = 'no-account';
 let lastError = '';
 let syncedAt = null;
+let writeEnabled = options.allowWrite;
+let sessionEpoch = 0;
+let modeEpoch = 0;
+let cancelEpoch = 0;
+let actionRunning = false;
+
+async function executeAction(name, params, context = null) {
+  if (actionRunning || (!context && autoRunner.state.running)) throw new Error('已有动作正在执行，请稍候');
+  const instance = client;
+  const session = sessionEpoch;
+  const mode = modeEpoch;
+  const cancellation = cancelEpoch;
+  const generation = autoRunner.generation;
+  const startedAt = Date.now();
+  let requests = 0;
+  let active = true;
+  const guard = () => {
+    if (!active || cancellation !== cancelEpoch) throw new Error('动作已取消');
+    if (!instance || instance !== client || session !== sessionEpoch) throw new Error('账号已切换，动作已取消');
+    if (status !== 'online') throw new Error('账号尚未连接');
+    if (!writeEnabled || mode !== modeEpoch) throw new Error('已切换只读模式，动作已取消');
+    if (Date.now() - startedAt >= 60000) throw new Error('达到动作执行时长上限（60秒）');
+    if (context) {
+      if (generation !== autoRunner.generation) throw new Error('自动流程已取消');
+      context.guard?.();
+    }
+  };
+  guard();
+  actionRunning = true;
+  const proxy = new Proxy(instance, {
+    get(target, key) {
+      if (key === 'request') return (mod, op, data, timeoutMs, requestGuard) => {
+        guard();
+        if (requests >= 40) throw new Error('达到单动作请求上限（40次）');
+        requests += 1;
+        return target.request(mod, op, data, timeoutMs, () => {
+          guard();
+          requestGuard?.();
+        });
+      };
+      const value = Reflect.get(target, key, target);
+      return typeof value === 'function' ? value.bind(target) : value;
+    },
+  });
+  try {
+    const result = await runAction(proxy, name, params);
+    guard();
+    return result;
+  } finally {
+    active = false;
+    actionRunning = false;
+  }
+}
 
 function startAccount(file) {
   if (!isAllowedCapture(file)) throw new Error('账号文件不在可访问目录内');
   const { gateway, loginFrame } = loadCaptureFile(file);
   if (!gateway || !loginFrame) throw new Error('登录信息缺少网关地址或登录帧，请重新抓包并进入游戏主界面');
 
-  if (client) client.close();
+  stopAuto('切换账号，已停止自动流程；请重新确认后开启');
+  sessionEpoch += 1;
+  const previous = client;
+  client = null;
+  previous?.close();
   activityBook.activities.clear();
   activityBook.claimed.clear();
   prevDt.clear();
@@ -221,9 +285,11 @@ function startAccount(file) {
   status = 'connecting';
 
   currentAccount = describeCapture(file);
-  client = new ShiguangClient({ gateway, loginFrame, autoReconnect: true });
-  wireClient(client);
-  client.connect().catch((error) => {
+  const instance = new ShiguangClient({ gateway, loginFrame, autoReconnect: true });
+  client = instance;
+  wireClient(instance);
+  instance.connect().catch((error) => {
+    if (instance !== client) return;
     status = 'offline';
     lastError = error.message;
     console.error(`登录失败：${error.message}`);
@@ -233,8 +299,11 @@ function startAccount(file) {
 }
 
 function stopAccount() {
-  if (client) client.close();
+  stopAuto('账号已退出，已停止自动流程；请重新确认后开启');
+  sessionEpoch += 1;
+  const previous = client;
   client = null;
+  previous?.close();
   currentAccount = null;
   activityBook.activities.clear();
   activityBook.claimed.clear();
@@ -248,6 +317,7 @@ function stopAccount() {
 
 function wireClient(instance) {
   instance.on('login', (response) => {
+    if (instance !== client) return;
     status = 'online';
     lastError = '';
     syncedAt = Date.now();
@@ -257,24 +327,31 @@ function wireClient(instance) {
     console.log(`登录成功：${instance.gateway}`);
     scheduleBroadcast();
   });
-  instance.on('changed', (list) => remember(list));
+  instance.on('changed', (list) => {
+    if (instance !== client) return;
+    remember(list);
+  });
   instance.on('push', (push) => {
+    if (instance !== client) return;
     activityBook.absorb(push.data);
-    if (push.data?.dt) remember(push.data.dt);
-    else scheduleBroadcast();
+    scheduleBroadcast();
   });
   instance.on('error', (error) => {
+    if (instance !== client) return;
     lastError = error.message;
     console.error(`[错误] ${error.message}`);
     scheduleBroadcast();
   });
   instance.on('reconnecting', () => {
+    if (instance !== client) return;
     status = 'reconnecting';
+    stopAuto('连接中断，已停止自动流程；重新连接后请手动开启');
     scheduleBroadcast();
   });
   instance.on('close', () => {
     if (instance !== client) return;
     status = instance._closed ? 'closed' : 'reconnecting';
+    stopAuto('连接关闭，已停止自动流程');
     scheduleBroadcast();
   });
 }
@@ -284,41 +361,33 @@ function wireClient(instance) {
 const auto = {
   enabled: Boolean(options.allowWrite && (settings.autoEnabled ?? Boolean(options.auto))),
   intervalSec: options.interval,
-  running: false,
-  lastRunAt: null,
-  lastResults: [],
 };
 
-async function runAutoOnce(force = false) {
-  if ((!auto.enabled && !force) || auto.running || status !== 'online' || !client) return null;
-  auto.running = true;
-  const results = [];
-  try {
-    for (const name of autoPlan) {
-      try {
-        let result;
-        if (ACTIONS[name]) {
-          result = await runAction(client, name);
-        } else {
-          const entry = protoIndex.get(name);
-          if (!entry) continue;
-          result = await runAction(client, 'proto.call', { mod: entry.mod, op: entry.op, data: protoData[name] ?? {} });
-          result = { ...result, title: name };
-        }
-        results.push({ name, title: result.title, ok: result.ok, code: result.code ?? null, note: result.skipped ?? null });
-      } catch (error) {
-        results.push({ name, title: name, ok: false, note: error.message });
-      }
+const autoRunner = new AutoRunner({
+  execute: (name, context) => executeAction(name, undefined, context),
+  isOnline: () => Boolean(writeEnabled && client && status === 'online'),
+  onChange: () => {
+    if (auto.enabled && autoRunner.state.phase === 'paused' && !autoRunner.resumeAfterRun) {
+      auto.enabled = false;
+      settings.autoEnabled = false;
+      writeSettings(settings);
     }
-    auto.lastRunAt = Date.now();
-    auto.lastResults = results.slice(-16);
-    const done = results.filter((row) => row.ok).length;
-    if (done) console.log(`[自动] ${new Date().toLocaleTimeString('zh-CN')} 执行成功 ${done} 项`);
     scheduleBroadcast();
-  } finally {
-    auto.running = false;
-  }
-  return results;
+  },
+});
+
+function stopAuto(reason) {
+  cancelEpoch += 1;
+  auto.enabled = false;
+  settings.autoEnabled = false;
+  autoRunner.pause(reason);
+  writeSettings(settings);
+}
+
+async function runAutoOnce(force = false) {
+  if ((!auto.enabled && !force) || !writeEnabled || !client || status !== 'online' || actionRunning) return null;
+  if (force) autoRunner.resume();
+  return autoRunner.run([...autoPlan]);
 }
 
 if (auto.enabled) setTimeout(runAutoOnce, 8000);
@@ -354,8 +423,14 @@ function buildState() {
   const get = (cls, name) => rows.filter((row) => row.cls === cls && row.name === name);
   const scalar = (cls, name) => get(cls, name).find((row) => row.tid === 0)?.value ?? null;
   const hasCls = (cls) => rows.some((row) => row.cls === cls);
+  const itemDeltas = new Map();
+  for (const change of changes) {
+    if (change.cls !== 'ItemDt' || change.name !== 'count') continue;
+    const delta = Number(change.after ?? 0) - Number(change.before ?? 0);
+    itemDeltas.set(change.tid, (itemDeltas.get(change.tid) ?? 0) + delta);
+  }
   const items = get('ItemDt', 'count')
-    .map((row) => ({ tid: row.tid, count: Number(row.value) }))
+    .map((row) => ({ tid: row.tid, count: Number(row.value), delta: itemDeltas.get(row.tid) ?? 0 }))
     .sort((a, b) => b.count - a.count);
   const taskRows = get('TaskDt', 'comState');
   const taskStates = {};
@@ -363,13 +438,13 @@ function buildState() {
   const builds = get('BuildDt', 'lv').map((row) => ({ tid: row.tid, lv: Number(row.value) })).sort((a, b) => b.lv - a.lv);
   const mods = get('ModDt', 'unlockTime');
   const moduleList = [
-    { key: 'market', name: '集市', desc: '营业结算 / 流言 / 补货', unlocked: hasCls('MarketDt') },
-    { key: 'helper', name: '管家', desc: '托管收取 / 奖励领取', unlocked: hasCls('HelperDt') },
-    { key: 'union', name: '同盟', desc: '科技互助 / 同盟战', unlocked: Number(scalar('UnionDt', 'id') ?? 0) > 0 },
-    { key: 'tech', name: '科技', desc: '研究完成 / 互助', unlocked: hasCls('TechDt') },
-    { key: 'wonder', name: '奇观', desc: '游览完成 / 奇观奖励', unlocked: hasCls('WonderDt') },
-    { key: 'privilege', name: '月卡', desc: '每日奖励 / 终身卡', unlocked: Number(scalar('PrivilegeCardDt', 'moon_card_end_time') ?? 0) * 1000 > Date.now() },
-  ];
+    { key: 'market', name: '集市', desc: '营业结算 / 流言 / 补货' },
+    { key: 'helper', name: '管家', desc: '托管收取 / 奖励领取' },
+    { key: 'union', name: '同盟', desc: '科技互助 / 同盟战' },
+    { key: 'tech', name: '科技', desc: '研究完成 / 互助' },
+    { key: 'wonder', name: '奇观', desc: '游览完成 / 奇观奖励' },
+    { key: 'privilege', name: '月卡', desc: '每日奖励 / 终身卡' },
+  ].map((module) => ({ ...module, unlocked: null, reason: '尚未取得明确解锁条件' }));
 
   return {
     status,
@@ -391,7 +466,19 @@ function buildState() {
       offlineTime: scalar('UserDt', 'offline_time'),
     },
     items,
-    tasks: { total: taskRows.length, states: taskStates },
+    tasks: {
+      total: taskRows.length,
+      states: taskStates,
+      main: {
+        tid: scalar('TaskDt', 'tid'),
+        canFinish: scalar('TaskDt', 'can_finish'),
+        finishedTask: scalar('TaskDt', 'finished_task'),
+        guideTask: scalar('TaskDt', 'last_guide_task'),
+        reason: !hasCls('TaskDt') ? '尚未同步任务数据' : Number(scalar('TaskDt', 'can_finish')) > 0 ? '主线奖励可领取' : '主线条件尚未完成',
+        nextAction: null,
+        waitUntil: null,
+      },
+    },
     builds: { total: builds.length, list: builds },
     mods: { unlocked: mods.length },
     modules: moduleList,
@@ -399,13 +486,12 @@ function buildState() {
       attrs: rows.length,
       parsed: rows.filter((row) => row.cls).length,
     },
-    writeEnabled: options.allowWrite,
+    writeLocked: !options.allowWrite,
+    writeEnabled,
     auto: {
       enabled: auto.enabled,
-      running: auto.running,
       intervalSec: auto.intervalSec,
-      lastRunAt: auto.lastRunAt,
-      lastResults: auto.lastResults,
+      ...autoRunner.snapshot(),
     },
     autoPlan: [...autoPlan],
     activities: activityBook.summary(),
@@ -558,8 +644,8 @@ const server = http.createServer(async (req, res) => {
 
   if (url.pathname === '/api/auto-plan' && req.method === 'GET') {
     sendJson(res, 200, {
-      allowWrite: options.allowWrite,
-      actions: listActions().filter((action) => action.name !== 'proto.call'),
+      allowWrite: writeEnabled,
+      actions: describeActions(listActions().filter((action) => action.name !== 'proto.call'), client ? client.snapshot() : []),
       plan: [...autoPlan],
       protoData,
     });
@@ -569,8 +655,13 @@ const server = http.createServer(async (req, res) => {
   if (url.pathname === '/api/auto-plan' && req.method === 'POST') {
     try {
       const body = await readBody(req);
-      const next = Array.isArray(body.plan) ? [...new Set(body.plan.filter((name) => isValidPlanName(name)))] : null;
-      if (!next) throw new Error('plan 必须是动作名数组');
+      if (!Array.isArray(body.plan)) throw new Error('plan 必须是动作名数组');
+      const next = [...new Set(body.plan)];
+      const metadata = new Map(describeActions(listActions(), client ? client.snapshot() : []).map((action) => [action.name, action]));
+      for (const name of next) {
+        if (!SAFE_AUTO_PLAN.includes(name)) throw new Error(`动作不支持自动执行：${name}`);
+        if (!autoPlan.has(name) && metadata.get(name)?.unlocked !== true) throw new Error(`动作尚未明确解锁：${name}`);
+      }
       autoPlan.clear();
       for (const name of next) autoPlan.add(name);
       saveAutoPlan();
@@ -597,18 +688,44 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (url.pathname === '/api/auto' && req.method === 'POST') {
-    if (!options.allowWrite) {
-      sendJson(res, 403, { ok: false, error: '只读模式：启动时去掉 --read-only 才能开启自动挂机' });
-      return;
+  if (url.pathname === '/api/mode' && req.method === 'POST') {
+    try {
+      const body = await readBody(req);
+      if (typeof body.writeEnabled !== 'boolean') throw new Error('writeEnabled 必须是布尔值');
+      if (body.writeEnabled && !options.allowWrite) {
+        sendJson(res, 403, { ok: false, error: '启动参数 --read-only 已锁定只读模式' });
+        return;
+      }
+      if (body.writeEnabled !== writeEnabled) {
+        writeEnabled = body.writeEnabled;
+        modeEpoch += 1;
+        if (!writeEnabled) stopAuto('已切换只读模式，自动流程已停止');
+      }
+      scheduleBroadcast();
+      sendJson(res, 200, { ok: true, writeLocked: !options.allowWrite, writeEnabled });
+    } catch (error) {
+      sendJson(res, 400, { ok: false, error: error.message });
     }
+    return;
+  }
+
+  if (url.pathname === '/api/auto' && req.method === 'POST') {
     try {
       const body = await readBody(req);
       const enabled = Boolean(body.enabled);
+      if (enabled && !writeEnabled) {
+        sendJson(res, 403, { ok: false, error: '只读模式：请先开启可写模式' });
+        return;
+      }
       auto.enabled = enabled;
       settings.autoEnabled = enabled;
       writeSettings(settings);
-      if (enabled) setTimeout(runAutoOnce, 1500);
+      if (enabled) {
+        autoRunner.resume();
+        setTimeout(runAutoOnce, 1500);
+      } else {
+        stopAuto('已由用户关闭');
+      }
       scheduleBroadcast();
       sendJson(res, 200, { ok: true, enabled });
     } catch (error) {
@@ -618,15 +735,15 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (url.pathname === '/api/auto/run-now' && req.method === 'POST') {
-    if (!options.allowWrite) {
-      sendJson(res, 403, { ok: false, error: '只读模式：启动时去掉 --read-only 才能执行动作' });
+    if (!writeEnabled) {
+      sendJson(res, 403, { ok: false, error: '只读模式：请先开启可写模式' });
       return;
     }
     if (!client || status !== 'online') {
       sendJson(res, 409, { ok: false, error: '账号尚未连接' });
       return;
     }
-    if (auto.running) {
+    if (autoRunner.state.running || actionRunning) {
       sendJson(res, 409, { ok: false, error: '上一轮还在执行，请稍候' });
       return;
     }
@@ -665,22 +782,26 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (url.pathname === '/api/actions') {
-    sendJson(res, 200, { allowWrite: options.allowWrite, actions: listActions().filter((action) => action.name !== 'proto.call') });
+    sendJson(res, 200, { allowWrite: writeEnabled, actions: describeActions(listActions().filter((action) => action.name !== 'proto.call'), client ? client.snapshot() : []) });
     return;
   }
 
   if (url.pathname === '/api/action' && req.method === 'POST') {
-    if (!options.allowWrite) {
-      sendJson(res, 403, { ok: false, error: '只读模式：启动时加了 --read-only' });
+    if (!writeEnabled) {
+      sendJson(res, 403, { ok: false, error: '只读模式：请先开启可写模式' });
       return;
     }
     if (!client || status !== 'online') {
       sendJson(res, 409, { ok: false, error: '账号尚未连接' });
       return;
     }
+    const session = sessionEpoch;
+    const mode = modeEpoch;
+    const cancellation = cancelEpoch;
     try {
       const payload = await readBody(req);
-      const result = await runAction(client, payload.name, payload.params);
+      if (session !== sessionEpoch || mode !== modeEpoch || cancellation !== cancelEpoch) throw new Error('账号、模式或取消状态已改变，请重新执行');
+      const result = await executeAction(payload.name, payload.params);
       console.log(`[动作] ${result.name} ok=${result.ok} code=${result.code} ${result.skipped ?? ''}`);
       scheduleBroadcast();
       sendJson(res, 200, result);

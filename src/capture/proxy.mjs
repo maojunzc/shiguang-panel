@@ -6,10 +6,7 @@ import http from 'node:http';
 import https from 'node:https';
 import net from 'node:net';
 import tls from 'node:tls';
-import { LEAF_CRT_BASE64, LEAF_KEY_BASE64 } from './certs.mjs';
-
-const LEAF_CERT = Buffer.from(LEAF_CRT_BASE64, 'base64');
-const LEAF_KEY = Buffer.from(LEAF_KEY_BASE64, 'base64');
+import { loadCertificates } from './certificates.mjs';
 
 export const DEFAULT_PROXY_PORT = Number(process.env.SG_PROXY_PORT ?? 17324);
 const HTTP_BODY_LIMIT = 4 * 1024 * 1024;
@@ -105,7 +102,7 @@ function readBody(stream, limit) {
   });
 }
 
-// certificateFor 默认返回内嵌的通配目标证书；其它域名需自行提供证书。
+// 默认按需读取本机通配目标证书；其它域名需自行提供 certificateFor。
 export function createProxy({
   port = DEFAULT_PROXY_PORT,
   log = () => {},
@@ -115,7 +112,7 @@ export function createProxy({
   inspectHttp,
   onHttp,
   onFrame,
-  certificateFor = () => ({ cert: LEAF_CERT, keyPem: LEAF_KEY }),
+  certificateFor = () => loadCertificates(),
   caIsInstalled = () => true,
 } = {}) {
   const hosts = interceptHosts === undefined ? null

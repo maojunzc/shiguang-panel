@@ -17,6 +17,41 @@ function first(client, cls, name) {
   return find(client, cls, name).find((row) => row.tid === 0)?.value ?? null;
 }
 
+function num(client, cls, name) {
+  return Number(first(client, cls, name) ?? 0);
+}
+
+// 服务器返回 code 为空表示成功；有值时是错误码（数组或数字）。
+function isError(response) {
+  if (!response || typeof response !== 'object' || Array.isArray(response)) return true;
+  const code = response.code;
+  const value = Array.isArray(code) ? code[0] : code;
+  return Boolean(value);
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// 只接受现代 Unix 绝对时间的数量级；相对时长及单位不明的值不能用于领奖。
+function epochMS(value) {
+  if (typeof value !== 'number' && typeof value !== 'string') return null;
+  const time = Number(value);
+  if (!Number.isFinite(time)) return null;
+  if (time >= 1e9 && time < 1e10) return time * 1000;
+  if (time >= 1e12 && time < 1e13) return time;
+  return null;
+}
+
+function timerBlocked(client, cls, field) {
+  const end = epochMS(first(client, cls, field));
+  const now = client.serverMS == null ? Date.now() : epochMS(client.serverMS);
+  if (end === null || now === null) return '无法确认计时单位或到期时间，暂不领取';
+  return end > now ? '计时尚未到期' : null;
+}
+
 export const ACTIONS = {
   'mail.claimAll': {
     title: '邮件一键领取',
@@ -136,6 +171,8 @@ export const ACTIONS = {
     write: true,
     async run(client) {
       if (!Number(first(client, 'TechDt', 'unlocking_tech') ?? 0)) return { skipped: '当前没有进行中的研究' };
+      const blocked = timerBlocked(client, 'TechDt', 'unlock_end_time');
+      if (blocked) return { blocked, skipped: blocked };
       const response = await client.request('tech', 'finish');
       return { response };
     },
@@ -157,6 +194,8 @@ export const ACTIONS = {
     write: true,
     async run(client) {
       if (!Number(first(client, 'WonderDt', 'visit_end_time') ?? 0)) return { skipped: '当前没有进行中的游览' };
+      const blocked = timerBlocked(client, 'WonderDt', 'visit_end_time');
+      if (blocked) return { blocked, skipped: blocked };
       const response = await client.request('wonder', 'finishVisit');
       return { response };
     },
@@ -193,8 +232,7 @@ export const ACTIONS = {
       const ids = activityBook.idsToClaim(activityId);
       if (!ids.length) return { skipped: '该活动暂无可领取条件' };
       const response = await client.request('activity', 'getConditionRewards', { activityId, idList: ids });
-      const code = Array.isArray(response.code) ? response.code[0] : response.code;
-      if (code === 0 || code == null) activityBook.markClaimed(activityId, ids);
+      if (!isError(response)) activityBook.markClaimed(activityId, ids);
       return { response, tids: ids };
     },
   },
@@ -212,12 +250,12 @@ export const ACTIONS = {
         const ids = activityBook.idsToClaim(row.activityId);
         if (!ids.length) continue;
         const response = await client.request('activity', 'getConditionRewards', { activityId: row.activityId, idList: ids });
-        const code = Array.isArray(response.code) ? response.code[0] : response.code;
-        if (code === 0 || code == null) {
+        if (!isError(response)) {
           activityBook.markClaimed(row.activityId, ids);
           claimed += ids.length;
         } else {
           failed += 1;
+          return { response, meta: { claimed, failed } };
         }
         last = response;
       }
@@ -248,6 +286,7 @@ export const ACTIONS = {
       let last = null;
       for (const shopId of shopIds) {
         last = await client.request('freeshopping', 'claim', { shopId });
+        if (isError(last)) return { response: last, tids: [shopId] };
       }
       return { response: last, tids: shopIds };
     },
@@ -276,6 +315,129 @@ export const ACTIONS = {
     },
   },
 
+  // ---- 自动剧情 / 主线 / 征战 ----
+
+  'task.autoMain': {
+    title: '主线任务推进（按已验证指引）',
+    write: true,
+    async run(client) {
+      const tid = num(client, 'TaskDt', 'tid');
+      const beforeFinished = num(client, 'TaskDt', 'finished_task');
+      if (!tid) return { skipped: '当前没有进行中的主线任务' };
+      if (!num(client, 'TaskDt', 'can_finish')) {
+        return { skipped: '当前主线条件未完成；尚无已验证的任务条件映射，不发送刷新或猜测动作', meta: { tid, finishedTask: beforeFinished } };
+      }
+      const response = await client.request('task', 'finish');
+      if (isError(response)) return { response, progress: false, meta: { tid, finishedTask: beforeFinished, note: '服务器未接受主线领奖' } };
+      const nextTid = num(client, 'TaskDt', 'tid');
+      const nextFinished = num(client, 'TaskDt', 'finished_task');
+      const progressed = nextTid !== tid || nextFinished !== beforeFinished;
+      return {
+        response,
+        progress: progressed,
+        meta: { tid, nextTid, finishedTask: beforeFinished, nextFinished, note: progressed ? null : '服务器响应成功但主线状态未变化，需刷新状态后复核' },
+      };
+    },
+  },
+
+  'task.autoStory': {
+    title: '自动剧情任务（领奖）',
+    write: true,
+    async run(client) {
+      const ready = find(client, 'TaskDt', 'comState').filter((row) => Number(row.value) === 2).map((row) => row.tid);
+      if (!ready.length) return { skipped: '当前没有已确认可领取的剧情任务；不会刷新所有进行中任务或猜测章节奖励' };
+      const response = await client.request('task', 'comFinish', ready);
+      return { response, tids: ready, meta: { claimed: isError(response) ? 0 : ready.length } };
+    },
+  },
+
+  'mission.autoFight': {
+    title: '自动征战推图（打关卡/首领）',
+    write: true,
+    async run(client, params) {
+      if (num(client, 'MissionDt', 'graduation')) return { skipped: '征战已全部通关（毕业）' };
+      const rounds = clamp(Number(params?.rounds) || 8, 1, 40);
+      const waitMs = clamp(Number(params?.waitSec ?? 10) * 1000, 2000, 30000);
+      const stats = { startMission: num(client, 'MissionDt', 'mission'), fights: 0, bossFights: 0, wins: 0, awards: 0, endMission: null, note: null };
+      let last = null;
+      let idle = 0;
+      for (let i = 0; i < rounds; i += 1) {
+        if (num(client, 'MissionDt', 'graduation')) {
+          stats.note = '征战已毕业';
+          break;
+        }
+        const before = num(client, 'MissionDt', 'mission');
+        const fightTid = num(client, 'MissionDt', 'fight_tid');
+        const boss = num(client, 'MissionDt', 'boss');
+        if (!fightTid) {
+          stats.note = '未读到当前征战关卡';
+          break;
+        }
+        if (boss) {
+          last = await client.request('mission', 'fightBoss');
+          stats.bossFights += 1;
+          if (isError(last)) {
+            stats.note = '首领战失败（条件不足）';
+            break;
+          }
+          const win = last.data?.result?.win ?? last.data?.win;
+          if (!win) {
+            stats.note = '首领战未获胜（战力不足）';
+            break;
+          }
+        } else {
+          last = await client.request('mission', 'fightNormal', { fightTid, isHeal: true });
+          stats.fights += 1;
+          if (isError(last)) {
+            stats.note = '普通战斗失败（兵力或补给不足）';
+            break;
+          }
+        }
+        stats.wins += 1;
+        await sleep(waitMs);
+        if (num(client, 'MissionDt', 'mission') === before) {
+          idle += 1;
+          if (idle >= 2) {
+            stats.note = '征战进度没有变化（可能宝箱已满或战力不足）';
+            break;
+          }
+        } else {
+          idle = 0;
+        }
+        const award = await client.request('mission', 'gainChapterReward');
+        last = award;
+        if (isError(award)) {
+          stats.note = '征战章节领奖失败';
+          break;
+        }
+        if (!isError(award)) {
+          stats.awards += 1;
+          await sleep(300);
+        }
+      }
+      stats.endMission = num(client, 'MissionDt', 'mission');
+      return { response: last, meta: stats, skipped: stats.wins ? undefined : (stats.note ?? '本轮没有产生战斗') };
+    },
+  },
+
+  'mapEvent.claimAward': {
+    title: '剧情事件奖励领取',
+    write: true,
+    async run(client) {
+      const tids = find(client, 'TaskDt', 'mapEvent').filter((row) => Number(row.value) === 3).map((row) => row.tid);
+      if (!tids.length) return { skipped: '当前没有已完成待领奖的剧情事件' };
+      let last = null;
+      let claimed = 0;
+      for (const tid of tids) {
+        const response = await client.request('mapEvent', 'gainAward', { tid });
+        last = response;
+        if (isError(response)) break;
+        claimed += 1;
+      }
+      return { response: last, tids, meta: { claimed } };
+    },
+  },
+
   // 协议库里的任意 mod.op 都通过这一个动作发送，data 由界面填写。
   'proto.call': {
     title: '协议调用',
@@ -300,16 +462,19 @@ export async function runAction(client, name, params) {
   if (!action) throw new Error(`未知动作：${name}`);
   const startedAt = Date.now();
   const result = await action.run(client, params ?? {});
-  const code = result.response?.code;
-  const codeNumber = Array.isArray(code) ? code[0] : code;
+  const response = result.response;
+  const code = response?.code;
+  const ok = !result.skipped && response && typeof response === 'object' && !isError(response) && result.progress !== false;
   return {
     name,
     title: action.title,
-    ok: result.skipped ? false : codeNumber === 0 || codeNumber == null,
+    ok: Boolean(ok),
     skipped: result.skipped ?? null,
     code: code ?? null,
     tids: result.tids ?? null,
     meta: result.meta ?? null,
+    progress: result.progress ?? null,
+    note: result.progress === false ? (result.meta?.note ?? '请求完成但状态未发生可确认变化') : null,
     elapsedMs: Date.now() - startedAt,
   };
 }

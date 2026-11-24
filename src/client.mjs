@@ -57,8 +57,8 @@ export class ShiguangClient extends EventEmitter {
       socket.addEventListener('open', resolve, { once: true });
       socket.addEventListener('error', () => reject(new Error('WebSocket 连接失败')), { once: true });
     });
-    socket.addEventListener('message', (event) => this._onMessage(event));
-    socket.addEventListener('close', (event) => this._onClose(event));
+    socket.addEventListener('message', (event) => { if (socket === this.socket) this._onMessage(event); });
+    socket.addEventListener('close', (event) => { if (socket === this.socket) this._onClose(event); });
 
     await opened;
     this.reqNo = Math.max(1, this.reqNo);
@@ -72,12 +72,17 @@ export class ShiguangClient extends EventEmitter {
   }
 
   // 串行发送请求：同一时刻只有一帧在途，与客户端行为一致。
-  request(mod, op, data = {}, timeoutMs = this.timeoutMs) {
-    return this._send(mod, op, data, timeoutMs);
+  request(mod, op, data = {}, timeoutMs = this.timeoutMs, guard = null) {
+    return this._send(mod, op, data, timeoutMs, guard);
   }
 
-  _send(mod, op, data, timeoutMs) {
-    const run = () => this._sendNow(mod, op, data, timeoutMs);
+  _send(mod, op, data, timeoutMs, guard = null) {
+    const socket = this.socket;
+    const run = () => {
+      if (socket !== this.socket || this._closed) throw new Error('连接已切换，取消排队请求');
+      guard?.();
+      return this._sendNow(mod, op, data, timeoutMs);
+    };
     const next = this._chain.then(run, run);
     this._chain = next.catch(() => {});
     return next;
@@ -120,6 +125,10 @@ export class ShiguangClient extends EventEmitter {
     }
     const reqNo = message[''];
     if (reqNo === -3) {
+      if (Array.isArray(message.data?.dt)) {
+        this._applyDt(message.data.dt);
+        this.emit('changed', message.data.dt);
+      }
       this.emit('push', { opCode: message.opCode, data: message.data });
       return;
     }

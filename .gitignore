@@ -1,8 +1,24 @@
 # 本机运行数据（账号凭证、抓包结果、设置、代理备份）绝不能提交
 work/
-# 构建期生成的测试证书（含 CA 私钥，每台机器本地生成即可）
+# 本机生成的测试证书（每台机器独立生成，不能分发或打进 exe）
 certificates/
 src/capture/certs.mjs
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.csr
+*.srl
+
+# 误放到其它目录的账号与抓包数据
+accounts/
+capture.json
+capture-*.json
+settings.json
+proxy-backup.json
+record-*.jsonl
 
 # 构建产物
 build/
@@ -13,5 +29,7 @@ dist/
 node_modules/
 npm-debug.log*
 .env
+.env.*
+!.env.example
 .DS_Store
 Thumbs.db

@@ -1,18 +1,16 @@
-// 生成抓包用的本机测试证书（构建期执行，运行 exe 时不需要 OpenSSL）。
-//
-// 产物：
-//   certificates/ca.crt / ca.key      测试根证书（只用来给目标证书签名，不进 exe）
-//   certificates/leaf.crt / leaf.key  覆盖 *.y55l6.com 的通配目标证书（打进 exe）
-//   src/capture/certs.mjs             上面两份证书的 base64，供 exe 运行时使用
-//
-// 已有 certs.mjs 时默认跳过，避免每次构建都换新 CA 让用户重新信任；需要更换用 --force。
+// 在使用抓包的机器上生成证书，仅写入本地 certificates/（或 --dir 指定目录）。
+// ca.crt / ca.key 为根证书；leaf.crt / leaf.key 为目标证书，不生成源码模块或嵌入 exe。
+// 已有完整证书时默认跳过；需要更换用 --force。
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const CA_DIR = path.join(ROOT, 'certificates');
-const OUT = path.join(ROOT, 'src', 'capture', 'certs.mjs');
+const dirIndex = process.argv.indexOf('--dir');
+if (dirIndex !== -1 && (!process.argv[dirIndex + 1] || process.argv[dirIndex + 1].startsWith('--'))) {
+  throw new Error('--dir 需要指定证书目录');
+}
+const CA_DIR = dirIndex === -1 ? path.join(ROOT, 'certificates') : path.resolve(process.argv[dirIndex + 1]);
 const FORCE = process.argv.includes('--force');
 
 export const CA_CN = 'Shiguang Local Capture CA';
@@ -36,16 +34,20 @@ function findOpenSsl() {
   }
 }
 
+const requiredFiles = ['ca.crt', 'ca.key', 'leaf.crt', 'leaf.key'].map((name) => path.join(CA_DIR, name));
+if (!FORCE && requiredFiles.every((file) => fs.existsSync(file))) {
+  console.log(`已存在完整证书 ${CA_DIR}，跳过证书生成（需要更换请加 --force）`);
+  process.exit(0);
+}
+if (!FORCE && requiredFiles.some((file) => fs.existsSync(file))) {
+  throw new Error(`证书目录 ${CA_DIR} 不完整，请检查后加 --force 重新生成`);
+}
+
 const openssl = findOpenSsl();
 const run = (args) => execFileSync(openssl, args, {
   env: { ...process.env, MSYS_NO_PATHCONV: '1' },
   stdio: ['ignore', 'pipe', 'pipe'],
 });
-
-if (fs.existsSync(OUT) && !FORCE) {
-  console.log(`已存在 ${path.relative(ROOT, OUT)}，跳过证书生成（需要更换请加 --force）`);
-  process.exit(0);
-}
 
 fs.mkdirSync(CA_DIR, { recursive: true });
 const caKey = path.join(CA_DIR, 'ca.key');
@@ -80,17 +82,5 @@ run([
 
 const fingerprint = run(['x509', '-in', caCrt, '-noout', '-fingerprint', '-sha1']).toString();
 const thumbprint = fingerprint.replace(/^.*?=/m, '').trim().replace(/:/g, '').toUpperCase();
-const base64 = (file) => fs.readFileSync(file).toString('base64');
-
-fs.mkdirSync(path.dirname(OUT), { recursive: true });
-fs.writeFileSync(OUT, `// 由 tools/gen-certs.mjs 生成，请勿手改。
-// caCrt 是测试根证书（安装到当前用户受信任根，用于本机解密）；
-// leafCrt/leafKey 是覆盖游戏域名的目标证书，仅用于本机抓包。
-export const CA_CRT_BASE64 = '${base64(caCrt)}';
-export const LEAF_CRT_BASE64 = '${base64(leafCrt)}';
-export const LEAF_KEY_BASE64 = '${base64(leafKey)}';
-export const CA_THUMBPRINT = '${thumbprint}';
-`, 'utf8');
-
-console.log(`已生成测试证书：${path.relative(ROOT, OUT)}`);
+console.log(`已生成本机测试证书：${CA_DIR}（含私钥，请勿提交或分发）`);
 console.log(`CA 指纹：${thumbprint}`);

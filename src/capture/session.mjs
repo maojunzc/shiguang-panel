@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createProxy, DEFAULT_PROXY_PORT } from './proxy.mjs';
+import { loadCertificates } from './certificates.mjs';
 import { decode, toJsonSafe } from '../msgpack.mjs';
 import {
   assertWindows, enableProxy, restoreProxy, installCa, isCaInstalled,
@@ -43,12 +44,14 @@ export function createCaptureSession({
   accountsDir,
   port = DEFAULT_PROXY_PORT,
   timeoutMs = DEFAULT_TIMEOUT_MS,
+  record = false,
   onCapture = () => null,
   log = () => {},
 } = {}) {
   const backupFile = path.join(workDir, 'proxy-backup.json');
   const caDir = path.join(workDir, 'mitm');
   const hosts = new GameHosts(SEED_HOSTS);
+  let recordFile = null;
 
   const status = {
     active: false,
@@ -139,6 +142,11 @@ export function createCaptureSession({
   function handleFrame({ direction, context, body }) {
     if (!capture.ws) capture.ws = { url: context, frames: [] };
     const message = toJsonSafe(body);
+    if (recordFile) {
+      try {
+        fs.appendFileSync(recordFile, `${JSON.stringify({ t: new Date().toISOString(), direction, context, message })}\n`);
+      } catch { /* 记录失败不影响抓包 */ }
+    }
     capture.ws.frames.push({ t: new Date().toISOString(), direction, message });
     if (capture.ws.frames.length > 400) capture.ws.frames.shift();
     status.progress.frames = capture.ws.frames.length;
@@ -152,7 +160,7 @@ export function createCaptureSession({
       if (!snapshotTimer) {
         snapshotTimer = setTimeout(() => {
           snapshotTimer = null;
-          if (!finished) void finish('已拿到登录帧（未收到角色快照）', { ok: true });
+          if (!finished && !record) void finish('已拿到登录帧（未收到角色快照）', { ok: true });
         }, SNAPSHOT_GRACE_MS);
       }
     } else if (direction === 'down' && message.data?.dt) {
@@ -161,7 +169,7 @@ export function createCaptureSession({
       const count = Array.isArray(message.data.dt) ? message.data.dt.length : '?';
       addLog('ws', `已收到角色快照（${count} 项属性）`);
     }
-    if (capture.loginFrame && capture.snapshot) void finish('已拿到登录帧与角色快照', { ok: true });
+    if (!record && capture.loginFrame && capture.snapshot) void finish('已拿到登录帧与角色快照', { ok: true });
   }
 
   function saveCapture() {
@@ -228,9 +236,19 @@ export function createCaptureSession({
     resetState();
     setPhase('starting', '正在准备测试证书与本机代理');
     addLog('start', `开始微信登录抓包（本机端口 ${port}）`);
+    if (record) {
+      const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+      recordFile = path.join(workDir, `record-${stamp}.jsonl`);
+      fs.mkdirSync(workDir, { recursive: true });
+      fs.writeFileSync(recordFile, '');
+      addLog('record', `日志记录已开启：${path.basename(recordFile)}`);
+    } else {
+      recordFile = null;
+    }
 
     try {
-      if (!isCaInstalled()) await installCa(caDir, addLog);
+      const certificates = loadCertificates(caDir);
+      if (!isCaInstalled({ certificates })) await installCa(caDir, addLog, certificates);
       else addLog('ca', '测试证书已安装');
       if (finished || id !== runId) return status;
 
@@ -242,7 +260,8 @@ export function createCaptureSession({
         inspectHttp: (url) => INTERESTING_HTTP.test(url),
         onHttp: handleHttp,
         onFrame: handleFrame,
-        caIsInstalled: () => isCaInstalled(),
+        certificateFor: () => certificates,
+        caIsInstalled: () => isCaInstalled({ certificates }),
         log: (kind, message) => {
           if (kind === 'warn') addLog('warn', message);
         },
@@ -256,9 +275,9 @@ export function createCaptureSession({
       addLog('wait', '请在电脑微信里完全关闭游戏，再重新打开并进入主界面');
 
       deadline = setTimeout(() => {
-        if (capture.loginFrame) void finish('已超时，但已拿到登录帧', { ok: true });
+        if (capture.loginFrame) void finish(record ? '记录时间到，已保存账号' : '已超时，但已拿到登录帧', { ok: true });
         else void finish('等待超时：没有检测到登录，请确认电脑微信已登录并在微信里打开游戏', { ok: false, error: '等待超时' });
-      }, timeoutMs);
+      }, record ? Math.max(timeoutMs, 30 * 60 * 1000) : timeoutMs);
     } catch (startError) {
       status.error = startError.message;
       await finish(`启动失败：${startError.message}`, { ok: false, error: startError.message });
@@ -290,8 +309,9 @@ export function createCaptureSession({
     dispose,
     status: () => ({
       ...status,
+      recordFile: recordFile ? path.basename(recordFile) : null,
       logs: status.logs.slice(-120),
-      certInstalled: isCaInstalled(),
+      certInstalled: isCaInstalled({ dir: caDir }),
     }),
   };
 }

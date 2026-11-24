@@ -26,6 +26,28 @@
         --mono: ui-monospace, Consolas, "Cascadia Mono", monospace;
       }
       * { box-sizing: border-box; border-color: var(--border); }
+      :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+      .action-group h3 { margin: 14px 0 8px; font-size: 13px; }
+      .action-copy { min-width: 0; overflow-wrap: anywhere; }
+      .action-copy small { display: block; color: var(--muted-foreground); }
+      .resource-row { display: grid; gap: 6px; padding: 8px 0; }
+      .resource-head { display: flex; gap: 12px; justify-content: space-between; flex-wrap: wrap; }
+      .gain { color: var(--success); }
+      .loss { color: var(--error); }
+      .mode-control { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      @media (max-width: 600px) {
+        main { padding: 12px 10px 32px; }
+        .grid { grid-template-columns: minmax(0, 1fr); }
+        header { padding: 10px; }
+        nav.tabs { order: 3; flex-basis: 100%; }
+        .action-row { flex-wrap: wrap; }
+        .action-row .check { flex-basis: 100%; }
+        .check .key { white-space: normal; overflow-wrap: anywhere; }
+        .proto-json { width: auto; flex: 1; min-width: 100px; }
+        .kv { grid-template-columns: 80px minmax(0, 1fr); }
+        .auto-bar .tag { white-space: normal; }
+      }
+      @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
       [hidden] { display: none !important; }
       body {
         margin: 0;
@@ -367,6 +389,20 @@
       </header>
 
       <main>
+        <article class="card">
+          <div class="mode-control">
+            <label for="modeSelect">操作模式</label>
+            <select id="modeSelect"><option value="false">只读 · 查看数据</option><option value="true">可写 · 允许执行</option></select>
+            <span class="tag" id="modeStatus">等待状态同步</span>
+          </div>
+          <p class="hint" id="modeHint">切换为可写后仍需手动开启自动挂机，不会自动恢复。</p>
+          <p class="hint bad" id="requestError" role="alert" hidden></p>
+        </article>
+        <article class="card">
+          <h2>主线指引 <span class="tag" id="mainStatus">等待同步</span></h2>
+          <dl class="kv" id="mainGuide"><dt>下一步</dt><dd>等待任务数据</dd></dl>
+          <p class="hint">根据服务器返回的任务状态提供指引；推进动作需在「操作」页手动执行。</p>
+        </article>
         <!-- 概览 -->
         <section class="page active" data-page="overview">
           <div class="grid">
@@ -442,7 +478,7 @@
           <article class="card">
             <h2>建筑等级 <span class="tag" id="buildCount">0 项</span></h2>
             <div class="toolbar">
-              <select id="buildSelect"></select>
+              <select id="buildSelect" aria-label="选择建筑"></select>
               <button class="btn" data-run="build.upgrade">升级选中建筑</button>
             </div>
             <div class="scroll">
@@ -483,6 +519,7 @@
               </label>
               <span class="tag" id="autoState">自动挂机：关闭</span>
               <button class="btn" id="runNowBtn">立即执行一轮</button>
+              <button class="btn" id="pauseAutoBtn">暂停 / 关闭自动</button>
               <span class="spacer"></span>
               <span class="tag">每轮只执行下方勾选的动作</span>
             </div>
@@ -490,16 +527,25 @@
           </article>
 
           <article class="card">
-            <h2>动作列表 <span class="tag">勾选后加入自动挂机</span></h2>
-            <div class="actions" id="actionList"></div>
-            <div class="hint" id="actionResult">写操作已开启；执行前会再确认一次。</div>
+            <h2>需要手动确认的推进动作 <span class="tag">自动模式默认禁用</span></h2>
+            <div class="toolbar">
+              <button class="btn" data-run="task.autoMain">自动主线任务</button>
+              <button class="btn" data-run="task.autoStory">自动剧情任务</button>
+              <button class="btn" data-run="mission.autoFight">自动征战推图</button>
+            </div>
+            <p class="hint">主线推进和战斗可能消耗或改变账号进度，自动挂机不会运行这些动作；请先在可控账号上逐项核验后再手动执行。自动挂机仅执行已设置白名单的安全领取/收取动作。</p>
           </article>
 
           <article class="card">
-            <h2>全部协议 <span class="tag" id="protoCount">0 项</span> <span class="tag">勾选后同样加入自动挂机</span></h2>
+            <h2>动作列表 <span class="tag">白名单动作可加入自动挂机，其他动作仅手动执行</span></h2>
+            <div class="actions" id="actionList"></div>
+            <div class="hint" id="actionResult">自动流程有单轮步数和时长上限；遇到断线或失败会停止，敏感/未核验动作不会随自动挂机执行。</div>
+          </article>
+
+          <article class="card">
+            <h2>全部协议 <span class="tag" id="protoCount">0 项</span> <span class="tag">仅支持人工单次调用，不会加入自动挂机</span></h2>
             <div class="toolbar">
               <input type="search" id="protoSearch" placeholder="搜索 mod.op，例如 task. / build.collect" />
-              <label class="check" style="flex: none"><input type="checkbox" id="protoOnlyChecked" /><span>只看已勾选</span></label>
             </div>
             <div class="actions" id="protoList"><div class="empty">正在读取协议…</div></div>
             <div class="toolbar" style="margin-top: 12px">
@@ -543,7 +589,7 @@
                 </div>
                 <div>
                   <h3>3. 进入并勾选</h3>
-                  <p>在账号列表点「进入」，打开「操作」页。上方是常用的精选动作，勾选后就会加入自动挂机；点「立即执行一轮」可以马上做一次。</p>
+                  <p>在账号列表点「进入」，先在顶部选择只读或可写。打开「操作」页，按分类查看动作与解锁原因；只有已解锁且允许自动的动作可以勾选。勾选后手动开启自动挂机，或点「立即执行一轮」。主线、剧情和征战推进需单独手动确认。</p>
                 </div>
               </div>
             </article>
@@ -562,11 +608,11 @@
             </article>
 
             <article class="card">
-              <h2>两种启动方式</h2>
+              <h2>操作模式</h2>
               <div class="guide">
                 <ul>
-                  <li><b>默认直接可用</b>：双击 exe 就能领奖、结算、升级和自动挂机，不需要额外的启动脚本。</li>
-                  <li><b>只读模式</b>：只想看数据时，可在命令行启动并加 --read-only，所有写操作都会被拦截。</li>
+                  <li><b>面板选择</b>：顶部可直接选择只读 / 可写，以服务器推送状态为准。切换模式不会自动恢复挂机。</li>
+                  <li><b>只读硬锁</b>：命令行加 <code>--read-only</code> 启动时，面板不能切换为可写；暂停 / 关闭自动仍可操作。</li>
                 </ul>
                 <p>面板地址是 <code>http://127.0.0.1:8848</code>，窗口关掉后服务也会停止。</p>
               </div>
@@ -578,7 +624,7 @@
                 <ul>
                   <li>接口来自游戏客户端本身，角色、等级、区服不同不影响使用，多账号可以分别导入。</li>
                   <li>未解锁的模块照常显示并标注「未解锁」，不是错误。</li>
-                  <li>每个动作执行前都会检查当前账号的数据：没有可领奖励、没解锁、次数用完时会自动跳过，不会中断其他动作。</li>
+                  <li>动作列表显示服务器返回的解锁状态与原因。未解锁或状态待确认时不能加入自动计划；执行结果和失败原因以服务器返回为准。</li>
                   <li>低等级号建议只勾选「任务、邮件、挂机结算、离线收益」这些基础项；高等级号可以再勾集市、管家、科技、奇观等。</li>
                 </ul>
               </div>
@@ -593,7 +639,7 @@
                   <li>挂机资源结算、离线收益结算、收取建筑产物</li>
                   <li>活动奖励（全部可领）与免费礼包</li>
                 </ul>
-                <p>这些都在「操作」页默认勾选。开启自动挂机后会按启动时设置的间隔循环执行。</p>
+                <p>请以「操作」页当前解锁状态和已保存的勾选为准。只有已解锁且允许自动的动作可以加入计划；开启后按设置间隔执行。</p>
               </div>
             </article>
           </div>
@@ -602,7 +648,7 @@
             <h2>常见问题</h2>
             <div class="guide">
               <p><b>一直显示离线 / 登录被拒绝？</b>账号凭证过期了，或这个账号已经在别的设备登录。回到登录页重新用「微信登录」抓一次即可。</p>
-              <p><b>点了执行没反应？</b>先看顶部状态是不是「已连接」。如果启动时加了 --read-only，按钮会是灰的，去掉该参数重启即可。</p>
+              <p><b>点了执行没反应？</b>先看顶部连接和操作模式，再看动作的解锁状态及页面错误提示。只读时可在顶部切换；若显示启动参数硬锁，需去掉 --read-only 重启。</p>
               <p><b>会不会和手机上的游戏冲突？</b>同一账号同时登录可能互相顶下线，建议只在挂机时使用。</p>
               <p><b>「全部协议」怎么用？</b>那是从客户端里整理出的全部协议，给进阶玩家排查用。普通玩家只需要用上方精选动作；协议默认不勾选，参数不确定时不要执行。</p>
               <p><b>数据会上传吗？</b>不会。所有请求都从本机直接发往官方游戏网关，账号文件只存在本机 work 目录。</p>
@@ -649,9 +695,72 @@
       let PROTOCOLS = [];
       let PROTO_DATA = {};
       let protoLimit = 120;
+      let ACTIONS = [];
+      let actionsKey = '';
+      let actionsLoading = false;
+      let actionsReload = false;
+      let modePending = false;
+
+      function showRequestError(message) {
+        $('requestError').hidden = !message;
+        $('requestError').textContent = message;
+      }
+
+      function syncControls() {
+        WRITE_ENABLED = Boolean(latestState?.writeEnabled) && !latestState?.writeLocked;
+        $('modeSelect').value = String(WRITE_ENABLED);
+        $('modeSelect').disabled = modePending || !latestState || Boolean(latestState.writeLocked);
+        $('modeStatus').textContent = latestState?.writeLocked ? '只读 · 启动参数硬锁' : WRITE_ENABLED ? '可写' : '只读';
+        $('writeMode').textContent = WRITE_ENABLED ? '可写' : '只读';
+        $('modeHint').textContent = latestState?.writeLocked
+          ? '服务以 --read-only 启动，面板不能解除硬锁。关闭自动挂机仍可操作。'
+          : '可直接切换只读 / 可写。切换模式不会自动恢复挂机，请手动开启。';
+        document.querySelectorAll('[data-run], [data-run-proto]').forEach((button) => {
+          const action = ACTIONS.find((item) => item.name === button.dataset.run);
+          button.disabled = !WRITE_ENABLED || button.dataset.busy === 'true' || action?.unlocked === false
+            || (button.dataset.run === 'build.upgrade' && !$('buildSelect').value)
+            || (button.dataset.run === 'activity.claim' && button.dataset.claimable !== 'true');
+        });
+        document.querySelectorAll('#actionList input[data-plan]').forEach((input) => {
+          const action = ACTIONS.find((item) => item.name === input.dataset.plan);
+          const eligible = action?.autoEligible === true && action?.unlocked === true;
+          input.checked = eligible && planSet.has(input.dataset.plan);
+          input.disabled = !WRITE_ENABLED || !eligible;
+        });
+        $('autoToggle').disabled = !WRITE_ENABLED && !latestState?.auto?.enabled && !latestState?.auto?.running;
+        $('runNowBtn').disabled = !WRITE_ENABLED || $('runNowBtn').dataset.busy === 'true';
+        $('buildSelect').disabled = !WRITE_ENABLED || !$('buildSelect').value;
+      }
+
+      $('modeSelect').addEventListener('change', async () => {
+        const writeEnabled = $('modeSelect').value === 'true';
+        modePending = true;
+        syncControls();
+        showRequestError('');
+        try {
+          const response = await fetch('/api/mode', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ writeEnabled }),
+          });
+          const result = await response.json();
+          if (!response.ok || result.ok === false) throw new Error(result.error || '模式切换失败');
+          if (latestState) {
+            latestState.writeEnabled = typeof result.writeEnabled === 'boolean' ? result.writeEnabled : writeEnabled;
+            if (typeof result.writeLocked === 'boolean') latestState.writeLocked = result.writeLocked;
+          }
+          toast(writeEnabled ? '已切换为可写；自动挂机请手动开启' : '已切换为只读', 'ok');
+        } catch (error) {
+          showRequestError(`模式切换失败：${error.message}`);
+        } finally {
+          modePending = false;
+          syncControls();
+        }
+      });
 
       function toast(message, kind = '') {
+        if (kind === 'bad') showRequestError(message);
         const el = $('toast');
+        el.setAttribute('role', kind === 'bad' ? 'alert' : 'status');
         el.textContent = message;
         el.className = `show ${kind}`;
         clearTimeout(toastTimer);
@@ -944,13 +1053,31 @@
 
       function renderItems(items) {
         $('itemCount').textContent = `${items.length} 项`;
-        const max = items.length ? items[0].count : 1;
+        const counts = items.map((item) => Number.isFinite(Number(item.count)) ? Math.max(0, Number(item.count)) : 0);
+        const max = Math.max(0, ...counts);
         $('items').innerHTML = items.length
-          ? items.map((item) => `<div class="bar"><span class="name">#${item.tid}</span><span class="track"><span class="fill" style="width:${Math.max(3, (item.count / max) * 100)}%"></span></span><span class="num">${fmtNum(item.count)}</span></div>`).join('')
-          : '<div class="empty">暂无道具数据</div>';
+          ? `<p class="hint">库存相对比例：以当前列表最高库存为 100%，不代表仓库容量。增减为服务器提供的变化值。</p>` + items.map((item, index) => {
+              const ratio = max > 0 ? counts[index] / max * 100 : 0;
+              const delta = item.delta == null ? null : Number(item.delta);
+              const change = delta === null || !Number.isFinite(delta) ? '增减未知' : delta > 0 ? `增加 +${fmtNum(delta)}` : delta < 0 ? `减少 ${fmtNum(delta)}` : '无变化 0';
+              return `<div class="resource-row"><div class="resource-head"><span class="mono">物品 #${esc(item.tid)}</span><span>库存 ${esc(fmtNum(item.count))} · <span class="${delta > 0 ? 'gain' : delta < 0 ? 'loss' : 'muted'}">${esc(change)}</span></span></div><div class="track" role="meter" aria-label="物品 ${esc(item.tid)} 库存相对比例" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${ratio.toFixed(1)}" aria-valuetext="${ratio.toFixed(1)}%，列表最高库存为100%"><span class="fill" style="width:${ratio}%"></span></div></div>`;
+            }).join('')
+          : '<div class="empty">暂无道具数据，等待账号同步。</div>';
       }
 
       function renderTasks(tasks) {
+        const main = tasks?.main;
+        $('mainStatus').textContent = !main ? '待同步' : main.canFinish === true ? '可提交' : main.reason ? '推进受阻' : '进行中 / 待确认';
+        const mainRows = main ? [
+          ['当前任务 ID', main.tid ?? '待确认'],
+          ['可提交', main.canFinish === true ? '是' : main.canFinish === false ? '否' : '待确认'],
+          ['已完成任务', fmtNum(main.finishedTask)],
+          ['引导任务', fmtNum(main.guideTask)],
+          ['阻塞原因', main.reason || '服务器未提供阻塞原因'],
+          ['下一步', fmtNum(main.nextAction) === '—' ? '等待服务器指引' : fmtNum(main.nextAction)],
+          ['等待至', main.waitUntil ? fmtTs(main.waitUntil) : '无等待时间记录'],
+        ] : [['下一步', '等待主线任务数据同步']];
+        $('mainGuide').innerHTML = mainRows.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`).join('');
         const states = tasks?.states ?? {};
         const keys = Object.keys(states).sort((a, b) => Number(a) - Number(b));
         $('taskTotal').textContent = `${tasks?.total ?? 0} 条记录`;
@@ -988,7 +1115,7 @@
               <td class="num">${activity.claimable}</td>
               <td class="num muted">${activity.got ?? 0}</td>
               <td class="num muted">${activity.total}</td>
-              <td class="num"><button class="btn small" data-run="activity.claim" data-activity="${activity.activityId}" ${activity.claimable > 0 ? '' : 'disabled'}>领取</button></td>
+              <td class="num"><button class="btn small" data-run="activity.claim" data-activity="${activity.activityId}" data-claimable="${activity.claimable > 0}" ${WRITE_ENABLED && activity.claimable > 0 ? '' : 'disabled'}>领取</button></td>
             </tr>`).join('')
           : '<tr><td colspan="6" class="empty">暂无可展示的活动（登录推送后出现）</td></tr>';
       }
@@ -996,12 +1123,13 @@
       function renderAuto(state, resultsHtml) {
         const auto = state.auto ?? {};
         if (Date.now() - autoTimer > 1500) $('autoToggle').checked = Boolean(auto.enabled);
-        $('autoToggle').disabled = !WRITE_ENABLED;
+        $('autoToggle').disabled = !WRITE_ENABLED && !auto.enabled && !auto.running;
         const picked = (state.autoPlan ?? []).length;
         const last = auto.lastRunAt ? fmtTime(auto.lastRunAt) : '尚未运行';
+        const phase = auto.running ? `执行中：${auto.currentAction || '准备动作'}` : (auto.stopReason || auto.phase || '空闲');
         $('autoState').textContent = auto.enabled
-          ? `自动挂机：开启 · 每 ${auto.intervalSec} 秒 · 已勾选 ${picked} 项 · 上次 ${last}${auto.running ? ' · 执行中' : ''}`
-          : `自动挂机：关闭 · 已勾选 ${picked} 项`;
+          ? `自动挂机：开启 · 每 ${auto.intervalSec} 秒 · 已勾选 ${picked} 项 · 上次 ${last} · ${phase}`
+          : `自动挂机：关闭 · 已勾选 ${picked} 项 · ${phase}`;
         $('autoResults').innerHTML = resultsHtml;
       }
 
@@ -1009,7 +1137,8 @@
         if (Date.now() - planTimer < 1500) return;
         planSet = new Set(plan ?? []);
         document.querySelectorAll('#actionList input[data-plan]').forEach((input) => {
-          input.checked = planSet.has(input.dataset.plan);
+          const action = ACTIONS.find((item) => item.name === input.dataset.plan);
+          input.checked = action?.autoEligible === true && action?.unlocked === true && planSet.has(input.dataset.plan);
         });
         document.querySelectorAll('#protoList input[data-proto]').forEach((input) => {
           input.checked = planSet.has(input.dataset.proto);
@@ -1019,6 +1148,7 @@
 
       function render(state) {
         latestState = state;
+        syncControls();
         const loggedIn = Boolean(state.account);
         $('loginView').hidden = loggedIn;
         $('appView').hidden = !loggedIn;
@@ -1056,29 +1186,51 @@
         $('m-acts').textContent = state.activityTotal ?? 0;
         $('m-attrs').textContent = `${state.counters?.parsed ?? 0} / ${state.counters?.attrs ?? 0}`;
 
-        const autoResults = (state.auto?.lastResults ?? []).map((row) => `<div class="row ${row.ok ? '' : 'fail'}"><i></i><span>${esc(row.title || row.name)}</span><span class="muted">${row.ok ? '完成' : esc(row.note || '跳过')}</span></div>`).join('');
-        renderAuto(state, autoResults);
+        const auto = state.auto ?? {};
+        const historyHtml = (auto.history ?? []).slice(0, 5).map((run) => {
+          const done = (run.results ?? []).filter((row) => row.ok).length;
+          return `<div class="row"><i></i><span>${fmtTime(run.startedAt)} · ${done}/${(run.results ?? []).length} 项完成</span><span class="muted">${esc(run.reason || run.phase || '')}</span></div>`;
+        }).join('');
+        const resultHtml = (auto.lastResults ?? []).map((row) => `<div class="row ${row.ok ? '' : 'fail'}"><i></i><span>${esc(row.title || row.name)}</span><span class="muted">${row.status === 'skipped' ? '跳过' : row.ok ? '完成' : esc(row.note || '停止')}</span></div>`).join('');
+        renderAuto(state, historyHtml + resultHtml);
         applyPlanToCheckboxes(state.autoPlan);
+        syncControls();
       }
 
       // ---------- 动作 ----------
 
-      async function loadActions() {
+      async function loadActions(loadPlan = false) {
+        if (actionsLoading) { actionsReload = true; return; }
+        actionsLoading = true;
         try {
-          const response = await fetch('/api/auto-plan');
-          const meta = await response.json();
-          WRITE_ENABLED = Boolean(meta.allowWrite);
-          planSet = new Set(meta.plan ?? []);
-          PROTO_DATA = meta.protoData && typeof meta.protoData === 'object' ? { ...meta.protoData } : {};
-          renderActionList(meta.actions ?? []);
+          const response = await fetch('/api/actions');
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || '读取动作失败');
+          ACTIONS = data.actions ?? [];
+          if (loadPlan) {
+            const planResponse = await fetch('/api/auto-plan');
+            const meta = await planResponse.json();
+            if (!planResponse.ok) throw new Error(meta.error || '读取计划失败');
+            if (!latestState) planSet = new Set(meta.plan ?? []);
+            PROTO_DATA = meta.protoData && typeof meta.protoData === 'object' ? { ...meta.protoData } : {};
+          }
+          const key = JSON.stringify(ACTIONS);
+          if (key !== actionsKey) {
+            actionsKey = key;
+            renderActionList(ACTIONS);
+          }
+          syncControls();
         } catch (error) {
-          $('actionList').innerHTML = `<div class="empty bad">读取动作失败：${esc(error.message)}</div>`;
+          showRequestError(`读取动作失败：${error.message}`);
+        } finally {
+          actionsLoading = false;
+          if (actionsReload) { actionsReload = false; loadActions(); }
         }
       }
 
       async function savePlan(includeProtoData = false) {
         planTimer = Date.now();
-        const payload = { plan: [...planSet] };
+        const payload = { plan: [...planSet].filter((name) => ACTIONS.some((action) => action.name === name && action.autoEligible === true && action.unlocked === true)) };
         if (includeProtoData) payload.protoData = PROTO_DATA;
         const response = await fetch('/api/auto-plan', {
           method: 'POST',
@@ -1086,26 +1238,27 @@
           body: JSON.stringify(payload),
         });
         const result = await response.json();
-        if (!result.ok) throw new Error(result.error || '保存失败');
+        if (!response.ok || !result.ok) throw new Error(result.error || '保存失败');
         planSet = new Set(result.plan ?? []);
         if (result.protoData) PROTO_DATA = { ...result.protoData };
         if (latestState) latestState.autoPlan = [...planSet];
       }
 
       function renderActionList(actions) {
-        $('actionList').innerHTML = actions.map((action) => `
-          <div class="action-row">
-            <label class="check">
-              <input type="checkbox" data-plan="${esc(action.name)}" ${planSet.has(action.name) ? 'checked' : ''} />
-              <span>${esc(action.title)}<span class="key">${esc(action.name)}</span></span>
-            </label>
-            <button class="btn small" data-run="${esc(action.name)}" ${WRITE_ENABLED ? '' : 'disabled'}>执行</button>
-          </div>`).join('');
-        if (!actions.length) $('actionList').innerHTML = '<div class="empty">没有可用动作</div>';
-        $('actionResult').textContent = WRITE_ENABLED
-          ? '勾选动作会保存到本机设置，并用于自动挂机。'
-          : '当前是只读模式（启动时加了 --read-only）；去掉该参数重启即可执行写操作。';
-        $('runNowBtn').disabled = !WRITE_ENABLED;
+        const groups = new Map();
+        for (const action of actions) {
+          const category = action.category || '其他动作';
+          if (!groups.has(category)) groups.set(category, []);
+          groups.get(category).push(action);
+        }
+        $('actionList').innerHTML = [...groups].map(([category, entries]) => `<section class="action-group"><h3>${esc(category)} <span class="tag">${entries.length} 项</span></h3><div class="actions">${entries.map((action) => {
+          const eligible = action.autoEligible === true && action.unlocked === true;
+          const status = action.unlocked === true ? '已解锁' : action.unlocked === false ? '未解锁' : '解锁待确认';
+          return `<div class="action-row"><label class="check">
+            <input type="checkbox" data-plan="${esc(action.name)}" ${eligible && planSet.has(action.name) ? 'checked' : ''} ${eligible && WRITE_ENABLED ? '' : 'disabled'} />
+            <span class="action-copy">${esc(action.title || action.name)} <span class="badge ${action.unlocked === true ? 'on' : 'off'}">${status}</span><small>${esc(action.name)} · ${eligible ? '可加入自动挂机' : '不可加入自动挂机'}${action.reason ? ` · ${esc(action.reason)}` : ''}</small></span>
+            </label><button class="btn small" data-run="${esc(action.name)}" aria-label="执行${esc(action.title || action.name)}" ${WRITE_ENABLED && action.unlocked !== false ? '' : 'disabled'}>执行</button></div>`;
+        }).join('')}</div></section>`).join('') || '<div class="empty">没有可用动作</div>';
       }
 
       // ---------- 协议库 ----------
@@ -1126,10 +1279,8 @@
 
       function renderProtocols() {
         const query = $('protoSearch').value.trim().toLowerCase();
-        const onlyChecked = $('protoOnlyChecked').checked;
         const matched = PROTOCOLS.filter((item) => {
           const key = `${item.mod}.${item.op}`;
-          if (onlyChecked && !planSet.has(key)) return false;
           return !query || key.toLowerCase().includes(query);
         });
         const shown = matched.slice(0, protoLimit);
@@ -1141,22 +1292,21 @@
           const value = PROTO_DATA[key] ? JSON.stringify(PROTO_DATA[key]) : '';
           return `<div class="action-row">
             <label class="check">
-              <input type="checkbox" data-proto="${esc(key)}" ${planSet.has(key) ? 'checked' : ''} />
+              <input type="checkbox" data-proto="${esc(key)}" disabled />
               <span class="mono">${esc(key)}</span>
               <span class="key" title="${esc(item.args || '无参')}">${item.args ? `参数 ${esc(item.args.slice(0, 46))}` : '无参'}</span>
             </label>
-            <input class="proto-json" data-proto-json="${esc(key)}" value="${esc(value)}" placeholder="{}" />
+            <input class="proto-json" aria-label="${esc(key)} JSON 参数" data-proto-json="${esc(key)}" value="${esc(value)}" placeholder="{}" />
             <button class="btn small" data-run-proto="${esc(key)}" ${WRITE_ENABLED ? '' : 'disabled'}>执行</button>
           </div>`;
         }).join('') || '<div class="empty">没有匹配的协议</div>';
+        syncControls();
       }
 
       $('protoSearch').addEventListener('input', () => {
         protoLimit = 120;
         renderProtocols();
       });
-
-      $('protoOnlyChecked').addEventListener('change', renderProtocols);
 
       $('protoMore').addEventListener('click', () => {
         protoLimit += 200;
@@ -1204,6 +1354,8 @@
       $('actionList').addEventListener('change', async (event) => {
         const input = event.target.closest('input[data-plan]');
         if (!input) return;
+        const action = ACTIONS.find((item) => item.name === input.dataset.plan);
+        if (!WRITE_ENABLED || action?.autoEligible !== true || action?.unlocked !== true) { syncControls(); return; }
         const name = input.dataset.plan;
         if (input.checked) planSet.add(name); else planSet.delete(name);
         try {
@@ -1216,9 +1368,12 @@
         }
       });
 
-      $('autoToggle').addEventListener('change', async (event) => {
-        const enabled = event.target.checked;
+      async function setAuto(enabled) {
+        if (enabled && !WRITE_ENABLED) { syncControls(); return; }
+        const previous = Boolean(latestState?.auto?.enabled);
         autoTimer = Date.now();
+        $('autoToggle').disabled = true;
+        $('pauseAutoBtn').disabled = true;
         try {
           const response = await fetch('/api/auto', {
             method: 'POST',
@@ -1226,27 +1381,35 @@
             body: JSON.stringify({ enabled }),
           });
           const result = await response.json();
-          if (!result.ok) throw new Error(result.error || '切换失败');
-          toast(enabled ? '已开启自动挂机' : '已关闭自动挂机', 'ok');
+          if (!response.ok || !result.ok) throw new Error(result.error || '切换失败');
+          if (latestState) latestState.auto = { ...latestState.auto, enabled };
+          $('autoToggle').checked = enabled;
+          toast(enabled ? '已开启自动挂机' : '已请求暂停 / 关闭自动挂机', 'ok');
         } catch (error) {
-          event.target.checked = !enabled;
+          $('autoToggle').checked = previous;
           toast(error.message, 'bad');
+        } finally {
+          $('pauseAutoBtn').disabled = false;
+          syncControls();
         }
-      });
+      }
+      $('autoToggle').addEventListener('change', (event) => setAuto(event.target.checked));
+      $('pauseAutoBtn').addEventListener('click', () => setAuto(false));
 
       $('runNowBtn').addEventListener('click', async () => {
         if (!WRITE_ENABLED) {
-          toast('当前是只读模式（--read-only），去掉该参数重启即可执行', 'bad');
+          toast('当前是只读模式，请在顶部切换为可写；启动参数硬锁需重启解除', 'bad');
           return;
         }
         if (!confirm('立即执行一轮已勾选的动作？这会真实改动账号数据。')) return;
+        $('runNowBtn').dataset.busy = 'true';
         $('runNowBtn').disabled = true;
         $('actionResult').className = 'hint';
         $('actionResult').textContent = '正在执行…';
         try {
           const response = await fetch('/api/auto/run-now', { method: 'POST' });
           const result = await response.json();
-          if (!result.ok) throw new Error(result.error || '执行失败');
+          if (!response.ok || !result.ok) throw new Error(result.error || '执行失败');
           $('actionResult').className = 'hint ok';
           $('actionResult').textContent = `本轮完成：成功 ${result.done} / ${result.total} 项`;
           toast(`本轮完成：成功 ${result.done} / ${result.total} 项`, 'ok');
@@ -1255,18 +1418,23 @@
           $('actionResult').textContent = `执行失败：${error.message}`;
           toast(`执行失败：${error.message}`, 'bad');
         } finally {
-          $('runNowBtn').disabled = false;
+          delete $('runNowBtn').dataset.busy;
+          syncControls();
         }
       });
 
       async function runAction(name, params, button, labelOverride) {
         if (!WRITE_ENABLED) {
-          toast('当前是只读模式（--read-only），去掉该参数重启即可执行', 'bad');
+          toast('当前是只读模式，请在顶部切换为可写；启动参数硬锁需重启解除', 'bad');
           return;
         }
         const label = labelOverride || button?.textContent?.trim() || name;
         if (!confirm(`确定执行「${label}」？这会真实改动账号数据。`)) return;
-        if (button) button.disabled = true;
+        if (ACTIONS.find((action) => action.name === name)?.unlocked === false) {
+          toast('该动作尚未解锁，请查看动作列表中的原因', 'bad');
+          return;
+        }
+        if (button) { button.dataset.busy = 'true'; button.disabled = true; }
         $('actionResult').className = 'hint';
         $('actionResult').textContent = `执行中：${label}`;
         try {
@@ -1277,10 +1445,13 @@
           });
           const result = await response.json();
           const codeText = Array.isArray(result.code) ? result.code[0] : result.code;
-          const ok = Boolean(result.ok);
+          const ok = response.ok && Boolean(result.ok);
+          const metaText = result.meta && typeof result.meta === 'object'
+            ? Object.entries(result.meta).filter(([, value]) => value != null && value !== '').map(([key, value]) => `${key}=${value}`).join('，')
+            : '';
           $('actionResult').className = ok ? 'hint ok' : 'hint bad';
           $('actionResult').textContent = ok
-            ? `「${result.title || label}」完成${codeText == null ? '' : `，code=${codeText}`}，耗时 ${result.elapsedMs ?? 0}ms`
+            ? `「${result.title || label}」完成${metaText ? `（${metaText}）` : ''}${codeText == null ? '' : `，code=${codeText}`}，耗时 ${result.elapsedMs ?? 0}ms`
             : `「${result.title || label}」未执行：${result.error || result.skipped || `服务端返回 code=${codeText}`}`;
           toast($('actionResult').textContent, ok ? 'ok' : 'bad');
           if (ok) loadRows();
@@ -1289,7 +1460,8 @@
           $('actionResult').textContent = `请求失败：${error.message}`;
           toast(`请求失败：${error.message}`, 'bad');
         } finally {
-          if (button) button.disabled = false;
+          if (button) delete button.dataset.busy;
+          syncControls();
         }
       }
 
@@ -1347,8 +1519,9 @@
 
       // ---------- 启动 ----------
 
+      syncControls();
       loadAccounts();
-      loadActions();
+      loadActions(true);
       loadProtocols();
 
       const events = new EventSource('/api/events');
@@ -1368,6 +1541,7 @@
         rowsTimer = setTimeout(() => {
           rowsTimer = 0;
           loadRows();
+          loadActions();
         }, 1200);
       }
     </script>

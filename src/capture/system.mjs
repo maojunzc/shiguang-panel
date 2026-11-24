@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFile, execFileSync } from 'node:child_process';
 import { promisify } from 'node:util';
-import { CA_CRT_BASE64, CA_THUMBPRINT } from './certs.mjs';
+import { loadCertificates } from './certificates.mjs';
 
 const execFileAsync = promisify(execFile);
 
@@ -98,35 +98,28 @@ export function restoreProxy(original, log = () => {}) {
   if (!ok) log('warn', '系统代理还原校验失败，请到 Windows 设置 → 网络 → 代理 中手动关闭');
 }
 
-function caFile(dir) {
-  fs.mkdirSync(dir, { recursive: true });
-  const file = path.join(dir, 'ca.crt');
-  const pem = Buffer.from(CA_CRT_BASE64, 'base64').toString('utf8');
-  let existing = '';
-  try { existing = fs.readFileSync(file, 'utf8'); } catch { /* 首次写入 */ }
-  if (existing !== pem) fs.writeFileSync(file, pem);
-  return file;
-}
+let installedCache = { at: 0, value: false, thumbprint: null };
 
-let installedCache = { at: 0, value: false };
-
-export function isCaInstalled({ fresh = false } = {}) {
-  if (!fresh && Date.now() - installedCache.at < 5000) return installedCache.value;
+export function isCaInstalled({ fresh = false, dir, certificates } = {}) {
+  let thumbprint;
+  try { thumbprint = (certificates ?? loadCertificates(dir)).thumbprint; }
+  catch { return false; }
+  if (!fresh && installedCache.thumbprint === thumbprint && Date.now() - installedCache.at < 5000) return installedCache.value;
   let value = false;
   try {
-    execFileSync('certutil', ['-user', '-store', 'Root', CA_THUMBPRINT], { stdio: ['ignore', 'pipe', 'pipe'] });
+    execFileSync('certutil', ['-user', '-store', 'Root', thumbprint], { stdio: ['ignore', 'pipe', 'pipe'] });
     value = true;
   } catch {
     value = false;
   }
-  installedCache = { at: Date.now(), value };
+  installedCache = { at: Date.now(), value, thumbprint };
   return value;
 }
 
-export async function installCa(dir, log = () => {}) {
+export async function installCa(dir, log = () => {}, certificates = loadCertificates(dir)) {
   assertWindows();
-  if (isCaInstalled({ fresh: true })) return true;
-  const file = caFile(dir);
+  if (isCaInstalled({ fresh: true, certificates })) return true;
+  const file = certificates.caFile;
   log('ca', '正在把本机测试证书加入「当前用户」受信任根证书；如果 Windows 弹出安全警告，请选择「是」');
   try {
     await execFileAsync('certutil', ['-user', '-addstore', 'Root', file], { windowsHide: true, timeout: 120000 });
@@ -135,7 +128,7 @@ export async function installCa(dir, log = () => {}) {
     throw new Error(`安装测试证书失败：${detail || error.code || '未知错误'}`);
   }
   for (let i = 0; i < 10; i += 1) {
-    if (isCaInstalled({ fresh: true })) return true;
+    if (isCaInstalled({ fresh: true, certificates })) return true;
     await new Promise((resolve) => setTimeout(resolve, 200));
   }
   throw new Error('测试证书未出现在当前用户根证书库，可能被安全软件拦截');
@@ -148,7 +141,7 @@ export async function removeCa(log = () => {}) {
     return false;
   }
   try {
-    await execFileAsync('certutil', ['-user', '-delstore', 'Root', CA_THUMBPRINT], { windowsHide: true, timeout: 60000 });
+    await execFileAsync('certutil', ['-user', '-delstore', 'Root', loadCertificates().thumbprint], { windowsHide: true, timeout: 60000 });
   } catch (error) {
     throw new Error(`移除测试证书失败：${error.message}`);
   }
