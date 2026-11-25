@@ -356,7 +356,7 @@
             <p><b>会不会装东西：</b>首次使用会往「当前用户」的受信任根证书里装一张本机测试证书（Windows 可能弹出安全警告，点「是」），用来在本机解密游戏登录；不需要管理员权限。不用了可以在登录页点「移除本机测试证书」。</p>
             <p><b>账号文件：</b>抓到或导入的账号保存在本机 <code>work/accounts</code>，登录页可以随时切换。文件里是一次登录的凭证，过期后重新用「微信登录」抓一次即可。</p>
             <p><b>能放多个账号：</b>不同账号的文件都拖进来会分别保存，登录页可以随时切换，互不影响。</p>
-            <p><b>怎么开启挂机：</b>双击 exe 就能直接领奖、升级和自动挂机，不需要额外的启动脚本。</p>
+            <p><b>怎么开启挂机：</b>双击 exe 启动面板后，登录并在「操作」页勾选允许自动的动作，再手动开启自动挂机。主线只领取已完成节点；征战与建筑升级仍需单独手动确认，不需要额外启动脚本。</p>
             <p><b>等级不一样也能用：</b>没解锁的模块会标注「未解锁」；条件不满足的动作会自动跳过，不会报错，也不需要改配置。</p>
             <p><b>安全提醒：</b>账号文件等同于登录凭证，不要发到群里或公开。写操作会真实改动账号数据，请自行判断使用。</p>
           </div>
@@ -527,13 +527,11 @@
           </article>
 
           <article class="card">
-            <h2>需要手动确认的推进动作 <span class="tag">自动模式默认禁用</span></h2>
+            <h2>需要手动确认的动作 <span class="tag">战斗与资源投入</span></h2>
             <div class="toolbar">
-              <button class="btn" data-run="task.autoMain">自动主线任务</button>
-              <button class="btn" data-run="task.autoStory">自动剧情任务</button>
               <button class="btn" data-run="mission.autoFight">自动征战推图</button>
             </div>
-            <p class="hint">主线推进和战斗可能消耗或改变账号进度，自动挂机不会运行这些动作；请先在可控账号上逐项核验后再手动执行。自动挂机仅执行已设置白名单的安全领取/收取动作。</p>
+            <p class="hint">任务列表中的「主线领奖推进」只在服务器已标记条件完成时领取并进入下一任务；「剧情任务领奖」只领取已完成任务。征战推图和建筑升级可能消耗资源或改变进度，仍需在这里单独确认。</p>
           </article>
 
           <article class="card">
@@ -546,13 +544,22 @@
             <h2>全部协议 <span class="tag" id="protoCount">0 项</span> <span class="tag">仅支持人工单次调用，不会加入自动挂机</span></h2>
             <div class="toolbar">
               <input type="search" id="protoSearch" placeholder="搜索 mod.op，例如 task. / build.collect" />
+              <button class="btn" id="capabilityImportButton">导入私服路由清单</button>
+              <input type="file" id="capabilityFileInput" accept=".json,application/json" hidden />
+              <span class="tag" id="capabilityStatus">未导入清单</span>
+              <button class="btn small" id="capabilityClearButton" hidden>清除</button>
+              <select id="protoCapabilityFilter" aria-label="按私服注册状态筛选">
+                <option value="all">全部协议</option>
+                <option value="registered">私服已注册</option>
+                <option value="unregistered">私服未注册</option>
+              </select>
             </div>
             <div class="actions" id="protoList"><div class="empty">正在读取协议…</div></div>
             <div class="toolbar" style="margin-top: 12px">
               <button class="btn" id="protoMore" hidden>加载更多</button>
               <span class="tag" id="protoShown">已显示 0 / 0</span>
             </div>
-            <p class="hint">参数栏填 JSON（留空按 {} 发送）；带参数但未填的协议执行时可能被服务器拒绝。</p>
+            <p class="hint">路由清单由私服 `/server/capabilities` 提供；状态只表示所选源码版本是否注册该路由，不代表当前登录连接的网关支持它。参数栏填 JSON（留空按 {} 发送）；不确定的协议不要执行。</p>
           </article>
         </section>
 
@@ -589,7 +596,7 @@
                 </div>
                 <div>
                   <h3>3. 进入并勾选</h3>
-                  <p>在账号列表点「进入」，先在顶部选择只读或可写。打开「操作」页，按分类查看动作与解锁原因；只有已解锁且允许自动的动作可以勾选。勾选后手动开启自动挂机，或点「立即执行一轮」。主线、剧情和征战推进需单独手动确认。</p>
+                  <p>在账号列表点「进入」，先在顶部选择只读或可写。打开「操作」页，按分类查看动作与解锁原因；只有已解锁且允许自动的动作可以勾选。勾选后手动开启自动挂机，或点「立即执行一轮」。征战推图和建筑升级需单独手动确认。</p>
                 </div>
               </div>
             </article>
@@ -625,21 +632,19 @@
                   <li>接口来自游戏客户端本身，角色、等级、区服不同不影响使用，多账号可以分别导入。</li>
                   <li>未解锁的模块照常显示并标注「未解锁」，不是错误。</li>
                   <li>动作列表显示服务器返回的解锁状态与原因。未解锁或状态待确认时不能加入自动计划；执行结果和失败原因以服务器返回为准。</li>
-                  <li>低等级号建议只勾选「任务、邮件、挂机结算、离线收益」这些基础项；高等级号可以再勾集市、管家、科技、奇观等。</li>
+                  <li>低等级号可先选择页面标明允许自动的任务领奖、已完成主线/剧情、离线收益和建筑收取；其他日常项按解锁状态手动操作。</li>
                 </ul>
               </div>
             </article>
 
             <article class="card">
-              <h2>推荐的必做日常</h2>
+              <h2>推荐的日常操作</h2>
               <div class="guide">
                 <ul>
-                  <li>任务领奖、每日任务宝箱、主线领奖</li>
-                  <li>邮件一键领取</li>
-                  <li>挂机资源结算、离线收益结算、收取建筑产物</li>
-                  <li>活动奖励（全部可领）与免费礼包</li>
+                  <li>可自动：普通任务领奖、已完成主线/剧情、离线收益、建筑产物及符合条件的管家/剧情事件奖励</li>
+                  <li>需手动：每日任务宝箱、邮件领取、挂机资源结算、活动奖励与免费礼包</li>
                 </ul>
-                <p>请以「操作」页当前解锁状态和已保存的勾选为准。只有已解锁且允许自动的动作可以加入计划；开启后按设置间隔执行。</p>
+                <p>只有已解锁且在自动白名单内的动作可加入计划；征战战斗、建筑升级和协议调用不会自动执行。</p>
               </div>
             </article>
           </div>
@@ -694,6 +699,8 @@
       let planSet = new Set();
       let PROTOCOLS = [];
       let PROTO_DATA = {};
+      let COMPATIBILITY_CAPABILITIES = null;
+      let COMPATIBILITY_ROUTES = new Set();
       let protoLimit = 120;
       let ACTIONS = [];
       let actionsKey = '';
@@ -1191,7 +1198,13 @@
           const done = (run.results ?? []).filter((row) => row.ok).length;
           return `<div class="row"><i></i><span>${fmtTime(run.startedAt)} · ${done}/${(run.results ?? []).length} 项完成</span><span class="muted">${esc(run.reason || run.phase || '')}</span></div>`;
         }).join('');
-        const resultHtml = (auto.lastResults ?? []).map((row) => `<div class="row ${row.ok ? '' : 'fail'}"><i></i><span>${esc(row.title || row.name)}</span><span class="muted">${row.status === 'skipped' ? '跳过' : row.ok ? '完成' : esc(row.note || '停止')}</span></div>`).join('');
+        const resultHtml = (auto.lastResults ?? []).map((row) => {
+          const completed = Number(row.meta?.completed);
+          const detail = Number.isInteger(completed) && completed > 0 ? `已推进 ${completed} 个节点` : '';
+          const note = row.note ? esc(row.note) : '';
+          const status = row.status === 'skipped' ? '跳过' : [detail, note || (row.ok ? '完成' : '停止')].filter(Boolean).join(' · ');
+          return `<div class="row ${row.ok ? '' : 'fail'}"><i></i><span>${esc(row.title || row.name)}</span><span class="muted">${status}</span></div>`;
+        }).join('');
         renderAuto(state, historyHtml + resultHtml);
         applyPlanToCheckboxes(state.autoPlan);
         syncControls();
@@ -1277,23 +1290,56 @@
         }
       }
 
+      function renderCapabilityStatus() {
+        const manifest = COMPATIBILITY_CAPABILITIES;
+        $('capabilityStatus').textContent = manifest
+          ? `私服 ${manifest.serverId} · ${manifest.routeCount} 条路由`
+          : '未导入清单';
+        $('capabilityClearButton').hidden = !manifest;
+        $('protoCapabilityFilter').disabled = !manifest;
+      }
+
+      async function loadCapabilityManifest() {
+        const response = await fetch('/api/protocol-capabilities');
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || '读取路由清单失败');
+        COMPATIBILITY_CAPABILITIES = result.manifest ?? null;
+        COMPATIBILITY_ROUTES = new Set(COMPATIBILITY_CAPABILITIES?.routes ?? []);
+        renderCapabilityStatus();
+        renderProtocols();
+      }
+
       function renderProtocols() {
         const query = $('protoSearch').value.trim().toLowerCase();
+        const capabilityFilter = $('protoCapabilityFilter').value;
         const matched = PROTOCOLS.filter((item) => {
           const key = `${item.mod}.${item.op}`;
-          return !query || key.toLowerCase().includes(query);
+          const registered = COMPATIBILITY_ROUTES.has(key);
+          const matchesQuery = !query || key.toLowerCase().includes(query);
+          const matchesCapability = !COMPATIBILITY_CAPABILITIES
+            || capabilityFilter === 'all'
+            || (capabilityFilter === 'registered' && registered)
+            || (capabilityFilter === 'unregistered' && !registered);
+          return matchesQuery && matchesCapability;
         });
         const shown = matched.slice(0, protoLimit);
-        $('protoCount').textContent = `${PROTOCOLS.length} 项`;
+        $('protoCount').textContent = COMPATIBILITY_CAPABILITIES
+          ? `${PROTOCOLS.length} 项 · 私服注册 ${COMPATIBILITY_ROUTES.size}`
+          : `${PROTOCOLS.length} 项`;
         $('protoShown').textContent = `已显示 ${shown.length} / ${matched.length}`;
         $('protoMore').hidden = shown.length >= matched.length;
         $('protoList').innerHTML = shown.map((item) => {
           const key = `${item.mod}.${item.op}`;
           const value = PROTO_DATA[key] ? JSON.stringify(PROTO_DATA[key]) : '';
+          const registered = COMPATIBILITY_ROUTES.has(key);
+          const capabilityLabel = COMPATIBILITY_CAPABILITIES
+            ? `<span class="badge ${registered ? 'on' : 'off'}">${registered ? '私服已注册' : '私服未注册'}</span>`
+            : '<span class="badge off">未比对</span>';
           return `<div class="action-row">
             <label class="check">
               <input type="checkbox" data-proto="${esc(key)}" disabled />
               <span class="mono">${esc(key)}</span>
+              ${capabilityLabel}
               <span class="key" title="${esc(item.args || '无参')}">${item.args ? `参数 ${esc(item.args.slice(0, 46))}` : '无参'}</span>
             </label>
             <input class="proto-json" aria-label="${esc(key)} JSON 参数" data-proto-json="${esc(key)}" value="${esc(value)}" placeholder="{}" />
@@ -1305,6 +1351,43 @@
 
       $('protoSearch').addEventListener('input', () => {
         protoLimit = 120;
+        renderProtocols();
+      });
+
+      $('protoCapabilityFilter').addEventListener('change', () => {
+        protoLimit = 120;
+        renderProtocols();
+      });
+
+      $('capabilityImportButton').addEventListener('click', () => $('capabilityFileInput').click());
+      $('capabilityFileInput').addEventListener('change', async (event) => {
+        const [file] = event.target.files ?? [];
+        if (!file) return;
+        try {
+          const manifest = JSON.parse(await file.text());
+          const response = await fetch('/api/protocol-capabilities', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ manifest }),
+          });
+          const result = await response.json();
+          if (!response.ok || !result.ok) throw new Error(result.error || '导入失败');
+          await loadCapabilityManifest();
+          toast('已导入私服协议路由清单', 'ok');
+        } catch (error) {
+          toast(`导入失败：${error.message}`, 'bad');
+        } finally {
+          event.target.value = '';
+        }
+      });
+
+      $('capabilityClearButton').addEventListener('click', async () => {
+        const response = await fetch('/api/protocol-capabilities', { method: 'DELETE' });
+        if (!response.ok) {
+          toast('清除路由清单失败', 'bad');
+          return;
+        }
+        await loadCapabilityManifest();
         renderProtocols();
       });
 
@@ -1523,6 +1606,9 @@
       loadAccounts();
       loadActions(true);
       loadProtocols();
+      loadCapabilityManifest().catch((error) => {
+        $('capabilityStatus').textContent = `路由清单读取失败：${error.message}`;
+      });
 
       const events = new EventSource('/api/events');
       events.addEventListener('state', (event) => {

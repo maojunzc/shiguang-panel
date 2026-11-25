@@ -318,24 +318,46 @@ export const ACTIONS = {
   // ---- 自动剧情 / 主线 / 征战 ----
 
   'task.autoMain': {
-    title: '主线任务推进（按已验证指引）',
+    title: '主线任务推进（只领取已完成节点）',
     write: true,
     async run(client) {
-      const tid = num(client, 'TaskDt', 'tid');
-      const beforeFinished = num(client, 'TaskDt', 'finished_task');
-      if (!tid) return { skipped: '当前没有进行中的主线任务' };
+      const maxSteps = 10;
+      const startTid = num(client, 'TaskDt', 'tid');
+      const startFinished = num(client, 'TaskDt', 'finished_task');
+      if (!startTid) return { skipped: '当前没有进行中的主线任务' };
       if (!num(client, 'TaskDt', 'can_finish')) {
-        return { skipped: '当前主线条件未完成；尚无已验证的任务条件映射，不发送刷新或猜测动作', meta: { tid, finishedTask: beforeFinished } };
+        return { skipped: '当前主线条件未完成；不会猜测或发送任务动作', meta: { tid: startTid, finishedTask: startFinished } };
       }
-      const response = await client.request('task', 'finish');
-      if (isError(response)) return { response, progress: false, meta: { tid, finishedTask: beforeFinished, note: '服务器未接受主线领奖' } };
-      const nextTid = num(client, 'TaskDt', 'tid');
-      const nextFinished = num(client, 'TaskDt', 'finished_task');
-      const progressed = nextTid !== tid || nextFinished !== beforeFinished;
+      let completed = 0;
+      let response = null;
+      for (; completed < maxSteps; completed += 1) {
+        if (!num(client, 'TaskDt', 'can_finish')) break;
+        const tid = num(client, 'TaskDt', 'tid');
+        if (!tid) break;
+        const finishedTask = num(client, 'TaskDt', 'finished_task');
+        response = await client.request('task', 'finish');
+        if (isError(response)) {
+          return { response, progress: completed > 0, meta: { completed, tid, finishedTask, note: '服务器未接受主线领奖' } };
+        }
+        if (num(client, 'TaskDt', 'tid') === tid && num(client, 'TaskDt', 'finished_task') === finishedTask) {
+          return {
+            response,
+            progress: false,
+            meta: { completed, tid, finishedTask, note: '服务器响应成功但任务状态未变化，已停止并等待复核' },
+          };
+        }
+      }
       return {
         response,
-        progress: progressed,
-        meta: { tid, nextTid, finishedTask: beforeFinished, nextFinished, note: progressed ? null : '服务器响应成功但主线状态未变化，需刷新状态后复核' },
+        progress: true,
+        meta: {
+          completed,
+          startTid,
+          nextTid: num(client, 'TaskDt', 'tid'),
+          finishedTask: startFinished,
+          nextFinished: num(client, 'TaskDt', 'finished_task'),
+          limitReached: completed === maxSteps && Boolean(num(client, 'TaskDt', 'can_finish')),
+        },
       };
     },
   },
@@ -344,7 +366,10 @@ export const ACTIONS = {
     title: '自动剧情任务（领奖）',
     write: true,
     async run(client) {
-      const ready = find(client, 'TaskDt', 'comState').filter((row) => Number(row.value) === 2).map((row) => row.tid);
+      const ready = find(client, 'TaskDt', 'comState')
+        .filter((row) => Number(row.value) === 2)
+        .map((row) => row.tid)
+        .slice(0, 128);
       if (!ready.length) return { skipped: '当前没有已确认可领取的剧情任务；不会刷新所有进行中任务或猜测章节奖励' };
       const response = await client.request('task', 'comFinish', ready);
       return { response, tids: ready, meta: { claimed: isError(response) ? 0 : ready.length } };

@@ -12,9 +12,11 @@ import { describeActions } from './action-state.mjs';
 import { AutoRunner, SAFE_AUTO_PLAN } from './auto-runner.mjs';
 import { activityBook } from './activities.mjs';
 import PROTOCOLS from './protocols.mjs';
+import { normalizeCapabilityManifest } from './capabilities.mjs';
 import { createCaptureSession } from './capture/session.mjs';
 import { removeCa } from './capture/system.mjs';
 import { APP_DIRECTORY, IS_PACKAGED, prepareWorkDirectory } from './paths.mjs';
+import { isAllowedLocalRequest } from './http-security.mjs';
 
 const ROOT = APP_DIRECTORY;
 const PUBLIC = path.join(ROOT, 'public');
@@ -67,6 +69,14 @@ const settings = readSettings();
 // 协议库：_logic_ 里出现过的全部 mod.op，界面上可以逐个勾选或手动执行。
 const protoIndex = new Map(PROTOCOLS.map((item) => [`${item.mod}.${item.op}`, item]));
 const protoData = settings.protoData && typeof settings.protoData === 'object' ? { ...settings.protoData } : {};
+let compatibilityCapabilities = null;
+if (settings.compatibilityCapabilities != null) {
+  try {
+    compatibilityCapabilities = normalizeCapabilityManifest(settings.compatibilityCapabilities);
+  } catch (error) {
+    console.warn(`Ignoring invalid saved protocol capabilities: ${error.message}`);
+  }
+}
 
 function isValidPlanName(name) {
   return Boolean(ACTIONS[name]) || protoIndex.has(name);
@@ -87,7 +97,7 @@ const autoPlan = new Set(
 );
 
 // 清理旧版默认加入但未完成消耗/条件核验的动作，防止升级后自动执行。
-const AUTO_PLAN_VERSION = 3;
+const AUTO_PLAN_VERSION = 4;
 if (Number(settings.autoPlanVersion ?? 1) < AUTO_PLAN_VERSION) {
   const previousSafe = new Set(SAFE_AUTO_PLAN);
   for (const name of autoPlan) if (!previousSafe.has(name)) autoPlan.delete(name);
@@ -568,6 +578,15 @@ function readPublicFile(pathname) {
 }
 
 const server = http.createServer(async (req, res) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
+
+  if (!isAllowedLocalRequest(req, options.port)) {
+    sendJson(res, 403, { ok: false, error: '仅允许从本机同源页面访问' });
+    return;
+  }
+
   const url = new URL(req.url, `http://${req.headers.host}`);
 
   if (url.pathname === '/api/events') {
@@ -705,6 +724,36 @@ const server = http.createServer(async (req, res) => {
 
   if (url.pathname === '/api/protocols') {
     sendJson(res, 200, { total: PROTOCOLS.length, list: PROTOCOLS, plan: [...autoPlan], protoData });
+    return;
+  }
+
+  if (url.pathname === '/api/protocol-capabilities' && req.method === 'GET') {
+    sendJson(res, 200, { manifest: compatibilityCapabilities });
+    return;
+  }
+
+  if (url.pathname === '/api/protocol-capabilities' && req.method === 'POST') {
+    try {
+      const body = await readBody(req);
+      compatibilityCapabilities = normalizeCapabilityManifest(body.manifest);
+      settings.compatibilityCapabilities = compatibilityCapabilities;
+      writeSettings(settings);
+      sendJson(res, 200, { ok: true, manifest: compatibilityCapabilities });
+    } catch (error) {
+      sendJson(res, 400, { ok: false, error: error.message });
+    }
+    return;
+  }
+
+  if (url.pathname === '/api/protocol-capabilities' && req.method === 'DELETE') {
+    try {
+      compatibilityCapabilities = null;
+      delete settings.compatibilityCapabilities;
+      writeSettings(settings);
+      sendJson(res, 200, { ok: true });
+    } catch (error) {
+      sendJson(res, 500, { ok: false, error: error.message });
+    }
     return;
   }
 
