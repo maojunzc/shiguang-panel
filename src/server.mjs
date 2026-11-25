@@ -97,7 +97,7 @@ const autoPlan = new Set(
 );
 
 // 清理旧版默认加入但未完成消耗/条件核验的动作，防止升级后自动执行。
-const AUTO_PLAN_VERSION = 3;
+const AUTO_PLAN_VERSION = 4;
 if (Number(settings.autoPlanVersion ?? 1) < AUTO_PLAN_VERSION) {
   const previousSafe = new Set(SAFE_AUTO_PLAN);
   for (const name of autoPlan) if (!previousSafe.has(name)) autoPlan.delete(name);

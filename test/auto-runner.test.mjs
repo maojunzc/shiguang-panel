@@ -46,6 +46,35 @@ test('non-whitelisted actions never reach the executor', async () => {
   assert.deepEqual(results.map(({ status }) => status), ['blocked', 'blocked']);
 });
 
+test('main-task and completed-story claims are allowed by the automatic plan', async () => {
+  const calls = [];
+  const runner = createRunner({
+    execute: async (name) => {
+      calls.push(name);
+      return successful(name);
+    },
+  });
+
+  const results = await runner.run(['task.autoMain', 'task.autoStory']);
+
+  assert.deepEqual(calls, ['task.autoMain', 'task.autoStory']);
+  assert.deepEqual(results.map(({ status }) => status), ['success', 'success']);
+});
+
+test('action progress metadata and review notes are retained in run results', async () => {
+  const runner = createRunner({
+    execute: async (name) => ({
+      ...successful(name),
+      meta: { completed: 2, note: '状态未变化，已停止并等待复核' },
+    }),
+  });
+
+  const [result] = await runner.run(['task.autoMain']);
+
+  assert.equal(result.meta.completed, 2);
+  assert.match(result.note, /等待复核/);
+});
+
 test('a skipped action does not prevent later actions', async () => {
   const calls = [];
   const runner = createRunner({

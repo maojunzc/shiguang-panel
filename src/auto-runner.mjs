@@ -1,6 +1,7 @@
 // 自动执行只开放具备明确本地前置条件的领取动作。
 export const SAFE_AUTO_PLAN = Object.freeze([
   'build.collect', 'build.offline', 'task.claimAll',
+  'task.autoMain', 'task.autoStory',
   'helper.gainAward', 'mapEvent.claimAward',
 ]);
 
@@ -78,7 +79,8 @@ export class AutoRunner {
           break;
         }
         const failed = !result.ok && !result.skipped;
-        results.push({ name, title: result.title ?? name, ok: Boolean(result.ok), status: result.skipped ? 'skipped' : failed ? 'error' : 'success', code: result.code ?? null, note: result.skipped ?? (failed ? '服务器拒绝执行' : null), elapsedMs: result.elapsedMs ?? 0, at: Date.now() });
+        const note = result.skipped ?? result.meta?.note ?? (failed ? '服务器拒绝执行' : null);
+        results.push({ name, title: result.title ?? name, ok: Boolean(result.ok), status: result.skipped ? 'skipped' : failed ? 'error' : 'success', code: result.code ?? null, note, meta: result.meta ?? null, elapsedMs: result.elapsedMs ?? 0, at: Date.now() });
         if (failed) { this.pause(result.note ?? '服务器返回错误'); break; }
         if (Date.now() - startedAt >= this.maxDurationMs) {
           this.pause('达到本轮执行时长上限');

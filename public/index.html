@@ -527,13 +527,11 @@
           </article>
 
           <article class="card">
-            <h2>需要手动确认的推进动作 <span class="tag">自动模式默认禁用</span></h2>
+            <h2>需要手动确认的动作 <span class="tag">战斗与资源投入</span></h2>
             <div class="toolbar">
-              <button class="btn" data-run="task.autoMain">自动主线任务</button>
-              <button class="btn" data-run="task.autoStory">自动剧情任务</button>
               <button class="btn" data-run="mission.autoFight">自动征战推图</button>
             </div>
-            <p class="hint">主线推进和战斗可能消耗或改变账号进度，自动挂机不会运行这些动作；请先在可控账号上逐项核验后再手动执行。自动挂机仅执行已设置白名单的安全领取/收取动作。</p>
+            <p class="hint">任务列表中的「主线领奖推进」只在服务器已标记条件完成时领取并进入下一任务；「剧情任务领奖」只领取已完成任务。征战推图和建筑升级可能消耗资源或改变进度，仍需在这里单独确认。</p>
           </article>
 
           <article class="card">
@@ -598,7 +596,7 @@
                 </div>
                 <div>
                   <h3>3. 进入并勾选</h3>
-                  <p>在账号列表点「进入」，先在顶部选择只读或可写。打开「操作」页，按分类查看动作与解锁原因；只有已解锁且允许自动的动作可以勾选。勾选后手动开启自动挂机，或点「立即执行一轮」。主线、剧情和征战推进需单独手动确认。</p>
+                  <p>在账号列表点「进入」，先在顶部选择只读或可写。打开「操作」页，按分类查看动作与解锁原因；只有已解锁且允许自动的动作可以勾选。勾选后手动开启自动挂机，或点「立即执行一轮」。征战推图和建筑升级需单独手动确认。</p>
                 </div>
               </div>
             </article>
@@ -1202,7 +1200,13 @@
           const done = (run.results ?? []).filter((row) => row.ok).length;
           return `<div class="row"><i></i><span>${fmtTime(run.startedAt)} · ${done}/${(run.results ?? []).length} 项完成</span><span class="muted">${esc(run.reason || run.phase || '')}</span></div>`;
         }).join('');
-        const resultHtml = (auto.lastResults ?? []).map((row) => `<div class="row ${row.ok ? '' : 'fail'}"><i></i><span>${esc(row.title || row.name)}</span><span class="muted">${row.status === 'skipped' ? '跳过' : row.ok ? '完成' : esc(row.note || '停止')}</span></div>`).join('');
+        const resultHtml = (auto.lastResults ?? []).map((row) => {
+          const completed = Number(row.meta?.completed);
+          const detail = Number.isInteger(completed) && completed > 0 ? `已推进 ${completed} 个节点` : '';
+          const note = row.note ? esc(row.note) : '';
+          const status = row.status === 'skipped' ? '跳过' : [detail, note || (row.ok ? '完成' : '停止')].filter(Boolean).join(' · ');
+          return `<div class="row ${row.ok ? '' : 'fail'}"><i></i><span>${esc(row.title || row.name)}</span><span class="muted">${status}</span></div>`;
+        }).join('');
         renderAuto(state, historyHtml + resultHtml);
         applyPlanToCheckboxes(state.autoPlan);
         syncControls();

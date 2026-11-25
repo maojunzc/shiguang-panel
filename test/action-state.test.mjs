@@ -26,3 +26,9 @@ test('剧情奖励读取TaskDt并开放领取', () => {
   assert.equal(state.unlocked, true);
   assert.equal(state.autoEligible, true);
 });
+
+test('同步到主线任务后允许把条件已满足的领奖推进加入自动计划', () => {
+  const [state] = describeActions(action('task.autoMain'), [row('TaskDt', 'tid', 12)]);
+  assert.equal(state.unlocked, true);
+  assert.equal(state.autoEligible, true);
+});
