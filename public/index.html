@@ -546,13 +546,22 @@
             <h2>全部协议 <span class="tag" id="protoCount">0 项</span> <span class="tag">仅支持人工单次调用，不会加入自动挂机</span></h2>
             <div class="toolbar">
               <input type="search" id="protoSearch" placeholder="搜索 mod.op，例如 task. / build.collect" />
+              <button class="btn" id="capabilityImportButton">导入私服路由清单</button>
+              <input type="file" id="capabilityFileInput" accept=".json,application/json" hidden />
+              <span class="tag" id="capabilityStatus">未导入清单</span>
+              <button class="btn small" id="capabilityClearButton" hidden>清除</button>
+              <select id="protoCapabilityFilter" aria-label="按私服注册状态筛选">
+                <option value="all">全部协议</option>
+                <option value="registered">私服已注册</option>
+                <option value="unregistered">私服未注册</option>
+              </select>
             </div>
             <div class="actions" id="protoList"><div class="empty">正在读取协议…</div></div>
             <div class="toolbar" style="margin-top: 12px">
               <button class="btn" id="protoMore" hidden>加载更多</button>
               <span class="tag" id="protoShown">已显示 0 / 0</span>
             </div>
-            <p class="hint">参数栏填 JSON（留空按 {} 发送）；带参数但未填的协议执行时可能被服务器拒绝。</p>
+            <p class="hint">路由清单由私服 `/server/capabilities` 提供；状态只表示所选源码版本是否注册该路由，不代表当前登录连接的网关支持它。参数栏填 JSON（留空按 {} 发送）；不确定的协议不要执行。</p>
           </article>
         </section>
 
@@ -694,6 +703,8 @@
       let planSet = new Set();
       let PROTOCOLS = [];
       let PROTO_DATA = {};
+      let COMPATIBILITY_CAPABILITIES = null;
+      let COMPATIBILITY_ROUTES = new Set();
       let protoLimit = 120;
       let ACTIONS = [];
       let actionsKey = '';
@@ -1277,23 +1288,56 @@
         }
       }
 
+      function renderCapabilityStatus() {
+        const manifest = COMPATIBILITY_CAPABILITIES;
+        $('capabilityStatus').textContent = manifest
+          ? `私服 ${manifest.serverId} · ${manifest.routeCount} 条路由`
+          : '未导入清单';
+        $('capabilityClearButton').hidden = !manifest;
+        $('protoCapabilityFilter').disabled = !manifest;
+      }
+
+      async function loadCapabilityManifest() {
+        const response = await fetch('/api/protocol-capabilities');
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || '读取路由清单失败');
+        COMPATIBILITY_CAPABILITIES = result.manifest ?? null;
+        COMPATIBILITY_ROUTES = new Set(COMPATIBILITY_CAPABILITIES?.routes ?? []);
+        renderCapabilityStatus();
+        renderProtocols();
+      }
+
       function renderProtocols() {
         const query = $('protoSearch').value.trim().toLowerCase();
+        const capabilityFilter = $('protoCapabilityFilter').value;
         const matched = PROTOCOLS.filter((item) => {
           const key = `${item.mod}.${item.op}`;
-          return !query || key.toLowerCase().includes(query);
+          const registered = COMPATIBILITY_ROUTES.has(key);
+          const matchesQuery = !query || key.toLowerCase().includes(query);
+          const matchesCapability = !COMPATIBILITY_CAPABILITIES
+            || capabilityFilter === 'all'
+            || (capabilityFilter === 'registered' && registered)
+            || (capabilityFilter === 'unregistered' && !registered);
+          return matchesQuery && matchesCapability;
         });
         const shown = matched.slice(0, protoLimit);
-        $('protoCount').textContent = `${PROTOCOLS.length} 项`;
+        $('protoCount').textContent = COMPATIBILITY_CAPABILITIES
+          ? `${PROTOCOLS.length} 项 · 私服注册 ${COMPATIBILITY_ROUTES.size}`
+          : `${PROTOCOLS.length} 项`;
         $('protoShown').textContent = `已显示 ${shown.length} / ${matched.length}`;
         $('protoMore').hidden = shown.length >= matched.length;
         $('protoList').innerHTML = shown.map((item) => {
           const key = `${item.mod}.${item.op}`;
           const value = PROTO_DATA[key] ? JSON.stringify(PROTO_DATA[key]) : '';
+          const registered = COMPATIBILITY_ROUTES.has(key);
+          const capabilityLabel = COMPATIBILITY_CAPABILITIES
+            ? `<span class="badge ${registered ? 'on' : 'off'}">${registered ? '私服已注册' : '私服未注册'}</span>`
+            : '<span class="badge off">未比对</span>';
           return `<div class="action-row">
             <label class="check">
               <input type="checkbox" data-proto="${esc(key)}" disabled />
               <span class="mono">${esc(key)}</span>
+              ${capabilityLabel}
               <span class="key" title="${esc(item.args || '无参')}">${item.args ? `参数 ${esc(item.args.slice(0, 46))}` : '无参'}</span>
             </label>
             <input class="proto-json" aria-label="${esc(key)} JSON 参数" data-proto-json="${esc(key)}" value="${esc(value)}" placeholder="{}" />
@@ -1305,6 +1349,43 @@
 
       $('protoSearch').addEventListener('input', () => {
         protoLimit = 120;
+        renderProtocols();
+      });
+
+      $('protoCapabilityFilter').addEventListener('change', () => {
+        protoLimit = 120;
+        renderProtocols();
+      });
+
+      $('capabilityImportButton').addEventListener('click', () => $('capabilityFileInput').click());
+      $('capabilityFileInput').addEventListener('change', async (event) => {
+        const [file] = event.target.files ?? [];
+        if (!file) return;
+        try {
+          const manifest = JSON.parse(await file.text());
+          const response = await fetch('/api/protocol-capabilities', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ manifest }),
+          });
+          const result = await response.json();
+          if (!response.ok || !result.ok) throw new Error(result.error || '导入失败');
+          await loadCapabilityManifest();
+          toast('已导入私服协议路由清单', 'ok');
+        } catch (error) {
+          toast(`导入失败：${error.message}`, 'bad');
+        } finally {
+          event.target.value = '';
+        }
+      });
+
+      $('capabilityClearButton').addEventListener('click', async () => {
+        const response = await fetch('/api/protocol-capabilities', { method: 'DELETE' });
+        if (!response.ok) {
+          toast('清除路由清单失败', 'bad');
+          return;
+        }
+        await loadCapabilityManifest();
         renderProtocols();
       });
 
@@ -1523,6 +1604,9 @@
       loadAccounts();
       loadActions(true);
       loadProtocols();
+      loadCapabilityManifest().catch((error) => {
+        $('capabilityStatus').textContent = `路由清单读取失败：${error.message}`;
+      });
 
       const events = new EventSource('/api/events');
       events.addEventListener('state', (event) => {
